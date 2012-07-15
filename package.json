@@ -1,0 +1,26 @@
+{
+  "name": "tire",
+  "title": "tire",
+  "description": "",
+  "version": "0.0.1",
+  "homepage": "https://github.com/frozzare/tire",
+  "author": {
+    "name": "Fredrik Forsmo",
+    "email": "fredrik.forsmo@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/frozzare/tire.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frozzare/tire/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/frozzare/tire/blob/master/LICENSE-MIT"
+    }
+  ],
+  "devDependencies": {},
+  "keywords": []
+}

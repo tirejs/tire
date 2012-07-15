@@ -1,0 +1,4 @@
+all:
+	grunt
+
+.PHONY: all
