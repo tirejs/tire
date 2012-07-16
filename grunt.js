@@ -4,8 +4,8 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     meta: {
       banner: '/*!\n' +
-        '* <%= pkg.title %>\n' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
+        '* tire.js\n' +
+        '* Copyright (c) <%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
         '* Version: <%= pkg.version %>\n' +
         '* Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
         '*/'
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       "dist/tire.min.js": [ "<banner>", "dist/tire.js" ]
     },
     lint: {
-      files: ['grunt.js']
+//      files: ['dist/tire.js']
     },
     watch: {
       files: '<config:lint.files>',
@@ -47,8 +47,26 @@ module.exports = function(grunt) {
     uglify: {},
     qunit: {
       all: ['test/index.html']
+    },
+    beautify: {
+      files: 'dist/tire.js'
     }
   });
 
-  grunt.registerTask('default', 'lint concat min');
+  grunt.registerMultiTask('beautify', 'Javascript beautifier', function () {
+    var beautifier = require('node-beautify')
+      , tmp = grunt.config(['beautifier', this.target, 'options'])
+      , options = {
+        indentSize: 2
+      };
+  
+    // Beautify specified files.
+    grunt.file.expandFiles(this.file.src).forEach(function (filepath) {
+      var result = beautifier.beautifyJs(grunt.file.read(filepath), options);
+      grunt.file.write(filepath, result);
+    });
+  
+  });
+
+  grunt.registerTask('default', 'concat beautify min');
 };

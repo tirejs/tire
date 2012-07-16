@@ -2,12 +2,11 @@ var document   = window.document
   , _tire      = window.tire
   , _$         = window.$
   , idExp      = /^#/
-  , simpleExp  = /^#([\w-]+)$/
+  , simpleExp  = /^#?([\w-]+)$/
   , classExp   = /^\./
   , tagExp     = /<([\w:]+)/
   , slice      = [].slice
-  , trim       = String.prototype.trim
-;
+  , trim       = String.prototype.trim;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.remove = function (array, from, to) {
@@ -20,14 +19,14 @@ var tire = function (selector, context) {
   return new tire.fn.find(selector, context);
 }
 
-tire.fn = dustin.prototype = {
+tire.fn = tire.prototype = {
   
   constructor: tire,
   
   length: 0,
   
   /**
-   * Extend `dustin.prototype`
+   * Extend `tire.fn`
    *
    * @param {Object} o
    */
