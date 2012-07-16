@@ -341,7 +341,7 @@ tire.extend({
       window.tire = _old;
     }
 
-    window.$ = old$;
+    window.$ = _$;
     return tire;
   }
 });
