@@ -34,8 +34,6 @@ var tire = function (selector, context) {
 
 tire.fn = tire.prototype = {
   
-  constructor: tire,
-  
   /**
    * Default length is zero
    */

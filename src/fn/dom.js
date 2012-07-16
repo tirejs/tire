@@ -57,3 +57,33 @@ var domReady = (function () {
  */
 
 tire.ready = tire.fn.ready = domReady;
+
+tire.fn.extend({
+
+  /**
+   * Get and set text for elemenets and input's
+   *
+   * $('div').text() => div text
+   * $('input[type=text]').text() => input value
+   *
+   * @todo Add support for multiple inputs value, maybe use the another function for that.
+   *
+   * @param {String} text
+   * @return {Object|String}
+   */
+   
+  text: function (text) {
+    if (text === undefined && this.length > 0) {
+      return this[0].tagName.toLowerCase() === 'input' ? this[0].value : this[0].textContent;
+    } else {
+      this.each(function () {
+        if (this.tagName.toLowerCase() === 'input') {
+          this.value = text;
+        } else {
+          this.textContent = text;
+        }
+      });
+    }
+  }
+  
+});

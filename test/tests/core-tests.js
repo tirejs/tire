@@ -83,3 +83,22 @@ test('Empty selectors', function () {
   elm = $("");
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');  
 });
+
+module('Tire dom.js', {
+  setup: function () {
+    var elm;
+  },
+  teardown: function () {
+    elm = null;
+  }
+});
+
+test('text', function () {
+  expect(4);
+  equal($('.test').text(), 'test text', 'Should return text content for element');
+  $('.trunk').text('test text');
+  equal($('.trunk').text(), 'test text', 'Should return text content for element');
+  equal($('input[type=text]').text(), '', 'Should return value of input element');
+  $('input[type=text]').text('test text');
+  equal($('input[type=text]').text(), 'test text', 'Should return value of input element');
+});
