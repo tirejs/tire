@@ -73,8 +73,8 @@ tire.fn.extend({
    */
    
   text: function (text) {
-    if (text === undefined && this.length > 0) {
-      return this[0].tagName.toLowerCase() === 'input' ? this[0].value : this[0].textContent;
+    if (text === undefined) {
+      return this.length > 0 ? (this[0].tagName.toLowerCase() === 'input' ? this[0].value : this[0].textContent) : null;
     } else {
       this.each(function () {
         if (this.tagName.toLowerCase() === 'input') {
