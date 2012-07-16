@@ -34,7 +34,7 @@ grunt.cmd
 
 Everyone is welcome to contribute with patches, bug-fixes and new features
 
-1. create an [issue][https://github.com/Frozzare/tire/issues] on github so the community can comment on your idea
+1. create an [issue](https://github.com/Frozzare/tire/issues) on github so the community can comment on your idea
 2. fork `tire` in github
 3. create a new branch `git checkout -b my_branch`
 4. create tests for the changes you made
