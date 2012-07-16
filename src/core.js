@@ -221,13 +221,13 @@ tire.extend({
   matches: function (element, selector) {
     if (!element || element.nodeType !== 1) return;
 
-    // Trying to use matchesSelector if it is avaible
+    // Trying to use matchesSelector if it is available
     var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
     if (matchesSelector) {
       return matchesSelector.call(element, selector);
     }
 
-    // Trying to use Sizzle's matchesSelector if it is avaible
+    // Trying to use Sizzle's matchesSelector if it is available
     if (window.Sizzle !== undefined) {
       return window.Sizzle.matchesSelector(element, selector);
     }
