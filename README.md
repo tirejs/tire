@@ -2,7 +2,7 @@
 
 Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery.
 
-### Browser support
+## Browser support
 
 * Chrome
 * Safari
@@ -10,7 +10,7 @@ Tire is a lightweight JavaScript library for modern browsers. The syntax is insp
 * Firefox 3.5
 * Opera 10.5
 
-### Build
+## Build
 
 ```sh
 npm install -g grunt
@@ -24,16 +24,21 @@ npm install -g grunt
 grunt.cmd
 ```
 
-### Test
+## Test
 
   Build Tire and open `test/index.html`
   
   [Live testing](http://tire.forsmo.me) - Every time a commit is made so will the test site update it self.
 
-### Report a bug
+## Contribute
 
-1. Check if the bug is already fixed in the [master branch][master] since the
-   last release.
-2. Check [existing issues][issues]. Open a new one, including exact browser &
-   platform information. For better formatting of your report, see
-   [GitHub-flavored Markdown][mkd].
+Everyone is welcome to contribute with patches, bug-fixes and new features
+
+1. create an [issue][https://github.com/Frozzare/tire/issues] on github so the community can comment on your idea
+2. fork `tire` in github
+3. create a new branch `git checkout -b my_branch`
+4. create tests for the changes you made
+5. make sure you pass both existing and newly inserted tests
+6. commit your changes
+7. push to your branch `git push origin my_branch`
+8. create a pull request
