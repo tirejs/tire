@@ -17,7 +17,7 @@ Array.remove = function (array, from, to) {
 
 // If slice is not available, provide a backup, Internet Explorer 8 (and older) will need this.
 try {
-  slice.call(document.documentElement.childNodes, 0)[0].nodeType
+  slice.call(document.documentElement.childNodes, 0)[0].nodeType;
 } catch(e) {
   slice = function (i) {
     var elem, results = [];
@@ -25,12 +25,12 @@ try {
       results.push( elem );
     }
     return results;
-  }
+  };
 }
 
 var tire = function (selector, context) {
   return new tire.fn.find(selector, context);
-}
+};
 
 tire.fn = tire.prototype = {
   
@@ -70,9 +70,9 @@ tire.fn = tire.prototype = {
       return this;
     }
     
-    // if (tire.isFun(selector)) {
-    //  tire.ready(selector);
-    // }
+    if (tire.isFun(selector)) {
+      tire.ready(selector);
+    }
     
     if (selector.nodeType) {
       this.selector = '';
@@ -160,7 +160,7 @@ tire.fn = tire.prototype = {
     this.length = i;
     return this;
   }
-}
+};
 
 /**
  * Extend `tire` with arguments, if the arguments length is one the extend target is `tire`
@@ -193,7 +193,7 @@ tire.extend = function () {
   }
 
   return target;
-}
+};
 
 tire.fn.find.prototype = tire.fn;
 
@@ -338,7 +338,7 @@ tire.extend({
 
   noConflict: function (name) {
     if (name) {
-      window.tire = _old;
+      window.tire = _tire;
     }
 
     window.$ = _$;

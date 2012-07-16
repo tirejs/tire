@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'src/header.js', 'src/core.js', 'src/footer.js'],
+        src: ['<banner:meta.banner>', 'src/header.js', 'src/core.js', 'src/fn/*.js', 'src/footer.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       "dist/tire.min.js": [ "<banner>", "dist/tire.js" ]
     },
     lint: {
-//      files: ['dist/tire.js']
+      files: ['src/core.js', 'src/fn/*.js']
     },
     watch: {
       files: '<config:lint.files>',
@@ -28,20 +28,21 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        curly: true,
+        regexdash: true,
+        laxcomma: true,
+        expr: true,
         eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
         noarg: true,
         sub: true,
         undef: true,
-        boss: true,
         eqnull: true,
         browser: true
       },
       globals: {
-        jQuery: true
+        tire: true,
+        define: true,
+        Sizzle: true,
+        document: true
       }
     },
     uglify: {},
