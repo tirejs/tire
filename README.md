@@ -2,6 +2,8 @@
 
 Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery.
 
+Tire is under development right now and have no stable version.
+
 ## Browser support
 
 * Chrome
