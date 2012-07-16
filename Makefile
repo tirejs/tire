@@ -4,4 +4,4 @@ all:
 test:
 	grunt qunit
 
-.PHONY: all
+.PHONY: all test
