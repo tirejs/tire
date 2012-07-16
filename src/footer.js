@@ -1,7 +1,10 @@
+  // Expose tire to the global object
   window.$ = window.tire = tire;
-  
-    if (typeof define !== 'undefined' && define.amd) {
-      define('tire', [], tire);
-    }
-  
-  }(window, undefined));
+
+  // Expose tire as amd module
+  if (typeof define === 'function' && define.amd) {
+    define('tire', [], function () {
+      return tire;
+    });
+  }
+}(window));
