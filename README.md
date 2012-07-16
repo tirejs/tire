@@ -1,6 +1,6 @@
 # Tire
 
-Tire is a lightweight JavaScript library for modern browsers. It's insperad from jQuery
+Tire is a lightweight JavaScript library for modern browsers. The syntax is insperad from jQuery.
 
 ## Browser support
 
