@@ -28,8 +28,6 @@ grunt.cmd
 
   Build Tire and open `test/index.html`
   
-  [Live testing](http://tire.forsmo.me) - Every time a commit is made so will the test site update it self.
-
 ## Contribute
 
 Everyone is welcome to contribute with patches, bug-fixes and new features
