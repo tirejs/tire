@@ -24,4 +24,4 @@ Tire is a lightweight JavaScript library for modern browsers. The syntax is insp
 
   Build Tire and open `test/index.html`
   
-  [Live testing](http://test.dustinjs.com) - Every time a commit is made so will the test site update it self.  
+  [Live testing](http://tire.forsmo.me) - Every time a commit is made so will the test site update it self.  
