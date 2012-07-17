@@ -157,13 +157,14 @@ module('Tire css.js', {
 });
 
 test('css', function () {
-  expect(3);
+  expect(4);
   var elm = $('.test');
   elm.css('color', 'black');
   equal(elm.css('color'), 'rgb(0, 0, 0)', 'Should return css property from element');
   elm.css({ backgroundColor: 'black', fontSize: 12 });
   ok(!!elm.css('background-color'), true, 'Should return css property from element');
   ok(!!elm.css('font-size'), true, 'Should return css property from element');
+  equal(elm.css('test'), '', 'Should return empty string if css property is not found');
 });
 
 test('hide', function () {

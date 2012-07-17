@@ -54,5 +54,7 @@ tire.fn.extend({
 
 function getPropertyValue(elm, prop) {
   prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
-  return document.defaultView.getComputedStyle(elm, '').getPropertyValue(prop)
+  var value = document.defaultView.getComputedStyle(elm, '').getPropertyValue(prop);
+  // The standard says to return empty string but webkit returns null so let's return empty string instead
+  return value === null ? '' : value;
 }
