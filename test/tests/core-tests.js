@@ -176,3 +176,39 @@ test('show', function () {
   $('.test').show();
   equal($('.test').css('display'), 'block', 'Should return block for display property when element is visible');
 });
+
+module('Tire attributes.js', {
+  setup: function () {
+    var elm;
+  },
+  teardown: function () {
+    elm = null;
+  }
+});
+
+test('addClass', function () {
+  $('.test').addClass('dustin');
+  equal($('.test').hasClass('dustin'), true, 'Should return true if the element has the class after adding it');
+  $('.test').addClass('item-1 item-2 item-3');
+});
+
+test('removeClass', function () {
+  expect(2);
+  $('.test').removeClass('dustin');
+  equal($('.test').hasClass('dustin'), false, 'Should return false when the class if being removed');
+  $('.test').removeClass('item-2');
+  equal($('.test').attr('class'), 'test item-1 item-3', 'Should return classes');
+});
+
+test('attr', function () {
+  $('.test').attr('rel', 'dustin');
+  equal($('.test').attr('rel'), 'dustin', 'Should add attribute to element');
+});
+
+test('removeAttr', function () {
+  expect(2);
+  $('.test').removeAttr('rel');
+  equal($('.test').attr('rel'), null, 'Should remove the attrbute from element');
+  $('.test').removeAttr('data-tag');
+  equal($('.test').attr('data-tag'), null, 'Should remove the attribute from element');
+});
