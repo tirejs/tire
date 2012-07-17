@@ -5,8 +5,7 @@ var document   = window.document
   , simpleExp  = /^#?([\w-]+)$/
   , classExp   = /^\./
   , tagExp     = /<([\w:]+)/
-  , slice      = [].slice
-  , trim       = String.prototype.trim;
+  , slice      = [].slice;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.remove = function (array, from, to) {
@@ -214,7 +213,7 @@ tire.fn.find.prototype = tire.fn;
 tire.extend({
 
   /**
-   * Trim string. Use `String.prototype.trim` for trim or use the regex to trim
+   * Trim string
    *
    * @param {String} str
    * @return {String}
