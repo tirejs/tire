@@ -39,7 +39,7 @@ tire.fn.extend({
   
   hide: function () {
     return this.css('display', 'none');
- },
+  },
   
   /**
    * Show elements in collection
