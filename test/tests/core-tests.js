@@ -93,6 +93,10 @@ module('Tire dom.js', {
   }
 });
 
+test('is', function () {
+  ok($('.test').is('div'), true, 'Should return true if the element matches the selector');
+});
+
 test('text', function () {
   expect(4);
   equal($('.test').text(), 'test text', 'Should return text content for element');
@@ -141,4 +145,33 @@ test('remove', function () {
 test('empty', function () {
   $('.html').empty();
   equal($('.html').html(), '', 'Should return empty inner html after empty');
+});
+
+module('Tire css.js', {
+  setup: function () {
+    var elm;
+  },
+  teardown: function () {
+    elm = null;
+  }
+});
+
+test('css', function () {
+  expect(3);
+  var elm = $('.test');
+  elm.css('color', 'black');
+  equal(elm.css('color'), 'rgb(0, 0, 0)', 'Should return css property from element');
+  elm.css({ backgroundColor: 'black', fontSize: 12 });
+  ok(!!elm.css('background-color'), true, 'Should return css property from element');
+  ok(!!elm.css('font-size'), true, 'Should return css property from element');
+});
+
+test('hide', function () {
+  $('.test').hide();
+  equal($('.test').css('display'), 'none', 'Should return none for display property when element is hidden');
+});
+
+test('show', function () {
+  $('.test').show();
+  equal($('.test').css('display'), 'block', 'Should return block for display property when element is visible');
 });

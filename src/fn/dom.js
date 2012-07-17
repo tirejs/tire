@@ -61,6 +61,17 @@ tire.ready = tire.fn.ready = domReady;
 tire.fn.extend({
 
   /**
+   * Check if the first element in the element collection matches the selector
+   *
+   * @param {String|Object} selector The selector match
+   * @return {Boolean}
+   */
+   
+  is: function (selector) {
+    return this.length > 0 && tire.matches(this[0], selector);
+  },
+
+  /**
    * Get text for the first element in the collection
    * Set text for every element in the collection
    *
