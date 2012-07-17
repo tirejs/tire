@@ -160,7 +160,8 @@ test('css', function () {
   expect(4);
   var elm = $('.test');
   elm.css('color', 'black');
-  equal(elm.css('color'), 'rgb(0, 0, 0)', 'Should return css property from element');
+  var value = elm.css('color');
+  ok(value === 'rgb(0, 0, 0)' || value === '#000000', 'Should return css property from element');
   elm.css({ backgroundColor: 'black', fontSize: 12 });
   ok(!!elm.css('background-color'), true, 'Should return css property from element');
   ok(!!elm.css('font-size'), true, 'Should return css property from element');
