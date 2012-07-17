@@ -102,3 +102,43 @@ test('text', function () {
   $('input[type=text]').text('test text');
   equal($('input[type=text]').text(), 'test text', 'Should return value of input element');
 });
+
+test('html', function () {
+  expect(2);
+  elm = $('.html');
+  equal(elm.html(), 'test text', 'Should return inner html for element');
+  elm.html('html test');
+  equal(elm.html(), 'html test', 'Should return inner html for element after it changed');
+});
+
+test('append', function () {
+  elm = $('.html');
+  elm.append('<p>append</p>');
+  equal(elm[0].childNodes[1].innerHTML, 'append', 'Should return inner html for element');
+});
+
+test('prepend', function () {
+  elm = $('.html');
+  elm.prepend('<p>prepend</p>');
+  equal(elm[0].childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
+});
+
+test('before', function () {
+  $('.html').before('<p>before</p>');
+  equal($('.html')[0].previousSibling.innerHTML, 'before', 'Should return inner html for element');
+});
+
+test('after', function () {
+  $('.html').after('<p>after</p>');
+  equal($('.html')[0].nextSibling.nextSibling.innerHTML, 'after', 'Should return inner html for element');  
+});
+
+test('remove', function () {
+  $('#remove-me-a').remove();
+  equal(document.getElementById('remove-me-a'), null, 'Element should not exists after calling remove');
+});
+
+test('empty', function () {
+  $('.html').empty();
+  equal($('.html').html(), '', 'Should return empty inner html after empty');
+});

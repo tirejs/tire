@@ -61,7 +61,8 @@ tire.ready = tire.fn.ready = domReady;
 tire.fn.extend({
 
   /**
-   * Get and set text for elemenets and input's
+   * Get text for the first element in the collection
+   * Set text for every element in the collection
    *
    * $('div').text() => div text
    * $('input[type=text]').text() => input value
@@ -84,6 +85,86 @@ tire.fn.extend({
         }
       });
     }
-  }
+  },
   
+  /**
+   * Empty `innerHTML` for elements
+   *
+   * @return {Object} 
+   */
+  
+  empty: function () {
+    return this.each(function () {
+      this.innerHTML = '';
+    });
+  },
+  
+  /**
+   * Get html for the first element in the collection
+   * Set html for every elements in the collection
+   *
+   * @param {String|Object} html
+   * @param {String} location
+   * @return {String|Object}
+   */
+  
+  html: function (html, location) {
+    if (arguments.length === 0) {
+      return this.length > 0 ? this[0].innerHTML : null;
+    }
+        
+    location = location || 'inner';
+    
+    return this.each(function () {
+      if (location === 'inner') {
+        if (tire.isStr(html) || tire.isNum(html)) {
+          this.innerHTML = html;
+        } else {
+          this.innerHTML = '';
+          this.appendChild(html);
+        }
+      } else if (location === 'remove') {
+        this.parentNode.removeChild(this);
+      } else {
+        var wrapped  = wrap(html)
+          , children = wrapped.childNodes
+          , parent;
+      
+        if (location === 'prepend') {
+          this.insertBefore(wrapped, this.firstChild);
+        } else if (location === 'append') {
+          this.insertBefore(wrapped, null);
+        } else if (location === 'before') {
+          this.parentNode.insertBefore(wrapped, this);
+        } else if (location === 'after') {
+          this.parentNode.insertBefore(wrapped, (this.nextElementSibling ? this.nextElementSibling : this.nextSibling));
+        }
+
+        parent = wrapped.parentNode;
+        while (children.length) {
+          parent.insertBefore(children[0], wrapped);
+        }
+        parent.removeChild(wrapped);
+      }
+    });
+  }
 });
+
+'prepend append before after remove'.split(' ').forEach(function (name) {
+  tire.fn[name] = function (name) {
+    return function (html) {
+      return this.html(html, name);
+    };
+  }(name);
+});
+
+
+function wrap (html) {
+  var elm = document.createElement('div');
+  if (tire.isStr(html)) {
+    elm.innerHTML = html;
+  } else {
+    elm.appendChild(html);
+  }
+  return elm;
+}

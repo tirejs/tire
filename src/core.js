@@ -15,7 +15,16 @@ Array.remove = function (array, from, to) {
   return array.push.apply(array, rest);
 };
 
-// If slice is not available, provide a backup, Internet Explorer 8 (and older) will need this.
+// If forEach isn't available we provied a backup
+if (!Array.prototype.forEach) {
+  Array.prototype.forEach = function(fn, scope) {
+    for(var i = 0, len = this.length; i < len; ++i) {
+      fn.call(scope || this, this[i], i, this);
+    }
+  };
+}
+
+// If slice is not available we provide a backup
 try {
   slice.call(document.documentElement.childNodes, 0)[0].nodeType;
 } catch(e) {
@@ -131,16 +140,23 @@ tire.fn = tire.prototype = {
   /**
    * Run callback for each element in the collection
    *
+   * @param {Object} target
    * @param {Function} callback
    * @return {Object}
    */
   
-  each: function(callback) {
-    for (var i = 0, len = this.length; i < len; ++i) {
-        if (callback.call(this[i], this[i], i, this) === false)
+  each: function(target, callback) {
+    if (tire.isFun(target)) {
+      callback = target;
+      target = this;
+    }
+    
+    for (var i = 0, len = target.length; i < len; ++i) {
+        if (callback.call(target[i], target[i], i, target) === false)
         break;
     }
-    return this;
+    
+    return target;
   },
   
   /**
