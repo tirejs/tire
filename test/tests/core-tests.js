@@ -21,7 +21,7 @@ test('isArr', function () {
 });
 
 test('parseJSON', function () {
-  ok($.parseJSON('{"a":"b"}') instanceof Object, 'Should parse JSON string to object');
+  ok($.parseJSON('{"a":"b"}') instanceof Object || '', 'Should parse JSON string to object or return empty string');
 });
 
 module('Selectors', {
