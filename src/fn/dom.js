@@ -76,9 +76,6 @@ tire.fn.extend({
    * Set text for every element in the collection
    *
    * $('div').text() => div text
-   * $('input[type=text]').text() => input value
-   *
-   * @todo Add support for multiple inputs value, maybe use the another function for that.
    *
    * @param {String} text
    * @return {Object|String}
@@ -86,14 +83,34 @@ tire.fn.extend({
    
   text: function (text) {
     if (text === undefined) {
-      return this.length > 0 ? (this[0].tagName.toLowerCase() === 'input' ? this[0].value : this[0].textContent) : null;
+      return this.length > 0 ? this[0].textContent : null;
     } else {
-      this.each(function () {
-        if (this.tagName.toLowerCase() === 'input') {
-          this.value = text;
-        } else {
-          this.textContent = text;
-        }
+      return this.each(function () {
+        this.textContent = text;
+      });
+    }
+  },
+  
+  /**
+   * Get value for input/select elements
+   * Set value for input/select elements
+   *
+   * @param {String} value
+   * @return {Object|String}
+   */
+  
+  val: function (value) {
+    if (value === undefined) {
+      if (this.length > 0) {
+        return this[0].multiple ? this.find('option').filter(function () {
+          return this.selected;
+        }).pluck('value') : this[0].value;
+      }
+      
+      return null;
+    } else {
+      return this.each(function () {
+        this.value = value;
       });
     }
   },

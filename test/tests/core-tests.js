@@ -98,13 +98,16 @@ test('is', function () {
 });
 
 test('text', function () {
-  expect(4);
+  expect(2);
   equal($('.test').text(), 'test text', 'Should return text content for element');
   $('.trunk').text('test text');
   equal($('.trunk').text(), 'test text', 'Should return text content for element');
-  equal($('input[type=text]').text(), '', 'Should return value of input element');
-  $('input[type=text]').text('test text');
-  equal($('input[type=text]').text(), 'test text', 'Should return value of input element');
+});
+
+test('val', function () {
+  equal($('input[type=text]').val(), '', 'Should return value of input element');
+  $('input[type=text]').val('test text');
+  equal($('input[type=text]').val(), 'test text', 'Should return value of input element');
 });
 
 test('html', function () {
@@ -212,4 +215,26 @@ test('removeAttr', function () {
   equal($('.test').attr('rel'), null, 'Should remove the attrbute from element');
   $('.test').removeAttr('data-tag');
   equal($('.test').attr('data-tag'), null, 'Should remove the attribute from element');
+});
+
+module('Tire elements.js', {
+  setup: function () {
+    var elm;
+  },
+  teardown: function () {
+    elm = null;
+  }
+});
+
+test('filter', function () {
+  expect(2);
+  elm = $('div').filter(function () {
+    if ($(this).hasClass('test')) return true;
+  });
+  equal(elm[0], $('.test')[0], 'Filter should only return the elements we filter');
+  equal(elm.length, 1, 'Should return length 1 since the are only one .test element');
+});
+
+test('not', function () {
+  ok($('div').not('.test') !== $('div'), false, 'Should not be equal to div after removing element with not');
 });

@@ -126,6 +126,14 @@ tire.fn = tire.prototype = {
     return this.set(elms);  
   },
   
+  pluck: function (prop) {
+    var result = [];
+    this.each(function () {
+      if (this[prop]) result.push(this[prop]);
+    });
+    return result;
+  },
+  
   /**
    * Reduce the set of matched elements to a subset specified by a range of indices.
    * 
