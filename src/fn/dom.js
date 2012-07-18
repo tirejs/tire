@@ -70,6 +70,25 @@ tire.fn.extend({
   is: function (selector) {
     return this.length > 0 && tire.matches(this[0], selector);
   },
+  
+  /**
+   * Get the first element that matches the selector, beginning at the current element and progressing up through the DOM tree.
+   *
+   * @param {String} selector
+   * @param {Object} context
+   * @reutnr {Object}
+   */
+    
+  closest: function (selector, context) {
+    var node = this[0];
+      
+    while (node && !tire.matches(node, selector)) {  
+      node = node.parentNode;
+      if (!node || !node.ownerDocument || node === context || node.nodeType === 11) break;
+    }
+    
+    return tire(node)
+  },
 
   /**
    * Get text for the first element in the collection

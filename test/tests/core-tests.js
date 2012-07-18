@@ -71,7 +71,7 @@ test('HTML string selector', function () {
   expect(2);
   elm = $('<a href="#">Hello, world!</a>');
   equal(elm.length, 1, 'Should return length 1 for existing elements');
-  ok(elm[0] instanceof HTMLAnchorElement, 'Should be a instanceof HTMLAnchorElement');
+  ok(elm[0] instanceof HTMLAnchorElement, 'Should be a instance of HTMLAnchorElement');
 });
 
 test('Empty selectors', function () {
@@ -95,6 +95,10 @@ module('Tire dom.js', {
 
 test('is', function () {
   ok($('.test').is('div'), true, 'Should return true if the element matches the selector');
+});
+
+test('closest', function () {
+  equal($('div').closest('body')[0], document.body, 'Should return body element');
 });
 
 test('text', function () {
