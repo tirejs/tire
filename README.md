@@ -18,7 +18,7 @@ Mobile browsers will be added later.
 
 Tire may work in older browsers but is not tested in older than the above.
 
-Browsers without `JSON` support will probably work great but `$.parseJSON` will just return an empty string. There's a comment about how this can be fixed in the source code. Modern browsers should support `JSON`.
+Browsers without `JSON` support will probably work great but `$.parseJSON` will just return null. There's a comment about how this can be fixed in the source code. Modern browsers should support `JSON`.
 
 ## Build
 
