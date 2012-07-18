@@ -1,4 +1,4 @@
-module('tire core.js', {});
+module('Tire core.js', {});
 
 test('isFun', function () {
   ok($.isFun(function () {}), 'Should return true for function');
