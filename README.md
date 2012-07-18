@@ -4,13 +4,21 @@ Tire is a lightweight JavaScript library for modern browsers. The syntax is insp
 
 Tire is under development right now and have no stable version.
 
-## Browser support
+## Browser support 
 
 * Chrome
-* Safari
+* Safari 4
 * Internet Explorer 8
 * Firefox 3.5
 * Opera 10.5
+
+Mobile browsers will be added later.
+
+#### Older browsers
+
+Tire may work in older browsers but is not tested in older than the above.
+
+Browsers without `JSON` support will probably work great but `$.parseJSON` will just return an empty string. There's a comment about how this can be fixed in the source code. Modern browsers should support `JSON`.
 
 ## Build
 
