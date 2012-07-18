@@ -356,6 +356,10 @@ tire.extend({
       return window.JSON.parse(str);
     }
    
+    // Solution to add JSON parse support to older browsers
+    // return (new Function('return ' + str))();
+    // Modern browsers support JSON today so maybe not adding this solution
+       
     return '';
   },
 
