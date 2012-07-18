@@ -126,6 +126,13 @@ tire.fn = tire.prototype = {
     return this.set(elms);  
   },
   
+  /**
+   * Fetch property from elements
+   *
+   * @param {String} prop
+   * @return {Array} 
+   */
+  
   pluck: function (prop) {
     var result = [];
     this.each(function () {
