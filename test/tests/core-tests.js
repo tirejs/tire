@@ -21,7 +21,7 @@ test('isArr', function () {
 });
 
 test('parseJSON', function () {
-  window.JSON = undefined;
+  // Not so pretty. Can add support for JSON parse via (new Function('return ' + str))(); But maybe don't need it.
   ok(!!($.parseJSON('{"a":"b"}') instanceof Object || !''), true, 'Should parse JSON string to object or return empty string');
 });
 
