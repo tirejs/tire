@@ -14,6 +14,10 @@ Tire is under development right now and have no stable version.
 
 Mobile browsers will be added later.
 
+#### Older browsers
+
+Tire may work in older browsers but is not tested in older than the above.
+
 ## Build
 
 ```sh
