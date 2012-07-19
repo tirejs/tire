@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tire specs</title>
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>ajax test</h1>
+  <p>Hello, <span id="result"></span>!</p>
+  <h1>jsonp test</h1>
+  <p>Hello, <span id="jsonp"></span>!</p>
+  <script src="../dist/tire.js"></script>
+  <script>
+    $(function () {
+      $.ajax('/test.json', function (res) {
+        $('#result').html(res.hello);
+      });
+      
+      $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (res) {
+        $('#jsonp').html(res.hello);
+      });
+    });
+  </script>
+</body>
+</html>

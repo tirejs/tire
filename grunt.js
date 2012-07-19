@@ -42,10 +42,10 @@ module.exports = function(grunt) {
         tire: true,
         define: true,
         Sizzle: true,
-        document: true
+        document: true,
+        ActiveXObject: true
       }
     },
-    uglify: {},
     qunit: {
       all: ['test/index.html']
     },

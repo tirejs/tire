@@ -1,4 +1,4 @@
-module('Tire core.js', {});
+module('Tire core.js');
 
 test('isFun', function () {
   ok($.isFun(function () {}), 'Should return true for function');
@@ -246,4 +246,58 @@ test('filter', function () {
 
 test('not', function () {
   ok($('div').not('.test') !== $('div'), false, 'Should not be equal to div after removing element with not');
+});
+
+module('Tire xhr.js', {
+  setup: function () {
+    var srh = XMLHttpRequest.prototype.setRequestHeader;
+    
+    window.headers = {};
+    
+    XMLHttpRequest.prototype.setRequestHeader = function (key, val) {
+        window.headers[key] = val;
+        srh.call(this, key, val);
+    }
+  }
+});
+
+test('get json', function () {
+  stop();
+  $.ajax('test.json', function (data) {
+    start();
+    ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+  });
+});
+
+test('get jsonp', function () {
+  stop();
+  $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
+    start();
+    ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+  }); 
+});
+
+test('ajax post', function () {
+  stop();
+  $.ajax('ajax_load.html', {
+    type: 'POST',
+    success: function (data) {
+      start();
+      equal(data, 'ajax load', 'Should return text');
+    }
+  });
+});
+
+test('set headers', function () {
+  $.ajax('ajax_load.html', {
+    headers: {
+      'foo': 'bar'
+    }
+  });
+  equal(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
+});
+
+test('X-Requested-With header should equal XMLHttpRequest', function() {
+  $.ajax('ajax_load.html');
+  equal(window.headers['X-Requested-With'], 'XMLHttpRequest', 'Should set X-Requested-With header to "XMLHttpRequest"');
 });
