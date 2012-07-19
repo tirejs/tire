@@ -87,7 +87,7 @@ tire.fn.extend({
       if (!node || !node.ownerDocument || node === context || node.nodeType === 11) break;
     }
     
-    return tire(node)
+    return tire(node);
   },
 
   /**

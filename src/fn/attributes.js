@@ -66,17 +66,18 @@ tire.fn.extend({
    */
   
   hasClass: function (value) {
-    var classNames = (this[0] ? this[0] : this).className.split(/\s+/),
-        values = value.split(/\s+/);
+    var classNames = (this[0] ? this[0] : this).className.split(/\s+/)
+      , values = value.split(/\s+/)
+      , i = 0;
   
     if (values.length > 1) {
       var hasClasses = false;
-      for (var i = 0; i < values.length; i++) {
-        hasClass = this.hasClass.call(this, values[i]);
+      for (i = 0; i < values.length; i++) {
+        hasClasses = this.hasClass.call(this, values[i]);
       }
-      return hasClass;
+      return hasClasses;
     } else if (tire.isStr(value)) {
-      for (var i = 0; i < classNames.length; i++) {
+      for (i = 0; i < classNames.length; i++) {
         if (classNames[i] === value) return true;
       }
       return false;
