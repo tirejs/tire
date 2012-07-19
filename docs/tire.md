@@ -14,13 +14,12 @@ Well, why would you load in jQuery when you don't use it all? It's just a uncess
 * Safari 4
 * Internet Explorer 8
 * Firefox 3.5
-* Opera 10.5
+* Opera 10
 
 ### Older browsers
 
 Tire may work in older browsers but is not tested in older than the above.
 
-Browsers without `JSON` support will probably work great but `$.parseJSON` will just return null. There's a comment about how this can be fixed in the source code. Modern browsers should support `JSON`.
 
 ## Selectors
 

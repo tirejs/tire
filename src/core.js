@@ -356,11 +356,9 @@ tire.extend({
       return window.JSON.parse(str);
     }
    
-    // Solution to add JSON parse support to older browsers
-    // return (new Function('return ' + str))();
-    // Modern browsers support JSON today so maybe not adding this solution
-       
-    return null;
+    // Solution to fix JSON parse support for older browser. Not so nice but it works.
+    try { return (new Function('return ' + str))(); }
+    catch (e) { return null; }
   },
 
   /**
