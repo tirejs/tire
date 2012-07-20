@@ -152,12 +152,40 @@ tire.fn.extend({
   trigger: function (eventName, data) {
     return this.each(function (elm) {
       if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
-      
-      var event = document.createEvent('HTMLEvents');
-      event.initEvent(eventName, true, true);
+  
+      var event
+        , createEvent = !!document.createEvent;
+  
+      if (createEvent) {
+        event = document.createEvent('HTMLEvents');
+        event.initEvent(eventName, true, true);
+      } else {
+        event = document.createEventObject();
+        event.cancelBubble = true;
+      }
+        
       event.data = data || {};
       event.eventName = eventName;
-      elm.dispatchEvent(event);
+        
+      if (createEvent) {
+        elm.dispatchEvent(event)
+      } else {
+        try { // fire event in < IE 9
+          elm.fireEvent('on' + eventName, event);
+        } catch (e) { // solution to trigger custom events in < IE 9
+          elm.attachEvent('onpropertychange', function (ev) {
+            if (ev.eventName === eventName && ev.srcElement._eventId) {
+              var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
+              if (handlers.length) {
+                for (var i = 0; i < handlers.length; i++) {
+                  handlers[i](ev);
+                }
+              }
+            }
+          });
+          elm.fireEvent('onpropertychange', event);
+        }
+      }
     });
   }
   

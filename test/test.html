@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html debug="true">
 <head>
   <title>tire test</title>
   <meta charset="utf-8">
+  <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
 </head>
 <body>
   <div class="html">test text</div>
@@ -27,7 +28,7 @@
   <script src="../dist/tire.js"></script>
   <script>
     $(function () {
-      $('.click-me').on('click', function () {
+      $('.click-me').on('click custom', function () {
         alert('Hello, world!');
       });
       $('.remove-a').on('click', function () {
