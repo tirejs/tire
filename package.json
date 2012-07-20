@@ -9,8 +9,6 @@
     "url": "https://github.com/frozzare/tire.git"
   },
   "dependencies" : {},
-  "devDependencies": {
-    "node-beautify": "*"
-  },
+  "devDependencies": {},
   "license": "MIT"
 }

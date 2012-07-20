@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 'src/header.js', 'src/core.js', 'src/fn/*.js', 'src/footer.js'],
+        src: ['<banner>', 'src/header.js', 'src/core.js', 'src/fn/*.js', 'src/footer.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -54,20 +54,29 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerMultiTask('beautify', 'Javascript beautifier', function () {
-    var beautifier = require('node-beautify')
-      , tmp = grunt.config(['beautifier', this.target, 'options'])
-      , options = {
-        indentSize: 2
-      };
-  
-    // Beautify specified files.
-    grunt.file.expandFiles(this.file.src).forEach(function (filepath) {
-      var result = beautifier.beautifyJs(grunt.file.read(filepath), options);
-      grunt.file.write(filepath, result);
-    });
-  
-  });
+  grunt.registerMultiTask('concat', 'Fix indent for files', function () {
+    var src = ''
+      , dest = this.file.dest
+      , banner = grunt.task.directive(this.file.src[0], function() { return null; });
 
-  grunt.registerTask('default', 'concat beautify min');
+    src += banner;
+    
+    this.file.src.shift();
+      
+    grunt.file.expandFiles(this.file.src).forEach(function (file) {
+      if (file.indexOf('header') !== -1 || file.indexOf('footer') !== -1) {
+        src += grunt.file.read(file) + '\n';
+      } else {
+        var lines = grunt.file.read(file).split('\n');
+        lines.forEach(function (line) {
+          src += '  ' + line + '\n';
+        });
+      }
+      grunt.file.write(dest, src);
+    });
+    
+    grunt.log.writeln('File "' + dest + '" created.');
+  });
+  
+  grunt.registerTask('default', 'concat min');
 };

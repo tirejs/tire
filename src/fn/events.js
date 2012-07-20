@@ -175,7 +175,7 @@ tire.fn.extend({
       event.eventName = eventName;
         
       if (createEvent) {
-        elm.dispatchEvent(event)
+        elm.dispatchEvent(event);
       } else {
         try { // fire event in < IE 9
           elm.fireEvent('on' + eventName, event);
