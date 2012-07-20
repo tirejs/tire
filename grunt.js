@@ -48,9 +48,6 @@ module.exports = function(grunt) {
     },
     qunit: {
       all: ['test/index.html']
-    },
-    beautify: {
-      files: 'dist/tire.js'
     }
   });
 
