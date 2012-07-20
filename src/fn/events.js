@@ -97,6 +97,13 @@ function removeEvent (element, eventName, callback) {
   delete c[id];
 }
 
+/**
+ * Run callback for each event name
+ *
+ * @param {String} eventName
+ * @param {Function} callback
+ */
+
 function eachEvent(eventName, callback) {
   eventName.split(' ').forEach(function (name) {
     callback(name);
