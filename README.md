@@ -20,8 +20,11 @@ Tire may work in older browsers but is not tested in older than the above.
 
 ## Build
 
+You will need both `grunt` global and `node-beautify` localy for fixing indent.
+
 ```sh
 npm install -g grunt
+npm install
 make
 ```
 
@@ -29,6 +32,7 @@ On Windows
   
 ```sh
 npm install -g grunt
+npm install 
 grunt.cmd
 ```
 
