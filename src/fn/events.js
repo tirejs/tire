@@ -4,7 +4,7 @@ var _eventId = 1
 /**
  * Get tire event id
  *
- * @param {Object} element The element to get dustin event id from
+ * @param {Object} element The element to get tire event id from
  * @return {Integer}
  */
 
