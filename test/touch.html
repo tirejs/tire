@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tire touch test</title>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div id="touch-me" style="margin:15% auto;width:250px;height:150px;background:#A5BFDD;color:white;text-align:center;padding-top:100px;font-size:25px;">Touch me!</div>
+  <script src="../dist/tire.js"></script>
+  <script>
+    $(function () {
+      $(document).on('gesturestart gesturechange gestureend orientationchange', function (e) {
+        $('#touch-me').text(e.type);
+      });
+      $('#touch-me').on('touchstart touchmove touchend touchcancel', function (e) {
+        $(this).text(e.type);
+      });
+    });
+  </script>
+</body>
+</html>

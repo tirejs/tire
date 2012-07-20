@@ -23,7 +23,7 @@ function serialize (obj, prefix) {
  */
 
 function ajaxJSONP(url, options) {
-  var name = 'jsonp' + (+new Date())
+  var name =  /callback\=(\w+)/.test(url) ? /callback\=(\w+)/.exec(url)[1] : 'jsonp' + (+new Date())
     , elm = document.createElement('script');
 
   elm.onerror = function () {
@@ -42,7 +42,7 @@ function ajaxJSONP(url, options) {
   
   options.data = serialize(options.data);
   elm.src = url.replace(/\=\?/, '=' + name);
-  tire('head').append(elm);
+  tire('head')[0].appendChild(elm);
 }
 
 /**
@@ -108,9 +108,8 @@ tire.fn.extend({
     if (url.indexOf('.json') !== -1) options.dataType = 'json';
     
     // test for jsonp
-    var hasPlaceholder = /\=\?/.test(url);
-    if (jsonp || hasPlaceholder) {
-      if (!hasPlaceholder) url = (url + '&' + 'callback=?').replace(/[&?]{1,2}/, '?');
+    if (jsonp || /\=\?|callback\=/.test(url)) {
+      if (/\=\?/.test(url)) url = (url + '&' + 'callback=?').replace(/[&?]{1,2}/, '?');
       ajaxJSONP(url, options);
       return this;
     }

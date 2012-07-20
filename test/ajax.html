@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html debug="true">
 <head>
-  <title>tire specs</title>
+  <title>tire ajax test</title>
   <meta charset="utf-8">
 </head>
 <body>
@@ -9,17 +9,34 @@
   <p>Hello, <span id="result"></span>!</p>
   <h1>jsonp test</h1>
   <p>Hello, <span id="jsonp"></span>!</p>
+  <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
   <script src="../dist/tire.js"></script>
   <script>
-    $(function () {
+    $.ajax('http://www.twitter.com/status/user_timeline/angustweets.json?count=1&callback=testIt');
+    var testIt = function (data) {
+      document.getElementById('jsonp').innerHTML = data;
+    }
+   /* $(function () {
       $.ajax('/test.json', function (res) {
         $('#result').html(res.hello);
       });
+    */  
+      var logIt = function(data) {
+        //print last tweet text
+        //  document.getElementById('result').innerHTML = data;
+      //    window.console && console.log(data[0].text);
+      }
+      /*
+      var scriptTag = document.createElement('SCRIPT');
+      scriptTag.src = "http://www.twitter.com/status/user_timeline/angustweets.json?count=1&callback=logIt";
       
+      document.getElementsByTagName('HEAD')[0].appendChild(scriptTag);*/
+   /*   
       $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (res) {
+        console.log(res);
         $('#jsonp').html(res.hello);
       });
-    });
+    });*/
   </script>
 </body>
 </html>

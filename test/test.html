@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>tire specs</title>
+  <title>tire test</title>
   <meta charset="utf-8">
 </head>
 <body>
@@ -21,7 +21,19 @@
     <option value="ab">ab</option>
     <option value="cd">cd</option>
     <option value="ef">ef</option>
-  </select>  
+  </select>
+  <a href="#" class="click-me">Click me!</a>
+  <a href="#" class="remove-a">Remove click event</a>
   <script src="../dist/tire.js"></script>
+  <script>
+    $(function () {
+      $('.click-me').on('click', function () {
+        alert('Hello, world!');
+      });
+      $('.remove-a').on('click', function () {
+        $('.click-me').off('click');
+      });
+    });
+  </script>
 </body>
 </html>
