@@ -1,8 +1,10 @@
 # Tire
 
-Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery.
+Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery. The goal of Tire is to create a small library for modern browsers (also work in older that isn't to bad) with a minified size of 10kb and a gziped size under 5kb (right now it's under 4kb).
 
 Tire is under development right now and have no stable version.
+
+Tire will use SemVer, please visist [http://semver.org/](http://semver.org/).
 
 ## Browser support 
 
@@ -34,8 +36,12 @@ grunt.cmd
 
 ## Test
 
-  You will need to start some local server so the get and post ajax test will work. 
-  If you don't care about those test you can just open `test/index.html`.
+Install `connect` via `npm` and start the server. This will create a local server (on port 3000) so the ajax tests don't failes.
+
+```sh
+npm install
+node server.js
+```
   
 ## Contribute
 
