@@ -154,23 +154,16 @@ tire.fn = tire.prototype = {
   /**
    * Run callback for each element in the collection
    *
-   * @param {Object} target
    * @param {Function} callback
    * @return {Object}
    */
   
-  each: function(target, callback) {
-    if (tire.isFun(target)) {
-      callback = target;
-      target = this;
-    }
-    
-    for (var i = 0, len = target.length; i < len; ++i) {
-        if (callback.call(target[i], target[i], i, target) === false)
+  each: function(callback) {
+    for (var i = 0, len = this.length; i < len; ++i) {
+        if (callback.call(this[i], this[i], i, this) === false)
         break;
     }
-    
-    return target;
+    return this;
   },
   
   /**

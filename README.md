@@ -34,7 +34,8 @@ grunt.cmd
 
 ## Test
 
-  Build Tire and open `test/index.html`
+  You will need to start some local server so the get and post ajax test will work. 
+  If you don't care about those test you can just open `test/index.html`.
   
 ## Contribute
 
