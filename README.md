@@ -37,6 +37,7 @@ grunt.cmd
 ## Test
 
 Install `connect` via `npm` and start the server. This will create a local server (on port 3000) so the ajax tests don't failes.
+Be sure to build tire first or all tests will fail!
 
 ```sh
 npm install

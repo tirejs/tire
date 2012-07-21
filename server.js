@@ -11,8 +11,7 @@ var connect = require('connect')
           res.end();
         } else {
           fs.readFile(__dirname + req.originalUrl, function (err, buf) {
-            if (err) throw err;
-            res.end(buf.toString());
+            if (!err) res.end(buf.toString());
           });
         }
       });
