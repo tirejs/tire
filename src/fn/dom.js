@@ -6,21 +6,24 @@ var domReady = (function () {
       fns = [];
 
   if (addEventListener) {
-    document.addEventListener('DOMContentLoaded', function done () {
-      document.removeEventListener('DOMContentLoaded', done, false);
-      ready();
-    }, true);
+    document.addEventListener('DOMContentLoaded', done, true);
     window.addEventListener('load', ready, false);
   } else {
-    document.attachEvent('onreadystatechange', function done () {
-      if (document.readyState === 'complete') document.detachEvent('onreadystatechange', done);
-      ready();
-    });
+    document.attachEvent('onreadystatechange', done);
     window.attachEvent('onload', ready);
 
     if (testEl.doScroll && window === window.top) {
       scrollCheck();
     }
+  }
+  
+  function done () {
+    if (addEventListener) {
+      document.removeEventListener('DOMContentLoaded', done, false);
+    } else {
+      document.readyState === 'complete' && document.detachEvent('onreadystatechange', done);
+    }
+    ready();
   }
 
   // If IE is used, use the trick by Diego Perini
@@ -136,7 +139,7 @@ tire.fn.extend({
   
   /**
    * Empty `innerHTML` for elements
-   *
+   * 
    * @return {Object} 
    */
   
@@ -161,7 +164,9 @@ tire.fn.extend({
     }
         
     location = location || 'inner';
-    
+
+    if (html instanceof tire) html = html[0];
+
     return this.each(function () {
       if (location === 'inner') {
         if (tire.isStr(html) || tire.isNum(html)) {
@@ -204,7 +209,6 @@ tire.fn.extend({
     };
   }(name);
 });
-
 
 function wrap (html) {
   var elm = document.createElement('div');

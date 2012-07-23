@@ -158,12 +158,25 @@ tire.fn = tire.prototype = {
    * @return {Object}
    */
   
-  each: function(callback) {
-    for (var i = 0, len = this.length; i < len; ++i) {
-        if (callback.call(this[i], this[i], i, this) === false)
-        break;
+  each: function(target, callback) {
+    var i, key;
+    
+    if (tire.isFun(target)) {
+      callback = target;
+      target = this;
     }
-    return this;
+    
+    if (target === this || tire.isArr(target)) {      
+      for (i = 0; i < target.length; ++i) {
+        if (callback.call(target[i], target[i], i, target) === false) break;
+      }
+    } else {
+      for (key in target) {
+        if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+      }
+    }
+    
+    return target;
   },
   
   /**
@@ -218,10 +231,13 @@ tire.extend = function () {
 
 tire.fn.find.prototype = tire.fn;
 
-// Let's add slice backup to tire object
-tire.slice = slice;
-
 tire.extend({
+
+  // We sould be able to use slice outside
+  slice: slice,
+  
+  // We sould be able to use each outside
+  each: tire.fn.each,
 
   /**
    * Trim string

@@ -1,21 +1,4 @@
 /**
- * Serialize object to string
- *
- * @param {Object} obj
- * @param {String} prefix
- * @return {String}
- */
- 
-function serialize (obj, prefix) {
-  var str = [];
-  for(var p in obj) {
-    var k = prefix ? prefix + '[' + p + ']' : p, v = obj[p];
-    str.push(tire.isObj(v) ? serialize(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
-  }
-  return str.join('').replace('%20', '+');
-}
-
-/**
  * Create a JSONP request
  * 
  * @param {String} url
@@ -23,7 +6,7 @@ function serialize (obj, prefix) {
  */
 
 function ajaxJSONP(url, options) {
-  var name =  /callback\=(\w+)/.test(url) ? /callback\=(\w+)/.exec(url)[1] : 'jsonp' + (+new Date())
+  var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
     , elm = document.createElement('script');
 
   elm.onerror = function () {
@@ -40,7 +23,7 @@ function ajaxJSONP(url, options) {
     ajaxSuccess(data, null, options);
   };
   
-  options.data = serialize(options.data);
+  options.data = tire.param(options.data);
   elm.src = url.replace(/\=\?/, '=' + name);
   tire('head')[0].appendChild(elm);
 }
@@ -139,11 +122,30 @@ tire.fn.extend({
         }
       };
       
-      xhr.send(serialize(params));
+      xhr.send(tire.param(params));
     } 
 
     return this;
   }
 });
 
-tire.ajax = tire.fn.ajax;
+tire.extend({
+  ajax: tire.fn.ajax,
+  
+  /**
+   * Create a serialized representation of an array or object.
+   *
+   * @param {Array|Object} obj 
+   * @param {Obj} prefix
+   * @return {String}
+   */
+  
+  param : function (obj, prefix) {
+    var str = [];
+    for(var p in obj) {
+      var k = prefix ? prefix + '[' + p + ']' : p, v = obj[p];
+      str.push(tire.isObj(v) ? tire.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
+    }
+    return str.join('&').replace('%20', '+');   
+  }
+});
