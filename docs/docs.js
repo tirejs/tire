@@ -1,5 +1,5 @@
 var fs = require('fs')
-  , name = 'docs/index'
+  , name = 'docs/index.html'
   , rep = {
       'http://documentup.com/stylesheets/screen.css': '/stylesheets/main.css'
     };
