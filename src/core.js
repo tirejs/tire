@@ -218,6 +218,9 @@ tire.extend = function () {
 
 tire.fn.find.prototype = tire.fn;
 
+// Let's add slice backup to tire object
+tire.slice = slice;
+
 tire.extend({
 
   /**
