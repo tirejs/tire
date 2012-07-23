@@ -1,10 +1,12 @@
 # Tire
 
-Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery. The goal of Tire is to create a small library for modern browsers (also work in older that isn't to bad) with a minified size of 10kb and a gziped size under 5kb (right now it's under 4kb).
+Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 10kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It is modular so you can extend it however you like, also replace our features with your own. 
+
+Fixes for older browsers increase the file size and we don't want that. So if you like a library to support Internet Explorer 6 or 7, Tire isn't for you. 
+
+That said, all features can probably be rewritten/extended to add support for old browsers. In that case, you have to create a fork of Tire and fix it yourself.
 
 Tire is under development right now and have no stable version.
-
-Tire will use SemVer, please visist [http://semver.org/](http://semver.org/).
 
 ## Browser support 
 
