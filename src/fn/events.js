@@ -105,7 +105,7 @@ function removeEvent (element, eventName, callback) {
  */
 
 function eachEvent(eventName, callback) {
-  eventName.split(' ').forEach(function (name) {
+  tire.each(eventName.split(' '), function (name) {
     callback(name);
   });
 }
