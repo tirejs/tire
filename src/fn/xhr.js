@@ -142,10 +142,10 @@ tire.extend({
   
   param : function (obj, prefix) {
     var str = [];
-    for(var p in obj) {
-      var k = prefix ? prefix + '[' + p + ']' : p, v = obj[p];
+    this.each(obj, function (p, v) {
+      var k = prefix ? prefix + '[' + p + ']' : p;
       str.push(tire.isObj(v) ? tire.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
-    }
+    });
     return str.join('&').replace('%20', '+');   
   }
 });
