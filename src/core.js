@@ -14,15 +14,6 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-// If forEach isn't available we provied a backup
-if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function(fn, scope) {
-    for(var i = 0, len = this.length; i < len; ++i) {
-      fn.call(scope || this, this[i], i, this);
-    }
-  };
-}
-
 // If slice is not available we provide a backup
 try {
   slice.call(document.documentElement.childNodes, 0)[0].nodeType;

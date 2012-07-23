@@ -202,7 +202,7 @@ tire.fn.extend({
   }
 });
 
-'prepend append before after remove'.split(' ').forEach(function (name) {
+tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (name) {
   tire.fn[name] = function (name) {
     return function (html) {
       return this.html(html, name);
