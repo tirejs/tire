@@ -36,5 +36,16 @@ tire.fn.extend({
       }
       if (found) return this;
     });
+  },
+  
+  /** 
+   * Get the element at position specified by index from the current collection.
+   *
+   * @param {Integer} index
+   * @return {Object}
+   */
+  
+  eq: function (index) {
+    return index === -1 ? this.slice(index) : this.slice(index, index + 1);
   }
 });
