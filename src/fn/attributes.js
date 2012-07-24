@@ -96,8 +96,8 @@ tire.fn.extend({
   
   attr: function (name, value) {
     if (value && tire.isStr(value)) {
-      return this.each(function (elm) {
-        elm.setAttribute(name, value);
+      return this.each(function () {
+        this.setAttribute(name, value);
       });
     } else if (tire.isStr(name)) {
       var attribute;
@@ -121,14 +121,11 @@ tire.fn.extend({
    */
   
   removeAttr: function (name) {
-    return this.each(function (elm) {
-      if (name && tire.isStr(name)) {
+    return this.each(function () {
+      if (name && this.nodeType === 1) {
         var attrNames = name.split(/\s+/);
         for (var i = 0; i < attrNames.length; i++) {
-          elm.removeAttribute(attrNames[i]);
-          if (tire.isBool(attrNames[i]) && elm[attrNames[i]]) {
-            elm[attrNames[i]] = false;
-          }
+          this.removeAttribute(attrNames[i]);
         }
       }
     });

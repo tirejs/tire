@@ -302,17 +302,6 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a boolean
-   *
-   * @param {Object} obj
-   * @return {Boolean}
-   */
-
-  isBool: function (obj) {
-    return (obj === true) || (obj === false);
-  },
-
-  /**
    * Check if the object is a number
    *
    * @param {Object} obj
@@ -342,7 +331,7 @@ tire.extend({
    */
 
   parseJSON: function (str) {
-    if (!this.isStr || !str) {
+    if (!this.isStr(str) || !str) {
       return null;
     }
 

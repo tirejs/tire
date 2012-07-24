@@ -89,12 +89,6 @@ Extends target with members of another objects.
 
 Returns true if the given object is a array.
 
-### $.isBool
-
-<span class="us">$.isBool(object)</span> <span class="re">boolean</span>
-
-Returns true if the given object is a boolean.
-
 ### $.isFun
 
 <span class="us">$.isFun(object)</span> <span class="re">boolean</span>
