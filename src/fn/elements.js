@@ -44,6 +44,6 @@ tire.fn.extend({
    */
   
   eq: function (index) {
-    return index === -1 ? this.slice(index) : this.slice(index, index + 1);
+    return index === -1 ? tire(slice.call(this, this.length -1)) : tire(slice.call(this, index, index + 1));
   }
 });

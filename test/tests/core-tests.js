@@ -102,6 +102,14 @@ test('closest', function () {
   equal($('div').closest('body')[0], document.body, 'Should return body element');
 });
 
+test('parent', function () {
+  equal($('.test-area').parent()[0], document.body, 'Should return body element');
+});
+
+test('children', function () {
+  equal($('.test-area').children().eq(-1)[0], $('#remove-me-b')[0], 'Should return children elements');
+});
+
 test('text', function () {
   expect(2);
   $('.test').text('test text');
