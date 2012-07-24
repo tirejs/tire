@@ -47,7 +47,7 @@ module.exports = function(grunt) {
       }
     },
     qunit: {
-      all: ['test/index.html']
+      all: ['http://localhost:3000/']
     }
   });
 
@@ -74,6 +74,6 @@ module.exports = function(grunt) {
     
     grunt.log.writeln('File "' + dest + '" created.');
   });
-  
+
   grunt.registerTask('default', 'concat min');
 };
