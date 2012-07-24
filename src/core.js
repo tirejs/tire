@@ -136,16 +136,6 @@ tire.fn = tire.prototype = {
   },
   
   /**
-   * Reduce the set of matched elements to a subset specified by a range of indices.
-   * 
-   * @return {Object}
-   */
-  
-  slice: function () {
-    return this.set(slice.apply(this, arguments));
-  },
-  
-  /**
    * Run callback for each element in the collection
    *
    * @param {Function} callback
