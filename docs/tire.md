@@ -1,5 +1,5 @@
 # Tire
-Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 10kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It is modular so you can extend it however you like, also replace our features with your own. 
+Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 10-11kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It is modular so you can extend it however you like, also replace our features with your own. 
 
 Fixes for older browsers increase the file size and we don't want that. So if you like a library to support Internet Explorer 6 or 7, Tire isn't for you. 
 
@@ -185,6 +185,12 @@ Read or set DOM attributes. When no value is given it will read specified attrib
 
 Add html to the DOM before elements in the collection. The html can be a HTML string or Tire collection.
 
+### children
+
+<span class="us">.children([selector])</span> <span class="re">Tire</span>
+
+Get immediate children of each element in the current collection. If selector is given, filter the results to only include ones matching the CSS selector.
+
 ### closest
 
 <span class="us">.closest(selector [, context])</span> <span class="re">Tire</span>
@@ -238,15 +244,17 @@ It's easy to extend Tire with `.first()` and `.last()` with `.eq(index)`.
 
 ### filter
 
-<span class="us">.filter(callback)</span> <span class="re">Tire</span>
+<span class="us">.filter(object)</span> <span class="re">Tire</span>
 
-Extend Tire with custom filters. Inside the iterator function, this keyword refers to the current item.
+Extend Tire with custom filters. Inside the iterator function, this keyword refers to the current item. If a string is given it will return all elements in the collection matching that selector.
 
 ```javascript
 // Returns all elements with the class `tire`
 $('div').filter(function () {
   if ($(this).hasClass('tire')) return this;
 });
+
+$('div').filter('.wrapper'); // Returns all elements with CSS class name .wrapper
 ```
 
 ### find
@@ -284,6 +292,12 @@ Returns true if the given element matches the given CSS selector. [jQuery CSS ex
 <span class="us">.not(selector)</span> <span class="re">Tire</span>
 
 Filter the current collection to get a new collection of elements that don't match the CSS selector.
+
+### parent
+
+<span class="us">.parent([selector])</span> <span class="re">Tire</span>
+
+Get immediate parents of each element in the collection. If CSS selector is given, filter results to include only ones matching the selector.
 
 ### pluck
 
@@ -374,6 +388,8 @@ $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
 });
 ```
 
+`$.getScript(url)` in jQuery is equal to `$.ajax(url)` in Tire.
+
 ### $.param
 
 <span class="us">$.param(object)</span> <span class="re">string</span>
@@ -434,4 +450,15 @@ $('a').trigger('click');
 
 * 1.0 - First stabel release
 
-## Acknowledgements & Thanks
+## Thanks
+
+We like to __thanks__ all of the [contributors](http://github.com/frozzare/tire/contributors). A personal thanks to [Caroline Millgårdh]() that has helped as a sounding board and participated in and written documentation.
+
+Tire API is based on [jQuery's Core API](http://jquery.com/), which is released under the [MIT license](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt).
+
+Thanks to [Jerome Gravel-Niquet](https://github.com/jeromegn) for [DocumentUp](https://github.com/jeromegn/DocumentUp), Tire using it to generate documentation.
+
+## Copyright
+
+Copyright 2012 Fredrik Forsmo.
+Tire is released under the terms of the [MIT license](https://github.com/Frozzare/tire/blob/master/MIT-LICENSE).
