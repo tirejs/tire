@@ -19,6 +19,7 @@ try {
   slice.call(document.documentElement.childNodes, 0)[0].nodeType;
 } catch(e) {
   slice = function (i) {
+    i = i || 0;
     var elem, results = [];
     for (; (elem = this[i]); i++ ) {
       results.push( elem );
@@ -54,7 +55,7 @@ tire.fn = tire.prototype = {
   /**
    * Find elements by selector
    *
-   * @param {String|Object|Function} selector
+   * @param {String|Object|Function|Array} selector
    * @param {Object} context
    *
    * @return {Object}
@@ -110,8 +111,10 @@ tire.fn = tire.prototype = {
           elms = document.querySelectorAll(selector);
         }
       }
-    } else  if (selector.nodeName || selector === window) {
+    } else if (selector.nodeName || selector === window) {
       elms = [selector];
+    } else if (tire.isArr(selector)) {
+      elms = selector;
     }
     
     return this.set(elms);  

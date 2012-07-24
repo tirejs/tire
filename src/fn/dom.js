@@ -79,7 +79,7 @@ tire.fn.extend({
    *
    * @param {String} selector
    * @param {Object} context
-   * @reutnr {Object}
+   * @return {Object}
    */
     
   closest: function (selector, context) {
@@ -91,6 +91,37 @@ tire.fn.extend({
     }
     
     return tire(node);
+  },
+  
+  /**
+   * Get immediate parents of each element in the collection. 
+   * If CSS selector is given, filter results to include only ones matching the selector.
+   *
+   * @param {String} selector
+   * @return {Object}
+   */
+  
+  parent: function (selector) {
+    var parent = this.pluck('parentNode');
+    return selector === undefined ? tire(parent) : tire(parent).filter(selector);
+  },
+  
+  /**
+   * Get immediate children of each element in the current collection. 
+   * If selector is given, filter the results to only include ones matching the CSS selector.
+   *
+   * @param {String} selector
+   * @return {Object}
+   */
+  
+  children: function (selector) {
+    var children = [];
+    this.each(function () {
+      tire.each(tire.slice.call(this.children, 0), function (value) {
+        children.push(value);
+      })
+    });
+    return selector === undefined ? tire(children) : tire(children).filter(selector);
   },
 
   /**
