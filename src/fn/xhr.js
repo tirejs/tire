@@ -96,7 +96,7 @@ tire.fn.extend({
     }
     
     for (var k in mime) {
-      if (url.indexOf('.' + k) !== -1) options.dataType = k;
+      if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
     }
     
     // test for jsonp
