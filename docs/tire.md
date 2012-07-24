@@ -388,8 +388,6 @@ $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
 });
 ```
 
-`$.getScript(url)` in jQuery is equal to `$.ajax(url)` in Tire.
-
 ### $.param
 
 <span class="us">$.param(object)</span> <span class="re">string</span>

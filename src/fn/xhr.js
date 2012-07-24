@@ -41,6 +41,7 @@ function ajaxSuccess(data, xhr, options) {
   var res;
   if (xhr) {
     if ((options.dataType === 'json' || false) && (res = tire.parseJSON(xhr.responseText)) === null) res = xhr.responseText;
+    if (options.dataType === 'xml') res = xhr.responseXML;
     res = res || xhr.responseText;
   }
   if (!res && data) res = data;
@@ -62,15 +63,16 @@ tire.fn.extend({
     options = options || {};
     
     if (tire.isObj(url)) {
+      if (tire.isFun(options)) {
+        url.success = url.success || options;
+      }
       options = url;
       url = options.url;
     }
     
-    if (tire.isFun(options)) {
-      var o = {};
-      o.success = options;
-      options = o;
-    }
+    if (tire.isFun(options)) options = { success: options };
+    
+    options.dataType = (options.dataType || '').toLowerCase();
         
     // won't do anything without a url
     if (!url) return;
@@ -79,7 +81,13 @@ tire.fn.extend({
       , method = (options.type || 'GET').toUpperCase()
       , params = options.data || null
       , jsonp = options.dataType === 'jsonp' || false
-      , xhr;
+      , xhr
+      , mime = { // support for script needed
+          html: 'text/html',
+          text: 'text/plain',
+          xml: 'application/xml, text/xml',
+          json: 'application/json'
+      };
     
     if (window.XMLHttpRequest) {
       xhr = new XMLHttpRequest();
@@ -87,8 +95,9 @@ tire.fn.extend({
       xhr = new ActiveXObject('Microsoft.XMLHTTP');
     }
     
-    // let's check the url if it contains .json
-    if (url.indexOf('.json') !== -1) options.dataType = 'json';
+    for (var k in mime) {
+      if (url.indexOf('.' + k) !== -1) options.dataType = k;
+    }
     
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
@@ -102,7 +111,15 @@ tire.fn.extend({
       xhr.open(method, url, true);
       xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
       
-      if (method === 'POST') xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+      if ((mime = mime[options.dataType]) !== undefined) {
+        xhr.setRequestHeader('Accept', mime);
+        if (mime.indexOf(',') !== -1) mime = mime.split(',')[0];
+        if (xhr.overrideMimeType) xhr.overrideMimeType(mime);
+      }
+      
+      if (options.contentType || options.data && method !== 'GET') {
+        xhr.setRequestHeader('Content-Type', (options.contentType || 'application/x-www-form-urlencoded'));
+      }
 
       for (var key in options.headers) {
         if (options.headers.hasOwnProperty(key)) {
