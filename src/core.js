@@ -105,11 +105,7 @@ tire.fn = tire.prototype = {
           elms.push(this);
         });
       } else {
-        if (window.Sizzle !== undefined) {
-          elms = Sizzle(selector, context);
-        } else {
-          elms = document.querySelectorAll(selector);
-        }
+        elms = document.querySelectorAll(selector);
       }
     } else if (selector.nodeName || selector === window) {
       elms = [selector];
@@ -249,11 +245,6 @@ tire.extend({
     var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
     if (matchesSelector) {
       return matchesSelector.call(element, selector);
-    }
-
-    // Trying to use Sizzle's matchesSelector if it is available
-    if (window.Sizzle !== undefined) {
-      return window.Sizzle.matchesSelector(element, selector);
     }
 
     // querySelectorAll fallback
