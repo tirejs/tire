@@ -37,7 +37,7 @@ If you think that Tire need this method please create an [issue](http://github.c
 
 `$()` is just a shortcut for `tire()`. Is another framework or library using `$()` and you like to continue to use it, you can use tire's `$.noConflict()` to fix it.
 
-This function is used to create tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors but in a modern browser advanced selectors are supported as well via `document.querySelectorAll` or `Sizzle` if it's exists.
+This function is used to create tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
 
 The function will take to parameters, the first is a selector and the second is the context where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
 
@@ -48,7 +48,7 @@ $('.bar') // returns all elements with the class name bar.
 
 $('p') // returns all elements with the tag name p.
 
-// More advanced selectors using document.querySelectorAll or Sizzle (Tire don't include this)
+// More advanced selectors via document.querySelectorAll.
 
 $('input[type=text]') // returns all input elements with the type text.
 
