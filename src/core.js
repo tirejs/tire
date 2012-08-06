@@ -239,7 +239,7 @@ tire.extend({
    */
 
   matches: function (element, selector) {
-    if (!element || element.nodeType !== 1) return;
+    if (!element || element.nodeType !== 1) return false;
 
     // Trying to use matchesSelector if it is available
     var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
@@ -254,9 +254,9 @@ tire.extend({
       for (var i = 0; i < nodes.length; i++) {
         if (nodes[i] === element) return true;
       }
-
-      return false;
     }
+    
+    return false;
   },
 
   /**
