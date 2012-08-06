@@ -311,7 +311,7 @@ tire.extend({
    */
 
   isObj: function (obj) {
-    return obj instanceof Object;
+    return obj instanceof Object && !this.isArr(obj) && !this.isFun(obj);
   },
   
   /**

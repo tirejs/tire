@@ -9,7 +9,7 @@ test('isNum', function () {
 });
 
 test('isObj', function () {
-  ok($.isObj(tire), 'Should return true for object');
+  ok($.isObj({ 'a': 'b' }), 'Should return true for object');
 });
 
 test('isStr', function () {
