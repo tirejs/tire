@@ -4,11 +4,11 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     meta: {
       banner: '/*!\n' +
-        '* tire.js\n' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
-        '* Version: <%= pkg.version %>\n' +
-        '* Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
-        '*/'
+        ' * tire.js\n' +
+        ' * Copyright (c) <%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
+        ' * Version: <%= pkg.version %>\n' +
+        ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
+        ' */'
     },
     concat: {
       dist: {

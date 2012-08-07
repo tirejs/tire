@@ -121,7 +121,7 @@ Returns true if the given element matches the given selector. `$().is(selector)`
 
 ### $.noConflict
 
-<span class="us">$.noConflict([name])</span>
+<span class="us">$.noConflict([name])</span> <span class="re">Tire</span>
 
 Many JavaScript libraries use `$` as a function or varaible name, just as Tire does. If you like to use another JavaScript library alongside Tire, we can return control back of `$` to the other library with `$.noConflict`.
 
