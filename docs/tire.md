@@ -1,15 +1,15 @@
 # Tire
-Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 10-11kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It is modular so you can extend it however you like, also replace our features with your own. 
+Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 10-11kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It's modular so you can extend it however you like, also replace our features with your own. 
 
 Fixes for older browsers increase the file size and we don't want that. So if you like a library to support Internet Explorer 6 or 7, Tire isn't for you. 
 
 That said, all features can probably be rewritten/extended to add support for old browsers. In that case, you have to create a fork of Tire and fix it yourself.
 
-Tire don't support animation in the core but we have a side project that brings basic animation support to Tire called [Tire animation](http://github.com/frozzare/tire-animation)
+Tire don't support animation in the core but we have a side project that brings basic animation support to Tire called [Tire animation](http://github.com/frozzare/tire-animation).
 
 ## Why did we create Tire?
 
-...
+To offer a more lightweight alternative to libraries such as jQuery, YUI and Zepto. Sometimes you just need the most basic features and that's where Tire comes into the picture.
 
 ## Browser support
 
@@ -21,13 +21,13 @@ Tire don't support animation in the core but we have a side project that brings 
 
 ### Older browsers
 
-Fixes for older browsers increase the file size and we don't want that. So if you like a library to support Internet Explorer 6 or 7, Tire isn't for you. 
+Tire doesn't support Internet Explorer 6 or 7 as it would increase the file size. 
 
 ## Why don't you have this method?
 
-It would increase the file size if we added all features libraries like jQuery or Prototype have. That's the bigget reason we don't support all methods. 
+We don't want to create a jQuery or Prototype clone. Nor do we want a big file size. Those are the biggest reasons we don't support all methods. 
 
-If you think that Tire need this method please create an [issue](http://github.com/frozzare/tire/issues) and tell us why!
+If you think that Tire need a certain method please create an [issue](http://github.com/frozzare/tire/issues) and tell us why!
 
 ## Core
 
@@ -35,11 +35,11 @@ If you think that Tire need this method please create an [issue](http://github.c
 
 <span class="us">$(selector [, context])</span> <span class="re">Tire</span>
 
-`$()` is just a shortcut for `tire()`. Is another framework or library using `$()` and you like to continue to use it, you can use tire's `$.noConflict()` to fix it.
+`$()` is just a shortcut for `tire()`. If another framework or library is using `$()` and you like to continue to use it, you can use tire's `$.noConflict()` to fix it.
 
-This function is used to create tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
+This function is used to create Tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors, but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
 
-The function will take to parameters, the first is a selector and the second is the context where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
+The function will take two parameters, the first is a selector and the second is the context where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
 
 ```javascript
 $('#foo') // returns the element with the id foo
@@ -59,7 +59,7 @@ $('ul li') // returns all li elements that are inside an ul tag.
 $('ol > li') // the same as above but for ol tag.
 ```
 
-If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed. 
+If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
 
 ### $.each
 
@@ -99,19 +99,19 @@ Returns true if the given object is a function.
 
 <span class="us">$.isNum(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a number
+Returns true if the given object is a number.
 
 ### $.isObj
 
 <span class="us">$.isObj(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a object
+Returns true if the given object is a object.
 
 ### $.isStr
 
 <span class="us">$.isStr(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a string
+Returns true if the given object is a string.
 
 ### $.matches
 
@@ -123,15 +123,15 @@ Returns true if the given element matches the given selector. `$().is(selector)`
 
 <span class="us">$.noConflict([name])</span> <span class="re">Tire</span>
 
-Many JavaScript libraries use `$` as a function or varaible name, just as Tire does. If you like to use another JavaScript library alongside Tire, we can return control back of `$` to the other library with `$.noConflict`.
+Many JavaScript libraries use `$` as a function or variable name, just as Tire does. If you like to use another JavaScript library alongside Tire, we can return control back of `$` to the other library with `$.noConflict`.
 
-If true is given as a parameter it will  return control back to `tire` if some other library is using it as variabel or function name.
+If true is given as a parameter it will return control back to `Tire` if some other library is using it as variabel or function name.
 
 ### $.slice
 
 <span class="us">$.slice(array [, begin])</span> <span class="re">array</span>
 
-Returns a one-level deep copy of a portion of an array. The real `Array.slice` can take an end argument to but `$.slice` don't. You can read more about `Array.slice` on [Mozilla Developer Network](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/slice)
+Returns a one-level deep copy of a portion of an array. The real `Array.slice` can take an end argument too, but `$.slice` can't. You can read more about `Array.slice` on [Mozilla Developer Network](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/slice)
 
 ### $.trim
 
@@ -159,49 +159,49 @@ Add class name to the selected elements. Multiple class names can be given in a 
 
 <span class="us">.after(html)</span> <span class="re">Tire</span>
 
-Add html to the DOM affter each elements in the collection. The html can be HTML string or Tire collection.
+Add html to the DOM after each element in the collection. The html can be HTML string or Tire collection.
 
 ### append
 
 <span class="us">.append(html)</span> <span class="re">Tire</span>
 
-Append html to the DOM inside each elements in the collection. The html can be a HTML string or Tire collection.
+Append html to the DOM inside each element in the collection. The html can be a HTML string or Tire collection.
 
 ### attr
 
 <span class="us">.attr(name [, value])</span> <span class="re">value or Tire</span>
 
-Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, sets the attribute to that value on each element in the collection.
+Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection.
 
 ### before
 
 <span class="us">.before(html)</span> <span class="re">Tire</span>
 
-Add html to the DOM before elements in the collection. The html can be a HTML string or Tire collection.
+Add html to the DOM before each element in the collection. The html can be a HTML string or Tire collection.
 
 ### children
 
 <span class="us">.children([selector])</span> <span class="re">Tire</span>
 
-Get immediate children of each element in the current collection. If selector is given, filter the results to only include ones matching the CSS selector.
+Get immediate children of each element in the current collection. If a selector is given, it filters the results to only include the ones matching the CSS selector.
 
 ### closest
 
 <span class="us">.closest(selector [, context])</span> <span class="re">Tire</span>
 
-Get the first element that matches the selector, beginning at the current element and progressing up through the DOM tree. Context can be a DOM element within which a matching element may be found. If no context is passed in then the context of the jQuery set will be used instead.
+Get the first element that matches the selector, beginning at the current element and progressing up through the DOM tree. Context can be a DOM element in which a matching element may be found. If no context is passed in then the context of the jQuery set will be used instead.
 
 ### css
 
 <span class="us">.css(property [, value])</span> <span class="re">value or Tire</span>
 
-Read or set CSS properties on DOM elements. When no value is given it will read specified CSS property from the first element and return the value of it. When a value is given, sets the property to that value on each element in the collection.
+Read or set CSS properties on DOM elements. When no value is given it will read specified CSS property from the first element and return the value of it. When a value is given, it sets the property to that value on each element in the collection.
 
 ### each
 
 <span class="us">.each(callback)</span> <span class="re">Tire</span>
 
-Iterate trough every element of the collection. Inside the iterator function, this keyword refers to the current item. If the irerator function returns `false` it will stop the iteration. Returns Tire collection.
+Iterates trough every element in the collection. Inside the iterator function, the `this` keyword refers to the current item. If the iterator function returns `false` it will stop the iteration. Returns the Tire collection.
 
 ```javascript
 $('div').each(function () {
@@ -213,7 +213,7 @@ $('div').each(function () {
 
 <span class="us">.empty()</span> <span class="re">Tire</span>
 
-Clear DOM contents of each element in the collection. Returns Tire collection.
+Clear DOM contents of each element in the collection. Returns the Tire collection.
 
 ### eq
 
@@ -240,7 +240,7 @@ It's easy to extend Tire with `.first()` and `.last()` with `.eq(index)`.
 
 <span class="us">.filter(object)</span> <span class="re">Tire</span>
 
-Extend Tire with custom filters. Inside the iterator function, this keyword refers to the current item. If a string is given it will return all elements in the collection matching that selector.
+Extend Tire with custom filters. Inside the iterator function, the `this` keyword refers to the current item. If a string is given it will return all elements in the collection matching that selector.
 
 ```javascript
 // Returns all elements with the class `tire`
@@ -255,7 +255,7 @@ $('div').filter('.wrapper'); // Returns all elements with CSS class name .wrappe
 
 <span class="us">.find(selector)</span> <span class="re">Tire</span>
 
-Find elements that match CSS selector executed in scope of nodes in the current collection.
+Find elements that match a CSS selector executed in the scope of nodes in the current collection.
 
 ### hasClass
 
@@ -349,7 +349,7 @@ Get or set text content of each element in the collection. When no content is gi
 
 <span class="us">.val(value)</span> <span class="re">value or Tire</span>
 
-Get or set the value of form controls. When no value is given, return the value of the first element. For `<select multiple>`, an array of values is returend. 
+Get or set the value of form controls. When no value is given, it returns the value of the first element. For `<select multiple>`, an array of values is returned. 
 
 ## Ajax
 
@@ -359,9 +359,9 @@ Get or set the value of form controls. When no value is given, return the value 
 
 Perform an Ajax request. It can be a to local resource or JSONP. No support for cross-domain (yet). It´s a async Ajax request, no sync request is supported and no support is planned.
 
-If a string is passed in as the first argument it will be the URL to request. The second argument should be a succes function if any argument is passed in as second.
+If a string is passed in as the first argument it will be the URL to request. The seconds argument should be a function that is used as success function if the request succeeds.
 
-If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request. The response data will automatic be parsed as a JSON object if the is a JSONP or JSON request.
+If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request. The response data will automatic be parsed as a JSON object if it's a JSONP or JSON request.
 
 Options
 
@@ -399,7 +399,7 @@ $.param({ num: [1, 2, 3] })
 
 <span class="us">.on(eventName, callback)</span> <span class="re">Tire</span>
 
-Add an event handler function to one or more events to the selected elements. The event handler have one parameter, the event it self. Tire don't have any support for delegate events (yet).
+Add an event handler function to one or more events to the selected elements. The event handler have one parameter, the event itself. Tire don't have any support for delegate events (yet).
 ```javascript
 $('a').on('click', function (e) {
   // Add on click event to all anchor elements
@@ -432,7 +432,7 @@ $('a').off('click', eventHandler);
 <span class="us">.trigger(eventName)</span> <span class="re">Tire</span>
 
 Trigger the specified event on elements collection. Tire don't have any support for passing on data via trigger.
-Trigger only takes one event name and not multiple like on and off.
+Trigger only takes one event name and not multiple like `on` and `off`.
 
 ```javascript
 $('a').trigger('click');
@@ -444,11 +444,11 @@ $('a').trigger('click');
 
 ## Thanks
 
-We like to __thanks__ all of the [contributors](http://github.com/frozzare/tire/contributors). A personal thanks to [Caroline Millgårdh]() that has helped as a sounding board and participated in and written documentation.
+We like to __thank__ all of the [contributors](http://github.com/frozzare/tire/contributors). A personal thanks to [Caroline Millgårdh](http://caromill.com/) that has helped as a sounding board and participated in writing this documentation.
 
 Tire API is based on [jQuery's Core API](http://jquery.com/), which is released under the [MIT license](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt).
 
-Thanks to [Jerome Gravel-Niquet](https://github.com/jeromegn) for [DocumentUp](https://github.com/jeromegn/DocumentUp), Tire using it to generate documentation.
+Thanks to [Jerome Gravel-Niquet](https://github.com/jeromegn) for [DocumentUp](https://github.com/jeromegn/DocumentUp). Tire using it to generate this documentation.
 
 ## Copyright
 
