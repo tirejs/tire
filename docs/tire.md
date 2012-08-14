@@ -81,7 +81,7 @@ $.each({ hello: 'world' }, function (key, value) {
 
 <span class="us">$.extend(target, [source [, source2, ..]])</span> <span class="re">target</span>
 
-Extends target with members of another objects.
+Extends target with members of other objects.
 
 ### $.isArr
 
@@ -368,13 +368,13 @@ Options
 * `type` HTTP request method. GET is default.
 * `url` URL to which the request is made.
 * `data` Data for the request. Non-string objects will get serialized with `$.param`
-* `contentType` Which content type to post to server. Default is `application/x-www-form-urlencoded`
+* `contentType` Which content type to post to server. Default is `application/x-www-form-urlencoded`.
 * `dataType` Response type to expect from the server. Default is none. Can be `json, jsonp, xml, html, text`.
 * `headers` Object of additional HTTP headers for the Ajax request.
 * `success` The function to execute when the request is done with data as a argument.
 * `error` The function to execute on error with error arguments.
 
-Options like `async, global, context, timeout` isn't supported. `timeout` will be supported later and maybe `context`.
+Options like `async, global, context` and `timeout` isn't supported. `timeout` will be supported later and maybe `context`.
 
 ```javascript
 $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
