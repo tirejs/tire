@@ -6,8 +6,6 @@ Fixes for older browsers increase the file size and we don't want that. So if yo
 
 That said, all features can probably be rewritten/extended to add support for old browsers. In that case, you have to create a fork of Tire and fix it yourself.
 
-Tire is under development right now and have no stable version.
-
 ## Browser support 
 
 * Chrome
@@ -15,8 +13,6 @@ Tire is under development right now and have no stable version.
 * Internet Explorer 8
 * Firefox 3.5
 * Opera 10
-
-Mobile browsers will be added later.
 
 #### Older browsers
 
