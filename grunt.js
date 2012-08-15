@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         ' * tire.js\n' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
         ' * Version: <%= pkg.version %>\n' +
-        ' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
+        ' * Released under the MIT License.\n' +
         ' */'
     },
     concat: {

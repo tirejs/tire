@@ -9,7 +9,7 @@ Tire don't support animation in the core but we have a side project that brings 
 
 ## Why did we create Tire?
 
-To offer a more lightweight alternative to libraries such as jQuery, YUI and Zepto. Sometimes you just need the most basic features and that's where Tire comes into the picture.
+To offer a more lightweight alternative to libraries such as jQuery, Prototype and Zepto. Sometimes you just need the most basic features and that's where Tire comes into the picture.
 
 ## Browser support
 
@@ -28,6 +28,17 @@ Tire doesn't support Internet Explorer 6 or 7 as it would increase the file size
 We don't want to create a jQuery or Prototype clone. Nor do we want a big file size. Those are the biggest reasons we don't support all methods. 
 
 If you think that Tire need a certain method please create an [issue](http://github.com/frozzare/tire/issues) and tell us why!
+
+## Download
+
+Current release: 1.0
+
+* [tire.js](http://tirejs.com/dist/tire.js) - _11kB uncompressed, for development_
+* [tire.min.js](http://tirejs.com/dist/tire.min.js) - _4kB when gzipped, for production_
+
+Please do not hotlink directly to the files hosted on tirejs.com. Download a local copy instead.
+
+[Source on GitHub](http://github.com/Frozzare/tire)
 
 ## Core
 
