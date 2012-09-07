@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       globals: {
         tire: true,
         define: true,
-        Sizzle: true,
+        slice: true,
         document: true,
         ActiveXObject: true
       }
