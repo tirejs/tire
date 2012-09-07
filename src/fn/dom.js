@@ -119,7 +119,7 @@ tire.fn.extend({
     this.each(function () {
       tire.each(tire.slice.call(this.children, 0), function (value) {
         children.push(value);
-      })
+      });
     });
     return selector === undefined ? tire(children) : tire(children).filter(selector);
   },
