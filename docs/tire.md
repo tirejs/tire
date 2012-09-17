@@ -5,8 +5,6 @@ Fixes for older browsers increase the file size and we don't want that. So if yo
 
 That said, all features can probably be rewritten/extended to add support for old browsers. In that case, you have to create a fork of Tire and fix it yourself.
 
-Tire don't support animation in the core but we have a side project that brings basic animation support to Tire called [Tire animation](http://github.com/frozzare/tire-animation).
-
 ## Why did we create Tire?
 
 To offer a more lightweight alternative to libraries such as jQuery, Prototype and Zepto. Sometimes you just need the most basic features and that's where Tire comes into the picture.
