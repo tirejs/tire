@@ -101,7 +101,7 @@ tire.fn.extend({
     
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
-      if (/\=\?/.test(url)) url = (url + '&' + 'callback=?').replace(/[&?]{1,2}/, '?');
+      if (/\=\?/.test(url)) url = (url + '&callback=?').replace(/[&?]{1,2}/, '?');
       ajaxJSONP(url, options);
       return this;
     }
@@ -157,7 +157,7 @@ tire.extend({
    * @return {String}
    */
   
-  param : function (obj, prefix) {
+  param: function (obj, prefix) {
     var str = [];
     this.each(obj, function (p, v) {
       var k = prefix ? prefix + '[' + p + ']' : p;
