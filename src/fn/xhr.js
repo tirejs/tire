@@ -29,7 +29,7 @@ function ajaxJSONP(url, options) {
 }
 
 /**
- * Ajax success, check if the dataType is json and try to parse it to JSON
+ * Ajax success. Check if the dataType is JSON and try to parse it or just return the response text/xml.
  *
  * @param {Object} data
  * @param {Object} xhr

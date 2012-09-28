@@ -141,12 +141,12 @@ tire.fn = tire.prototype = {
   each: function(target, callback) {
     var i, key;
     
-    if (tire.isFun(target)) {
+    if (typeof target === 'function') {
       callback = target;
       target = this;
     }
     
-    if (target === this || tire.isArr(target)) {      
+    if (target === this || target instanceof Array) {
       for (i = 0; i < target.length; ++i) {
         if (callback.call(target[i], target[i], i, target) === false) break;
       }
@@ -181,30 +181,19 @@ tire.fn = tire.prototype = {
  */
 
 tire.extend = function () {
-  var options
-    , i = 1
-    , target = arguments[0] || {};
-  
+  var target = arguments[0] || {};
+
   if (typeof target !== 'object' && typeof target !== 'function') {
     target = {};
   }
 
-  if (arguments.length === 1) {
-    target = this;
-    i = 0;
-  }
+  if (arguments.length === 1) target = this;
 
-  for (; i < arguments.length; i++) {
-    if ((options = arguments[i]) !== null) {
-      for (var key in options) {
-        if (target[key] === options[key]) {
-          continue;
-        } else {
-          target[key] = options[key];
-        }
-      }
+  tire.fn.each(slice.call(arguments), function (value) {
+    for (var key in value) {
+      if (target[key] !== value[key]) target[key] = value[key];
     }
-  }
+  });
 
   return target;
 };
