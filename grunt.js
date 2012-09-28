@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       }
     },
     min: {
-      "dist/tire.min.js": [ "<banner>", "dist/tire.js" ]
+      'dist/tire.min.js': [ '<banner>', 'dist/tire.js' ]
     },
     lint: {
       files: ['src/core.js', 'src/fn/*.js']
