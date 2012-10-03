@@ -21,8 +21,8 @@ try {
   slice = function (i) {
     i = i || 0;
     var elem, results = [];
-    for (; (elem = this[i]); i++ ) {
-      results.push( elem );
+    for (; (elem = this[i]); i++) {
+      results.push(elem);
     }
     return results;
   };
