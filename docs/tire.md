@@ -96,7 +96,7 @@ Extends target with members of other objects.
 
 <span class="us">$.isArr(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a array.
+Returns true if the given object is an array.
 
 ### $.isFun
 
@@ -114,7 +114,7 @@ Returns true if the given object is a number.
 
 <span class="us">$.isObj(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a object.
+Returns true if the given object is an object.
 
 ### $.isStr
 
@@ -155,7 +155,7 @@ The trim method returns the string stripped of whitespace from both ends. It doe
 Parse JSON string to JSON object. This will also work for older browsers that don't include `JSON`.
 
 ```javascript
-$.parseJSON('{"a":"b"}') // Returns { "a": "b"} as a object
+$.parseJSON('{"a":"b"}') // Returns { "a": "b"} as an object
 ```
 
 ### addClass
