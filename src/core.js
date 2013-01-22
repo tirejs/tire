@@ -69,7 +69,7 @@ tire.fn = tire.prototype = {
     }
     
     if (tire.isFun(selector)) {
-      tire.ready(selector);
+      return tire.ready(selector);
     }
     
     if (selector.nodeType) {
@@ -113,14 +113,14 @@ tire.fn = tire.prototype = {
       elms = selector;
     }
     
-    return this.set(elms);  
+    return this.set(elms);
   },
   
   /**
    * Fetch property from elements
    *
    * @param {String} prop
-   * @return {Array} 
+   * @return {Array}
    */
   
   pluck: function (prop) {
@@ -328,7 +328,7 @@ tire.extend({
 
   /**
    * Calling .noConflict will restore the window.$` to its previous value.
-   * 
+   *
    * @param {Boolean} name Restore `tire` to it's previous value.
    * @return {Object}
    */

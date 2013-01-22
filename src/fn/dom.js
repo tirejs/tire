@@ -46,16 +46,16 @@ var domReady = (function () {
     isReady = true;
 
     for (var i = 0; i < fns.length; i++) {
-      fns[i].call(document);
+      fns[i].call(document, tire);
     }
   }
 
   return function (callback) {
-    return isReady ? callback.call(document) : fns.push(callback);
+    return isReady ? callback.call(document, tire) : fns.push(callback);
   };
 })();
 
-/** 
+/**
  * Adding domReady to tire and tire.fn
  */
 
@@ -85,7 +85,7 @@ tire.fn.extend({
   closest: function (selector, context) {
     var node = this[0];
       
-    while (node && !tire.matches(node, selector)) {  
+    while (node && !tire.matches(node, selector)) {
       node = node.parentNode;
       if (!node || !node.ownerDocument || node === context || node.nodeType === 11) break;
     }
@@ -94,7 +94,7 @@ tire.fn.extend({
   },
   
   /**
-   * Get immediate parents of each element in the collection. 
+   * Get immediate parents of each element in the collection.
    * If CSS selector is given, filter results to include only ones matching the selector.
    *
    * @param {String} selector
@@ -107,7 +107,7 @@ tire.fn.extend({
   },
   
   /**
-   * Get immediate children of each element in the current collection. 
+   * Get immediate children of each element in the current collection.
    * If selector is given, filter the results to only include ones matching the CSS selector.
    *
    * @param {String} selector
@@ -170,8 +170,8 @@ tire.fn.extend({
   
   /**
    * Empty `innerHTML` for elements
-   * 
-   * @return {Object} 
+   *
+   * @return {Object}
    */
   
   empty: function () {
