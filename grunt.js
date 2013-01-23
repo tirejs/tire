@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     meta: {
       banner: '/*!\n' +
         ' * tire.js\n' +
-        ' * Copyright (c) <%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
+        ' * Copyright (c) 2012-<%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
         ' * Version: <%= pkg.version %>\n' +
         ' * Released under the MIT License.\n' +
         ' */'

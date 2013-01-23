@@ -29,7 +29,7 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.0.1
+Current release: 1.0.2
 
 * [tire.js](http://code.tirejs.com/dist/tire.js) - _11kB uncompressed, for development_
 * [tire.min.js](http://code.tirejs.com/dist/tire.min.js) - _4kB when gzipped, for production_
@@ -449,6 +449,7 @@ $('a').trigger('click');
 
 ## Changelog
 
+* 1.0.2 - Fixed so context for `$()` and `$().find()` works.
 * 1.0.1 - Fixed so domready is returned when using `$()`. Added so tire object is passed into the domready callback.
 * 1.0 - First stabel release
 
@@ -462,5 +463,5 @@ Thanks to [Jerome Gravel-Niquet](https://github.com/jeromegn) for [DocumentUp](h
 
 ## Copyright
 
-Copyright 2012 Fredrik Forsmo.
+Copyright 2012-2013 Fredrik Forsmo.
 Tire is released under the terms of the [MIT license](https://github.com/Frozzare/tire/blob/master/MIT-LICENSE).
