@@ -92,7 +92,7 @@ tire.fn = tire.prototype = {
         elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         elms = [];
-      } else if (/<([\w:]+)/.test(selector)) {
+      } else if (tagExp.test(selector)) {
         var tmp = context.createElement('div');
         tmp.innerHTML = selector;
         this.each.call(slice.call(tmp.childNodes, 0), function () {
