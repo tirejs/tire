@@ -200,7 +200,7 @@ tire.fn.extend({
 
     return this.each(function () {
       if (location === 'inner') {
-        if (tire.isStr(html) || tire.isNum(html)) {
+        if (tire.isString(html) || tire.isNumber(html)) {
           this.innerHTML = html;
         } else {
           this.innerHTML = '';
@@ -243,7 +243,7 @@ tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (name) {
 
 function wrap (html) {
   var elm = document.createElement('div');
-  if (tire.isStr(html)) {
+  if (tire.isString(html)) {
     elm.innerHTML = html;
   } else {
     elm.appendChild(html);

@@ -1,6 +1,6 @@
 /**
  * Create a JSONP request
- * 
+ *
  * @param {String} url
  * @param {Object} options
  */
@@ -45,7 +45,7 @@ function ajaxSuccess(data, xhr, options) {
     res = res || xhr.responseText;
   }
   if (!res && data) res = data;
-  if (tire.isFun(options.success)) options.success(res);
+  if (tire.isFunction(options.success)) options.success(res);
 }
         
 tire.fn.extend({
@@ -62,15 +62,15 @@ tire.fn.extend({
   ajax: function (url, options) {
     options = options || {};
     
-    if (tire.isObj(url)) {
-      if (tire.isFun(options)) {
+    if (tire.isObject(url)) {
+      if (tire.isFunction(options)) {
         url.success = url.success || options;
       }
       options = url;
       url = options.url;
     }
     
-    if (tire.isFun(options)) options = { success: options };
+    if (tire.isFunction(options)) options = { success: options };
     
     options.dataType = (options.dataType || '').toLowerCase();
         
@@ -140,7 +140,7 @@ tire.fn.extend({
       };
       
       xhr.send(tire.param(params));
-    } 
+    }
 
     return this;
   }
@@ -152,7 +152,7 @@ tire.extend({
   /**
    * Create a serialized representation of an array or object.
    *
-   * @param {Array|Object} obj 
+   * @param {Array|Object} obj
    * @param {Obj} prefix
    * @return {String}
    */
@@ -161,8 +161,8 @@ tire.extend({
     var str = [];
     this.each(obj, function (p, v) {
       var k = prefix ? prefix + '[' + p + ']' : p;
-      str.push(tire.isObj(v) ? tire.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
+      str.push(tire.isObject(v) ? tire.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
     });
-    return str.join('&').replace('%20', '+');   
+    return str.join('&').replace('%20', '+');
   }
 });

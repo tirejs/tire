@@ -8,7 +8,7 @@ tire.fn.extend({
    */
   
   filter: function (obj) {
-    if (tire.isFun(obj)) {
+    if (tire.isFunction(obj)) {
       var elements = [];
       this.each(function (elm, index) {
         if (obj.call(elm, index)) {
@@ -30,13 +30,13 @@ tire.fn.extend({
    * @return {Object}
    */
   
-  not: function (selector) {      
+  not: function (selector) {
     return this.filter(function () {
       return !tire.matches(this, selector);
     });
   },
   
-  /** 
+  /**
    * Get the element at position specified by index from the current collection.
    *
    * @param {Integer} index

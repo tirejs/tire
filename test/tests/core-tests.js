@@ -1,29 +1,29 @@
 module('Tire core.js');
 
 test('isFun', function () {
-  ok($.isFun(function () {}), 'Should return true for function');
+  ok($.isFunction(function () {}), 'Should return true for function');
 });
 
 test('isNum', function () {
-  ok($.isNum(2), 'Should return true for number');
+  ok($.isNumber(2), 'Should return true for number');
 });
 
 test('isObj', function () {
-  ok($.isObj({ 'a': 'b' }), 'Should return true for object');
+  ok($.isObject({ 'a': 'b' }), 'Should return true for object');
 });
 
 test('isStr', function () {
-  ok($.isStr('tire'), 'Should return true for string');
+  ok($.isString('tire'), 'Should return true for string');
 });
 
 test('isArr', function () {
-  ok($.isArr([]), 'Should return true for array');
+  ok($.isArray([]), 'Should return true for array');
 });
 
 test('isPlainObj', function () {
-  ok($.isPlainObj({}), 'Should return true for object');
-  ok(!$.isPlainObj(window), 'Should return false for window');
-  ok(!$.isPlainObj(document), 'Should return false for document');
+  ok($.isPlainObject({}), 'Should return true for object');
+  ok(!$.isPlainObject(window), 'Should return false for window');
+  ok(!$.isPlainObject(document), 'Should return false for document');
 });
 
 test('parseJSON', function () {

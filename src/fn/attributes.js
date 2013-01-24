@@ -7,7 +7,7 @@ tire.fn.extend({
    */
   
   addClass: function (value) {
-    if (value && tire.isStr(value)) {
+    if (value && tire.isString(value)) {
       return this.each(function (elm) {
         if (elm.nodeType === 1) {
           var classNames = value.split(/\s+/);
@@ -37,7 +37,7 @@ tire.fn.extend({
   
   removeClass: function (value) {
     return this.each(function (elm) {
-      if (value && tire.isStr(value)) {
+      if (value && tire.isString(value)) {
         var classNames = value.split(/\s+/);
         if (elm.nodeType === 1 && elm.className) {
           if (classNames.length === 1) {
@@ -76,7 +76,7 @@ tire.fn.extend({
         hasClasses = this.hasClass.call(this, values[i]);
       }
       return hasClasses;
-    } else if (tire.isStr(value)) {
+    } else if (tire.isString(value)) {
       for (i = 0; i < classNames.length; i++) {
         if (classNames[i] === value) return true;
       }
@@ -95,17 +95,17 @@ tire.fn.extend({
    */
   
   attr: function (name, value) {
-    if (tire.isObj(name)) {
+    if (tire.isObject(name)) {
       return this.each(function () {
         for (var key in name) {
           this.setAttribute(key, name[key]);
         }
       });
-    } else if (value && (tire.isStr(value) || tire.isNum(value))) {
+    } else if (value && (tire.isString(value) || tire.isNumber(value))) {
       return this.each(function () {
         this.setAttribute(name, value);
       });
-    } else if (tire.isStr(name)) {
+    } else if (tire.isString(name)) {
       var attribute;
       for (var i = 0; i < this.length; i++) {
         if ((attribute = this[i].getAttribute(name)) !== null) {

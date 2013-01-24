@@ -19,12 +19,12 @@ tire.fn.extend({
    */
   
   css: function (prop, value) {
-    if (tire.isStr(prop) && value === undefined) {
+    if (tire.isString(prop) && value === undefined) {
       return this.length > 0 ? getPropertyValue(this[0], prop) : undefined;
     }
     
     return this.each(function () {
-      if (tire.isStr(prop)) {
+      if (tire.isString(prop)) {
         this.style[prop] = value;
       } else {
         for (var key in prop) {
@@ -64,6 +64,6 @@ function getPropertyValue(elm, prop) {
     value = elm.currentStyle[prop];
   } else {
     value = elm.style[prop];
-  }  
+  }
   return !!value ? value : '';
 }

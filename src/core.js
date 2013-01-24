@@ -68,7 +68,7 @@ tire.fn = tire.prototype = {
       return this;
     }
     
-    if (tire.isFun(selector)) {
+    if (tire.isFunction(selector)) {
       return tire.ready(selector);
     }
     
@@ -86,12 +86,12 @@ tire.fn = tire.prototype = {
 
     context = this.context ? this.context : (context || document);
 
-    if (tire.isPlainObj(context)) {
+    if (tire.isPlainObject(context)) {
       attrs = context;
       context = document;
     }
 
-    if (tire.isStr(selector)) {
+    if (tire.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType == context.DOCUMENT_NODE) {
         elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
@@ -112,7 +112,7 @@ tire.fn = tire.prototype = {
       }
     } else if (selector.nodeName || selector === window) {
       elms = [selector];
-    } else if (tire.isArr(selector)) {
+    } else if (tire.isArray(selector)) {
       elms = selector;
     }
     
@@ -271,7 +271,7 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isFun: function (obj) {
+  isFunction: function (obj) {
     return typeof obj === 'function';
   },
 
@@ -282,7 +282,7 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isArr: function (obj) {
+  isArray: function (obj) {
     return obj instanceof Array;
   },
 
@@ -293,7 +293,7 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isStr: function (obj) {
+  isString: function (obj) {
     return typeof obj === 'string';
   },
 
@@ -304,7 +304,7 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isNum: function (obj) {
+  isNumber: function (obj) {
     return typeof obj === 'number';
   },
 
@@ -315,8 +315,8 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isObj: function (obj) {
-    return obj instanceof Object && !this.isArr(obj) && !this.isFun(obj);
+  isObject: function (obj) {
+    return obj instanceof Object && !this.isArray(obj) && !this.isFunction(obj);
   },
   
   /**
@@ -326,8 +326,8 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isPlainObj: function (obj) {
-    if (!obj || !this.isObj(obj) || this.isWindow(obj) || obj.nodeType) {
+  isPlainObject: function (obj) {
+    if (!obj || !this.isObject(obj) || this.isWindow(obj) || obj.nodeType) {
       return false;
     } else if (obj.__proto__ === Object.prototype) {
       return true;
@@ -354,7 +354,7 @@ tire.extend({
    */
 
   parseJSON: function (str) {
-    if (!this.isStr(str) || !str) {
+    if (!this.isString(str) || !str) {
       return null;
     }
 
