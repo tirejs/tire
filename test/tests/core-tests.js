@@ -20,6 +20,12 @@ test('isArr', function () {
   ok($.isArr([]), 'Should return true for array');
 });
 
+test('isPlainObj', function () {
+  ok($.isPlainObj({}), 'Should return true for object');
+  ok(!$.isPlainObj(window), 'Should return false for window');
+  ok(!$.isPlainObj(document), 'Should return false for document');
+});
+
 test('parseJSON', function () {
   // Not so pretty. Can add support for JSON parse via (new Function('return ' + str))(); But maybe don't need it.
   ok(!!($.parseJSON('{"a":"b"}') instanceof Object || !null), true, 'Should parse JSON string to object or return empty string');

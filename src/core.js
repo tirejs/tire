@@ -258,7 +258,7 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a function
+   * Check if the `obj` is a function
    *
    * @param {Object} obj
    * @return {Boolean}
@@ -269,7 +269,7 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a array
+   * Check if the `obj` is a array
    *
    * @param {Object} obj
    * @return {Boolean}
@@ -280,7 +280,7 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a string
+   * Check if the `obj` is a string
    *
    * @param {Object} obj
    * @return {Boolean}
@@ -291,7 +291,7 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a number
+   * Check if the `obj` is a number
    *
    * @param {Object} obj
    * @return {Boolean}
@@ -302,7 +302,7 @@ tire.extend({
   },
 
   /**
-   * Check if the object is a object
+   * Check if the `obj` is a object
    *
    * @param {Object} obj
    * @return {Boolean}
@@ -312,6 +312,29 @@ tire.extend({
     return obj instanceof Object && !this.isArr(obj) && !this.isFun(obj);
   },
   
+  /**
+   * Check if `obj` is a plain object
+   *
+   * @param {Object} obj
+   * @return {Boolean}
+   */
+
+  isPlainObj: function (obj) {
+    if (!obj || !this.isObj(obj) || this.isWindow(obj) || obj.nodeType) {
+      return false;
+    } else if (obj.__proto__ === Object.prototype) {
+      return true;
+    }
+  },
+
+  /**
+   * Check if `obj` is a `window` object
+   */
+
+  isWindow: function (obj) {
+    return obj !== null && obj === obj.window;
+  },
+
   /**
    * Parse JSON string to object.
    *
