@@ -100,7 +100,7 @@ tire.fn = tire.prototype = {
         });
       } else {
         elms = slice.call(
-          classExp.test(selector) ? context.getElementsByClassName(selector.substr(1)) :
+          classExp.test(selector) && context.getElementsByClassName !== undefined ? context.getElementsByClassName(selector.substr(1)) :
           tagNameExp.test(selector) ? context.getElementsByTagName(selector) :
           context.querySelectorAll(selector)
         );
