@@ -95,7 +95,13 @@ tire.fn.extend({
    */
   
   attr: function (name, value) {
-    if (value && tire.isStr(value)) {
+    if (tire.isObj(name)) {
+      return this.each(function () {
+        for (var key in name) {
+          this.setAttribute(key, name[key]);
+        }
+      });
+    } else if (value && (tire.isStr(value) || tire.isNum(value))) {
       return this.each(function () {
         this.setAttribute(name, value);
       });
