@@ -41,12 +41,14 @@ module('Selectors', {
 });
 
 test('ID Selector', function () {
-  expect(3);
+  expect(4);
   elm = $('#test');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified ID');
   equal(elm[0].innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('#donotexists');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
+  elm = $('#test', { rel: 'test' });
+  equal(elm.attr('rel'), 'test', 'Should return rel attribute value');
 });
 
 test('Class name Selector', function () {

@@ -62,7 +62,7 @@ tire.fn = tire.prototype = {
    */
   
   find: function (selector, context) {
-    var elms = [];
+    var elms = [], attrs;
     
     if (!selector) {
       return this;
@@ -85,7 +85,12 @@ tire.fn = tire.prototype = {
     }
 
     context = this.context ? this.context : (context || document);
-    
+
+    if (tire.isPlainObj(context)) {
+      attrs = context;
+      context = document;
+    }
+
     if (tire.isStr(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType == context.DOCUMENT_NODE) {
@@ -100,7 +105,7 @@ tire.fn = tire.prototype = {
         });
       } else {
         elms = slice.call(
-          classExp.test(selector) ? context.getElementsByClassName(selector.substr(1)) :
+          classExp.test(selector) && context.getElementsByClassName !== undefined ? context.getElementsByClassName(selector.substr(1)) :
           tagNameExp.test(selector) ? context.getElementsByTagName(selector) :
           context.querySelectorAll(selector)
         );
@@ -122,7 +127,9 @@ tire.fn = tire.prototype = {
       }
     }
 
-    return this.set(elms);
+    return this.set(elms).each(function () {
+      return attrs && $(this).attr(attrs);
+    });
   },
   
   /**
@@ -150,7 +157,7 @@ tire.fn = tire.prototype = {
   each: function(target, callback) {
     var i, key;
     
-    if (typeof target === 'function') {
+    if (tire.isFun(target)) {
       callback = target;
       target = this;
     }
@@ -324,6 +331,10 @@ tire.extend({
       return false;
     } else if (obj.__proto__ === Object.prototype) {
       return true;
+    } else {
+      var key;
+      for (key in obj) {}
+      return key === undefined || {}.hasOwnProperty.call(obj, key);
     }
   },
 
