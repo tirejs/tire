@@ -157,7 +157,7 @@ tire.fn = tire.prototype = {
   each: function(target, callback) {
     var i, key;
     
-    if (tire.isFun(target)) {
+    if (typeof target === 'function') {
       callback = target;
       target = this;
     }
