@@ -25,7 +25,7 @@ Tire doesn't support Internet Explorer 6 or 7 as it would increase the file size
 
 We don't want to create a jQuery or Prototype clone. Nor do we want a big file size. Those are the biggest reasons we don't support all methods. 
 
-If you think that Tire need a certain method please create an [issue](http://github.com/frozzare/tire/issues) and tell us why!
+If you think that Tire need a certain method please create an [issue](http://github.com/tirejs/tire/issues) and tell us why!
 
 ## Download
 
@@ -455,7 +455,7 @@ $('a').trigger('click');
 
 ## Thanks
 
-We like to __thank__ all of the [contributors](http://github.com/frozzare/tire/contributors). A personal thanks to [Caroline Millgårdh](http://caromill.com/) that has helped as a sounding board and participated in writing this documentation.
+We like to __thank__ all of the [contributors](http://github.com/tirejs/tire/contributors). A personal thanks to [Caroline Millgårdh](http://caromill.com/) that has helped as a sounding board and participated in writing this documentation.
 
 Tire API is based on [jQuery's Core API](http://jquery.com/), which is released under the [MIT license](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt).
 
@@ -464,4 +464,4 @@ Thanks to [Jerome Gravel-Niquet](https://github.com/jeromegn) for [DocumentUp](h
 ## Copyright
 
 Copyright 2012-2013 Fredrik Forsmo.
-Tire is released under the terms of the [MIT license](https://github.com/Frozzare/tire/blob/master/MIT-LICENSE).
+Tire is released under the terms of the [MIT license](https://github.com/tirejs/tire/blob/master/MIT-LICENSE).
