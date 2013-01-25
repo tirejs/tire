@@ -82,17 +82,20 @@ test('Class name Selector', function () {
 });
 
 test('Tag name Selector', function () {
-  expect(2);
+  expect(3);
   elm = $('ul');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified tagname');
   elm = $('blink');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
+  elm = $('body').find('html');
+  equal(elm.length, 0, 'Should return length 0 for non-existing elemnts in the context');
 });
 
 test('Elements reference selector', function () {
-  expect(2);
+  expect(3);
   elm = $(document.body);
   equal(elm.length, 1, 'Should return length 1 for existing body element');
+  equal(elm[0], document.body, 'Should be document.body if document.body is the selector');
   elm = $(window);
   equal(elm[0], window, 'Should be able to pass window as selector');
 });
@@ -110,7 +113,7 @@ test('Empty selectors', function () {
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $(null);
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
-  elm = $("");
+  elm = $('');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
 });
 
@@ -218,7 +221,7 @@ test('css', function () {
   var elm = $('.test');
   elm.css('color', 'black');
   var value = elm.css('color');
-  ok(value === 'rgb(0, 0, 0)' || value === '#000000' || value === 'black', 'Should return css property from element');
+  ok(value === 'rgb(0, 0, 0)' || value === '#000000' || value === 'black', 'Should return css property from element');
   elm.css({ backgroundColor: 'black', fontSize: 12 });
   ok(!!elm.css('backgroundColor'), true, 'Should return css property from element');
   ok(!!elm.css('fontSize'), true, 'Should return css property from element');
@@ -263,6 +266,8 @@ test('attr', function () {
   equal($('.test').attr('rel'), 'dustin', 'Should add attribute to element via key/value');
   $('.test').attr({ rel: 'tire' });
   equal($('.test').attr('rel'), 'tire', 'Should add attribute to element via object');
+  $('.test', { rel: 'wip' });
+  equal($('.test').attr('rel'), 'wip', 'Should add attribute via second argument in dollar/find function')
 });
 
 test('removeAttr', function () {
