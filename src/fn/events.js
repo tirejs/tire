@@ -12,7 +12,7 @@ function getEventId (element) {
   return element._eventId || (element._eventId = _eventId++);
 }
 
-/** 
+/**
  * Get event handlers
  *
  * @param {Integer} id
@@ -87,7 +87,7 @@ function removeEvent (element, eventName, callback) {
         element.removeEventListener(eventName, handlers[i], false);
       } else if (element.detachEvent) {
         var name = 'on' + eventName;
-        if (tire.isStr(element[name])) element[name] = null;
+        if (tire.isString(element[name])) element[name] = null;
         element.detachEvent(name, handlers[i]);
       }
       c[id][eventName].remove(i, 1);

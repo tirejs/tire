@@ -343,7 +343,7 @@ tire.extend({
    */
 
   isWindow: function (obj) {
-    return obj !== null && obj === obj.window;
+    return obj !== null && (obj === obj.window || 'setInterval' in obj);
   },
 
   /**
