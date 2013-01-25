@@ -153,7 +153,7 @@ tire.fn.extend({
    */
   
   val: function (value) {
-    if (value === undefined) {
+    if (!arguments.length) {
       if (this.length > 0) {
         return this[0].multiple ? this.find('option').filter(function () {
           return this.selected;
@@ -163,6 +163,13 @@ tire.fn.extend({
       return null;
     } else {
       return this.each(function () {
+        if (this.nodeType !== 1) {
+          return;
+        } else if (value === null || value === undefined) {
+          value = '';
+        } else if (tire.isNumber(value)) {
+          value += '';
+        }
         this.value = value;
       });
     }

@@ -133,9 +133,17 @@ test('text', function () {
 });
 
 test('val', function () {
-  equal($('input[type=text]').val(), '', 'Should return value of input element');
-  $('input[type=text]').val('test text');
-  equal($('input[type=text]').val(), 'test text', 'Should return value of input element');
+  elm = $('input[type=text]');
+  elm.val('');
+  equal(elm.val(), '', 'Should return value of input element');
+  elm.val('test text');
+  equal(elm.val(), 'test text', 'Should return value of input element');
+  elm.val(undefined);
+  equal(elm.val(), '', 'Should return empty value of input element with undefiend argument');
+  elm.val(null);
+  equal(elm.val(), '', 'Should return empty value of input element with null argument');
+  elm.val(1);
+  equal(elm.val(), '1', 'Should return number as string with number argument');
 });
 
 test('html', function () {
