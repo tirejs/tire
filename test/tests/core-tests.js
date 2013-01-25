@@ -65,7 +65,7 @@ test('ID Selector', function () {
   expect(4);
   elm = $('#test');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified ID');
-  equal(elm[0].innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
+  equal(elm.get(0).innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('#donotexists');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $('#test', { rel: 'test' });
@@ -76,7 +76,7 @@ test('Class name Selector', function () {
   expect(3);
   elm = $('.test');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified classname');
-  equal(elm[0].innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
+  equal(elm.get(0).innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('.donotexists');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
 });
@@ -95,16 +95,16 @@ test('Elements reference selector', function () {
   expect(3);
   elm = $(document.body);
   equal(elm.length, 1, 'Should return length 1 for existing body element');
-  equal(elm[0], document.body, 'Should be document.body if document.body is the selector');
+  equal(elm.get(0), document.body, 'Should be document.body if document.body is the selector');
   elm = $(window);
-  equal(elm[0], window, 'Should be able to pass window as selector');
+  equal(elm.get(0), window, 'Should be able to pass window as selector');
 });
 
 test('HTML string selector', function () {
   expect(2);
   elm = $('<a href="#">Hello, world!</a>');
   equal(elm.length, 1, 'Should return length 1 for existing elements');
-  ok(elm[0] instanceof HTMLAnchorElement, 'Should be a instance of HTMLAnchorElement');
+  ok(elm.get(0) instanceof HTMLAnchorElement, 'Should be a instance of HTMLAnchorElement');
 });
 
 test('Empty selectors', function () {
@@ -131,15 +131,15 @@ test('is', function () {
 });
 
 test('closest', function () {
-  equal($('div').closest('body')[0], document.body, 'Should return body element');
+  equal($('div').closest('body').get(0), document.body, 'Should return body element');
 });
 
 test('parent', function () {
-  equal($('.test-area').parent()[0], document.body, 'Should return body element');
+  equal($('.test-area').parent().get(0), document.body, 'Should return body element');
 });
 
 test('children', function () {
-  equal($('.test-area').children().eq(-1)[0], $('#remove-me-b')[0], 'Should return children elements');
+  equal($('.test-area').children().eq(-1).get(0), $('#remove-me-b').get(0), 'Should return children elements');
 });
 
 test('text', function () {
@@ -175,23 +175,23 @@ test('html', function () {
 test('append', function () {
   elm = $('.html');
   elm.append('<p>append</p>');
-  equal(elm[0].childNodes[1].innerHTML, 'append', 'Should return inner html for element');
+  equal(elm.get(0).childNodes[1].innerHTML, 'append', 'Should return inner html for element');
 });
 
 test('prepend', function () {
   elm = $('.html');
   elm.prepend('<p>prepend</p>');
-  equal(elm[0].childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
+  equal(elm.get(0).childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
 });
 
 test('before', function () {
   $('.html').before('<p>before</p>');
-  equal($('.html')[0].previousSibling.innerHTML, 'before', 'Should return inner html for element');
+  equal($('.html').get(0).previousSibling.innerHTML, 'before', 'Should return inner html for element');
 });
 
 test('after', function () {
   $('.html').after('<p>after</p>');
-  elm = $('.html')[0];
+  elm = $('.html').get(0);
   // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
   var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
   equal(result, 'after', 'Should return inner html for element');
@@ -292,12 +292,16 @@ test('filter', function () {
   elm = $('div').filter(function () {
     if ($(this).hasClass('test')) return true;
   });
-  equal(elm[0], $('.test')[0], 'Filter should only return the elements we filter');
+  equal(elm.get(0), $('.test').get(0), 'Filter should only return the elements we filter');
   equal(elm.length, 1, 'Should return length 1 since the are only one .test element');
 });
 
 test('not', function () {
   ok($('div').not('.test') !== $('div'), false, 'Should not be equal to div after removing element with not');
+});
+
+test('get', function () {
+  equal($('body').get(0), document.body, 'Should return document.body');
 });
 
 test('clone', function () {

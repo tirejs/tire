@@ -48,6 +48,17 @@ tire.fn.extend({
   },
 
   /**
+   * Retrieve the DOM elements matched by the tire object.
+   *
+   * @param {Integer} index
+   * @return {object}
+   */
+
+  get: function (index) {
+    return index === undefined ? slice.call(this) : this[index >= 0 ? index : index + this.length];
+  },
+
+  /**
    * Clone elements
    *
    * @return {Object}
