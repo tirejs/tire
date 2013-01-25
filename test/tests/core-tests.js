@@ -300,6 +300,10 @@ test('not', function () {
   ok($('div').not('.test') !== $('div'), false, 'Should not be equal to div after removing element with not');
 });
 
+test('clone', function () {
+  ok($('.test').clone().text('clone') !== $('.test').text(), true, 'Should return length two for cloned div');
+});
+
 module('Tire events.js');
 
 test('Should add event with on and trigger', function () {

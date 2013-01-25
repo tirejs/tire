@@ -45,5 +45,19 @@ tire.fn.extend({
   
   eq: function (index) {
     return index === -1 ? tire(slice.call(this, this.length -1)) : tire(slice.call(this, index, index + 1));
+  },
+
+  /**
+   * Clone elements
+   *
+   * @return {Object}
+   */
+
+  clone: function () {
+    var res = [];
+    this.each(function () {
+      res.push(this.cloneNode(true));
+    });
+    return tire(res);
   }
 });
