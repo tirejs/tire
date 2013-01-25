@@ -48,7 +48,7 @@ Please do not hotlink directly to the files hosted on [code.tirejs.com](http://c
 
 This function is used to create Tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors, but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
 
-The function will take two parameters, the first is a selector and the second is the context where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
+The function will take two parameters, the first is a selector and the second is the context (or attribute object) where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
 
 ```javascript
 $('#foo') // returns the element with the id foo
@@ -66,6 +66,8 @@ $('a, div') // returns all a and div elements;
 $('ul li') // returns all li elements that are inside an ul tag.
 
 $('ol > li') // the same as above but for ol tag.
+
+$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag.
 ```
 
 If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
@@ -92,35 +94,47 @@ $.each({ hello: 'world' }, function (key, value) {
 
 Extends target with members of other objects.
 
-### $.isArr
+### $.isArray
 
-<span class="us">$.isArr(object)</span> <span class="re">boolean</span>
+<span class="us">$.isArray(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is an array.
+Returns true if the given object is an array. (Before 1.1.0 the name was $.isArray)
 
-### $.isFun
+### $.isFunction
 
-<span class="us">$.isFun(object)</span> <span class="re">boolean</span>
+<span class="us">$.isFunction(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a function.
+Returns true if the given object is a function. (Before 1.1.0 the name was $.isFun)
 
-### $.isNum
+### $.isNumber
 
-<span class="us">$.isNum(object)</span> <span class="re">boolean</span>
+<span class="us">$.isNumber(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a number.
+Returns true if the given object is a number. (Before 1.1.0 the name was $.isNum)
 
-### $.isObj
+### $.isString
 
-<span class="us">$.isObj(object)</span> <span class="re">boolean</span>
+<span class="us">$.isString(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is an object.
+Returns true if the given object is a string. (Before 1.1.0 the name was $.isStr)
 
-### $.isStr
+### $.isObject
 
-<span class="us">$.isStr(object)</span> <span class="re">boolean</span>
+<span class="us">$.isObject(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a string.
+Returns true if the given object is an object. (Before 1.1.0 the name was $.isObj)
+
+## $.isPlainObject
+
+<span class="us">$.isPlainObject(object)</span> <span class="re">boolean</span>
+
+Returns true if the given object is a plain object.
+
+## $.isWindow
+
+<span class="us">$.isWindow(object)</span> <span class="re">boolean</span>
+
+Returns true if the given object is the window object.
 
 ### $.matches
 
@@ -180,7 +194,12 @@ Append html to the DOM inside each element in the collection. The html can be a 
 
 <span class="us">.attr(name [, value])</span> <span class="re">value or Tire</span>
 
-Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection.
+Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection. The first argument of `.attr` can be an object containing all attributes.
+
+```javascript
+$('<a />').attr('href', '#');
+$('<a />').attr({ href: '#' });
+```
 
 ### before
 
