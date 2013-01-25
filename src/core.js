@@ -304,7 +304,7 @@ tire.extend({
    * @return {Boolean}
    */
 
-  isNumber: function (obj) {
+  isNumeric: function (obj) {
     return typeof obj === 'number';
   },
 

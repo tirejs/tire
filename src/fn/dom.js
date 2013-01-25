@@ -167,7 +167,7 @@ tire.fn.extend({
           return;
         } else if (value === null || value === undefined) {
           value = '';
-        } else if (tire.isNumber(value)) {
+        } else if (tire.isNumeric(value)) {
           value += '';
         }
         this.value = value;

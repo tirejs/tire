@@ -106,9 +106,9 @@ Returns true if the given object is an array. (Before 1.1.0 the name was $.isArr
 
 Returns true if the given object is a function. (Before 1.1.0 the name was $.isFun)
 
-### $.isNumber
+### $.isNumeric
 
-<span class="us">$.isNumber(object)</span> <span class="re">boolean</span>
+<span class="us">$.isNumeric(object)</span> <span class="re">boolean</span>
 
 Returns true if the given object is a number. (Before 1.1.0 the name was $.isNum)
 

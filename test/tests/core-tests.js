@@ -2,35 +2,50 @@ module('Tire core.js');
 
 test('isFunction', function () {
   ok($.isFunction(function () {}), 'Should return true for function');
+  ok(!$.isFunction(null), 'Should return false for null');
+  ok(!$.isFunction(undefined), 'Should return false for undefined');
 });
 
 test('isNumber', function () {
-  ok($.isNumber(2), 'Should return true for number');
+  ok($.isNumeric(2), 'Should return true for number');
+  ok(!$.isNumeric(null), 'Should return false for null');
+  ok(!$.isNumeric(undefined), 'Should return falase for undefined');
 });
 
 test('isObject', function () {
   ok($.isObject({ 'a': 'b' }), 'Should return true for object');
   ok(!$.isObject([]), 'Should return false for array');
+  ok(!$.isObject(null), 'Should return false null');
+  ok(!$.isObject(undefined), 'Should return false for undefined');
+  ok(!$.isObject(window), 'Should return false for window');
 });
 
 test('isString', function () {
   ok($.isString('tire'), 'Should return true for string');
+  ok(!$.isString(null), 'Should return false for null');
+  ok(!$.isString(undefined), 'Should return false for undefined');
 });
 
 test('isArray', function () {
   ok($.isArray([]), 'Should return true for array');
   ok(!$.isArray({}), 'Should return false for object');
+  ok(!$.isArray(null), 'Should return false for null');
+  ok(!$.isArray(undefined), 'Should return false for undefined');
 });
 
 test('isPlainObject', function () {
   ok($.isPlainObject({}), 'Should return true for object');
   ok(!$.isPlainObject(window), 'Should return false for window');
   ok(!$.isPlainObject(document), 'Should return false for document');
+  ok(!$.isPlainObject(null), 'Should return false for null');
+  ok(!$.isPlainObject(undefined), 'Should return false for undefined');
 });
 
 test('isWindow', function () {
   ok($.isWindow(window), 'Should return true for window');
   ok(!$.isWindow(document), 'Should return false for object');
+  ok(!$.isWindow(null), 'Should return false for null');
+  ok(!$.isWindow(undefined), 'Should return false for undefined');
 });
 
 test('parseJSON', function () {

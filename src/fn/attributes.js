@@ -101,7 +101,7 @@ tire.fn.extend({
           this.setAttribute(key, name[key]);
         }
       });
-    } else if (value && (tire.isString(value) || tire.isNumber(value))) {
+    } else if (value && (tire.isString(value) || tire.isNumeric(value))) {
       return this.each(function () {
         this.setAttribute(name, value);
       });
