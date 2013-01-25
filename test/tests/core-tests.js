@@ -1,29 +1,36 @@
 module('Tire core.js');
 
-test('isFun', function () {
+test('isFunction', function () {
   ok($.isFunction(function () {}), 'Should return true for function');
 });
 
-test('isNum', function () {
+test('isNumber', function () {
   ok($.isNumber(2), 'Should return true for number');
 });
 
-test('isObj', function () {
+test('isObject', function () {
   ok($.isObject({ 'a': 'b' }), 'Should return true for object');
+  ok(!$.isObject([]), 'Should return false for array');
 });
 
-test('isStr', function () {
+test('isString', function () {
   ok($.isString('tire'), 'Should return true for string');
 });
 
-test('isArr', function () {
+test('isArray', function () {
   ok($.isArray([]), 'Should return true for array');
+  ok(!$.isArray({}), 'Should return false for object');
 });
 
-test('isPlainObj', function () {
+test('isPlainObject', function () {
   ok($.isPlainObject({}), 'Should return true for object');
   ok(!$.isPlainObject(window), 'Should return false for window');
   ok(!$.isPlainObject(document), 'Should return false for document');
+});
+
+test('isWindow', function () {
+  ok($.isWindow(window), 'Should return true for window');
+  ok(!$.isWindow(document), 'Should return false for object');
 });
 
 test('parseJSON', function () {
