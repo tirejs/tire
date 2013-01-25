@@ -213,6 +213,12 @@ Add html to the DOM before each element in the collection. The html can be a HTM
 
 Get immediate children of each element in the current collection. If a selector is given, it filters the results to only include the ones matching the CSS selector.
 
+### clone
+
+<span class="us">.clone()</span> <span class="re">Tire</span>
+
+Duplicate all elements in the Tire collection via deep clone. This method doesn't have an option for copying data and event handlers over to the new elements, as it has in jQuery.
+
 ### closest
 
 <span class="us">.closest(selector [, context])</span> <span class="re">Tire</span>
@@ -284,6 +290,12 @@ $('div').filter('.wrapper'); // Returns all elements with CSS class name .wrappe
 <span class="us">.find(selector)</span> <span class="re">Tire</span>
 
 Find elements that match a CSS selector executed in the scope of nodes in the current collection.
+
+### get
+
+<span class="us">.get(index)</span> <span class="re">DOM element</span>
+
+Retrieve the DOM elements matched by the Tire object.
 
 ### hasClass
 
