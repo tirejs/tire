@@ -316,7 +316,7 @@ tire.extend({
    */
 
   isObject: function (obj) {
-    return obj instanceof Object && !this.isArray(obj) && !this.isFunction(obj);
+    return obj instanceof Object && !this.isArray(obj) && !this.isFunction(obj) && !this.isWindow(obj);
   },
   
   /**
@@ -343,7 +343,7 @@ tire.extend({
    */
 
   isWindow: function (obj) {
-    return obj !== null && (obj === obj.window || 'setInterval' in obj);
+    return (obj !== null && obj !== undefined) && (obj === obj.window || 'setInterval' in obj);
   },
 
   /**
