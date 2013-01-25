@@ -124,13 +124,13 @@ Returns true if the given object is a string. (Before 1.1.0 the name was $.isStr
 
 Returns true if the given object is an object. (Before 1.1.0 the name was $.isObj)
 
-## $.isPlainObject
+### $.isPlainObject
 
 <span class="us">$.isPlainObject(object)</span> <span class="re">boolean</span>
 
 Returns true if the given object is a plain object.
 
-## $.isWindow
+### $.isWindow
 
 <span class="us">$.isWindow(object)</span> <span class="re">boolean</span>
 
