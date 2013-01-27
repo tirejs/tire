@@ -29,7 +29,7 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.0.2
+Current release: 1.0.3
 
 * [tire.js](http://code.tirejs.com/dist/tire.js) - _32kB uncompressed, for development_
 * [tire.min.js](http://code.tirejs.com/dist/tire.min.js) - _4.1kB when gzipped, for production_
@@ -449,6 +449,7 @@ $('a').trigger('click');
 
 ## Changelog
 
+* 1.0.3 - Fixed issue with jsonp callback name.
 * 1.0.2 - Fixed so context for `$()` and `$().find()` works.
 * 1.0.1 - Fixed so domready is returned when using `$()`. Added so tire object is passed into the domready callback.
 * 1.0 - First stabel release
