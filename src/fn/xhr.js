@@ -1,6 +1,6 @@
 /**
  * Create a JSONP request
- * 
+ *
  * @param {String} url
  * @param {Object} options
  */
@@ -101,7 +101,7 @@ tire.fn.extend({
     
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
-      if (/\=\?/.test(url)) url = (url + '&callback=?').replace(/[&?]{1,2}/, '?');
+      if (/\=\?/.test(url)) url = url.replace(/[&?]{1,2}/, '?');
       ajaxJSONP(url, options);
       return this;
     }
@@ -140,7 +140,7 @@ tire.fn.extend({
       };
       
       xhr.send(tire.param(params));
-    } 
+    }
 
     return this;
   }
@@ -152,7 +152,7 @@ tire.extend({
   /**
    * Create a serialized representation of an array or object.
    *
-   * @param {Array|Object} obj 
+   * @param {Array|Object} obj
    * @param {Obj} prefix
    * @return {String}
    */
@@ -163,6 +163,6 @@ tire.extend({
       var k = prefix ? prefix + '[' + p + ']' : p;
       str.push(tire.isObj(v) ? tire.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
     });
-    return str.join('&').replace('%20', '+');   
+    return str.join('&').replace('%20', '+');
   }
 });

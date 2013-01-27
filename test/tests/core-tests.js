@@ -82,7 +82,7 @@ test('Empty selectors', function () {
   elm = $(null);
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $("");
-  equal(elm.length, 0, 'Should return length 0 for non-existing elements');  
+  equal(elm.length, 0, 'Should return length 0 for non-existing elements');
 });
 
 module('Tire dom.js', {
@@ -154,7 +154,7 @@ test('after', function () {
   elm = $('.html')[0];
   // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
   var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
-  equal(result, 'after', 'Should return inner html for element');  
+  equal(result, 'after', 'Should return inner html for element');
 });
 
 test('remove', function () {
@@ -320,10 +320,10 @@ test('get json', function () {
 
 test('get jsonp', function () {
   stop();
-  $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
+  $.ajax('http://echojson.com/hello/world?callback=?', function (data) {
     start();
     ok(data instanceof Object, true, 'Should return true if data is a instance of object');
-  }); 
+  });
 });
 
 test('ajax post', function () {
