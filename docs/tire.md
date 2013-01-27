@@ -386,7 +386,7 @@ Options
 Options like `async, global, context` and `timeout` isn't supported. `timeout` will be supported later and maybe `context`.
 
 ```javascript
-$.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
+$.ajax('http://echojson.com/hello/world?callback=?', function (data) {
   console.log('Hello %s!', data.hello); 
 });
 ```
