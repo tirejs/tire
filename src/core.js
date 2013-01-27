@@ -88,7 +88,7 @@ tire.fn = tire.prototype = {
     
     if (tire.isStr(selector)) {
       this.selector = selector;
-      if (idExp.test(selector) && context.nodeType == context.DOCUMENT_NODE) {
+      if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
         elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         elms = [];
