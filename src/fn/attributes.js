@@ -100,7 +100,7 @@ tire.fn.extend({
         for (var key in name) {
           if (this.setAttribute) {
             // Firefox 3.5 fix "null + '';"
-            this.setAttribute(name, name[key] === null ? name[key] + '' : name[key]);
+            this.setAttribute(key, name[key] === null ? name[key] + '' : name[key]);
           }
         }
       });
