@@ -379,14 +379,6 @@ module('Tire xhr.js', {
   }
 });
 
-test('get json', function () {
-  stop();
-  $.ajax('test.json', function (data) {
-    start();
-    ok(data instanceof Object, true, 'Should return true if data is a instance of object');
-  });
-});
-
 test('get jsonp', function () {
   stop();
   $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
@@ -395,27 +387,37 @@ test('get jsonp', function () {
   });
 });
 
-test('ajax post', function () {
-  stop();
-  $.ajax('ajax_load.html', {
-    type: 'POST',
-    success: function (data) {
+if (window.location.protocol.indexOf('http') !== -1) {
+  test('get json', function () {
+    stop();
+    $.ajax('test.json', function (data) {
       start();
-      equal(data, 'ajax load', 'Should return text');
-    }
+      ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+    });
   });
-});
 
-test('set headers', function () {
-  $.ajax('ajax_load.html', {
-    headers: {
-      'foo': 'bar'
-    }
+  test('ajax post', function () {
+    stop();
+    $.ajax('ajax_load.html', {
+      type: 'POST',
+      success: function (data) {
+        start();
+        equal(data, 'ajax load', 'Should return text');
+      }
+    });
   });
-  equal(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
-});
 
-test('X-Requested-With header should equal XMLHttpRequest', function() {
-  $.ajax('ajax_load.html');
-  equal(window.headers['X-Requested-With'], 'XMLHttpRequest', 'Should set X-Requested-With header to "XMLHttpRequest"');
-});
+  test('set headers', function () {
+    $.ajax('ajax_load.html', {
+      headers: {
+        'foo': 'bar'
+      }
+    });
+    equal(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
+  });
+
+  test('X-Requested-With header should equal XMLHttpRequest', function() {
+    $.ajax('ajax_load.html');
+    equal(window.headers['X-Requested-With'], 'XMLHttpRequest', 'Should set X-Requested-With header to "XMLHttpRequest"');
+  });
+}
