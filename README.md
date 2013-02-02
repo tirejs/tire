@@ -9,7 +9,7 @@ That said, all features can probably be rewritten/extended to add support for ol
 ## Browser support 
 
 * Chrome
-* Safari 4
+* Safari 4.0.5
 * Internet Explorer 8
 * Firefox 3.5
 * Opera 10
@@ -46,7 +46,7 @@ node server.js
 
 Everyone is welcome to contribute with patches, bug-fixes and new features
 
-1. create an [issue](https://github.com/Frozzare/tire/issues) on github so the community can comment on your idea
+1. create an [issue](https://github.com/tirejs/tire/issues) on github so the community can comment on your idea
 2. fork `tire` in github
 3. create a new branch `git checkout -b my_branch`
 4. create tests for the changes you made

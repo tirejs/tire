@@ -381,7 +381,12 @@ module('Tire xhr.js', {
 
 test('get jsonp', function () {
   stop();
-  $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (data) {
+  $.ajax('http://echojson.com/hello/world?callback=?&history=false', function (data) {
+    start();
+    ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+  });
+  stop();
+  $.ajax({ url: 'http://echojson.com/hello/world?callback=?&history=false', dataType: 'jsonp' }, function (data) {
     start();
     ok(data instanceof Object, true, 'Should return true if data is a instance of object');
   });
