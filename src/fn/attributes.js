@@ -1,11 +1,11 @@
 tire.fn.extend({
-  
+
   /**
    * Add classes to element collection
    *
    * @param {String} value
    */
-  
+
   addClass: function (value) {
     if (value && tire.isString(value)) {
       return this.each(function (elm) {
@@ -15,26 +15,26 @@ tire.fn.extend({
             elm.className = value;
           } else {
             var className = elm.className;
-       
+
             for (var i = 0; i < classNames.length; i++) {
               if (className.indexOf(classNames[i]) === -1) {
                 className += ' ' + classNames[i];
               }
             }
-         
+
             elm.className = tire.trim(className);
           }
         }
       });
     }
   },
-  
+
   /**
    * Remove classes from element collection
    *
    * @param {String} value
    */
-  
+
   removeClass: function (value) {
     return this.each(function (elm) {
       if (value && tire.isString(value)) {
@@ -47,9 +47,9 @@ tire.fn.extend({
               elm.className = elm.className.replace(classNames[i], '');
             }
           }
-  
+
           elm.className = tire.trim(elm.className.replace(/\s{2}/g, ' '));
-  
+
           if (elm.className === '') {
             elm.removeAttribute('class');
           }
@@ -57,19 +57,19 @@ tire.fn.extend({
       }
     });
   },
-  
+
   /**
    * Check if the first element in the collection has classes
    *
    * @param {String} value
    * @return {Boolean}
    */
-  
+
   hasClass: function (value) {
     var classNames = (this[0] ? this[0] : this).className.split(/\s+/)
       , values = value.split(/\s+/)
       , i = 0;
-  
+
     if (values.length > 1) {
       var hasClasses = false;
       for (i = 0; i < values.length; i++) {
@@ -83,7 +83,7 @@ tire.fn.extend({
       return false;
     }
   },
-  
+
   /**
    * Get attribute from element
    * Set attribute to element collection
@@ -93,7 +93,7 @@ tire.fn.extend({
    *
    * @return {Object|String}
    */
-  
+
   attr: function (name, value) {
     if (tire.isObject(name)) {
       return this.each(function () {
@@ -117,7 +117,20 @@ tire.fn.extend({
       return attribute;
     }
   },
-  
+
+  /**
+   * Shortcut for data-* attributes.
+   *
+   * @param {String} name
+   * @param {String|Object} value
+   *
+   * @return {Object|String}
+   */
+
+  data: function (name, value) {
+    return this.attr('data-' + name, value);
+  },
+
   /**
    * Remove attributes from element collection
    *
@@ -125,7 +138,7 @@ tire.fn.extend({
    *
    * @return {Object}
    */
-  
+
   removeAttr: function (name) {
     return this.each(function () {
       if (name && this.nodeType === 1) {
