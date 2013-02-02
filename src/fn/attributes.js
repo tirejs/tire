@@ -108,7 +108,7 @@ tire.fn.extend({
     } else if (tire.isString(name)) {
       var attribute;
       for (var i = 0; i < this.length; i++) {
-        if ((attribute = this[i].getAttribute(name)) !== null) {
+        if (this[i].getAttribute !== undefined && (attribute = this[i].getAttribute(name)) !== null) {
           break;
         } else {
           continue;

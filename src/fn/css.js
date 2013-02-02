@@ -24,11 +24,13 @@ tire.fn.extend({
     }
     
     return this.each(function () {
-      if (tire.isString(prop)) {
-        this.style[prop] = value;
-      } else {
-        for (var key in prop) {
-          this.style[key] = prop[key];
+      if (this.style !== undefined) {
+        if (tire.isString(prop)) {
+          this.style[prop] = value;
+        } else {
+          for (var key in prop) {
+            this.style[key] = prop[key];
+          }
         }
       }
     });
@@ -51,7 +53,12 @@ tire.fn.extend({
    */
   
   show: function () {
-    return this.css('display', '');
+    return this.each(function () {
+      if (this.style !== undefined) {
+        if (this.style.display === 'none') this.style.display = null;
+        if (getPropertyValue(this, 'display') === 'none') this.style.display = 'block';
+      }
+    });
   }
 });
 
