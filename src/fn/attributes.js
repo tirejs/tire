@@ -99,14 +99,16 @@ tire.fn.extend({
       return this.each(function () {
         for (var key in name) {
           if (this.setAttribute) {
-            this.setAttribute(key, name[key]);
+            // Firefox 3.5 fix "null + '';"
+            this.setAttribute(name, name[key] === null ? name[key] + '' : name[key]);
           }
         }
       });
     } else if ((value || value === null || value === false) && tire.isString(name)) {
       return this.each(function () {
         if (this.setAttribute) {
-          this.setAttribute(name, value);
+          // Firefox 3.5 fix "null + '';"
+          this.setAttribute(name, value === null ? value + '' : value);
         }
       });
     } else if (tire.isString(name)) {
