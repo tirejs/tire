@@ -33,25 +33,25 @@ var tire = function (selector, context) {
 };
 
 tire.fn = tire.prototype = {
-  
+
   /**
    * Default length is zero
    */
-   
+
   length: 0,
-  
+
   /**
    * Extend `tire.fn`
    *
    * @param {Object} o
    */
-    
+
   extend: function (o) {
     for (var k in o) {
       this[k] = o[k];
     }
   },
-  
+
   /**
    * Find elements by selector
    *
@@ -60,24 +60,24 @@ tire.fn = tire.prototype = {
    *
    * @return {Object}
    */
-  
+
   find: function (selector, context) {
     var elms = [], attrs;
-    
+
     if (!selector) {
       return this;
     }
-    
+
     if (tire.isFunction(selector)) {
       return tire.ready(selector);
     }
-    
+
     if (selector.nodeType) {
       this.selector = '';
       this.context = selector;
       return this.set([selector]);
     }
-    
+
     if (selector.length === 1 && selector[0].nodeType) {
       this.selector = selector.selector;
       this.context = selector[0];
@@ -93,7 +93,7 @@ tire.fn = tire.prototype = {
 
     if (tire.isString(selector)) {
       this.selector = selector;
-      if (idExp.test(selector) && context.nodeType == context.DOCUMENT_NODE) {
+      if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
         elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         elms = [];
@@ -115,7 +115,7 @@ tire.fn = tire.prototype = {
     } else if (tire.isArray(selector)) {
       elms = selector;
     }
-    
+
     if (selector.selector !== undefined) {
       this.selector = selector.selector;
       this.context = selector.context;
@@ -131,14 +131,14 @@ tire.fn = tire.prototype = {
       return attrs && $(this).attr(attrs);
     });
   },
-  
+
   /**
    * Fetch property from elements
    *
    * @param {String} prop
    * @return {Array}
    */
-  
+
   pluck: function (prop) {
     var result = [];
     this.each(function () {
@@ -146,22 +146,22 @@ tire.fn = tire.prototype = {
     });
     return result;
   },
-  
+
   /**
    * Run callback for each element in the collection
    *
    * @param {Function} callback
    * @return {Object}
    */
-  
+
   each: function(target, callback) {
     var i, key;
-    
+
     if (typeof target === 'function') {
       callback = target;
       target = this;
     }
-    
+
     if (target === this || target instanceof Array) {
       for (i = 0; i < target.length; ++i) {
         if (callback.call(target[i], target[i], i, target) === false) break;
@@ -171,17 +171,17 @@ tire.fn = tire.prototype = {
         if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
       }
     }
-    
+
     return target;
   },
-  
+
   /**
    * Set elements to tire object before returning `this`
    *
    * @param {Array} elements
    * @return {Object}
    */
-  
+
   set: function (elements) {
     var i = 0;
     for (; i < elements.length; i++) {
@@ -220,7 +220,7 @@ tire.extend({
 
   // We sould be able to use slice outside
   slice: slice,
-  
+
   // We sould be able to use each outside
   each: tire.fn.each,
 
@@ -260,7 +260,7 @@ tire.extend({
         if (nodes[i] === element) return true;
       }
     }
-    
+
     return false;
   },
 
@@ -318,7 +318,7 @@ tire.extend({
   isObject: function (obj) {
     return obj instanceof Object && !this.isArray(obj) && !this.isFunction(obj) && !this.isWindow(obj);
   },
-  
+
   /**
    * Check if `obj` is a plain object
    *
@@ -363,7 +363,7 @@ tire.extend({
     if (window.JSON && window.JSON.parse) {
       return window.JSON.parse(str);
     }
-   
+
     // Solution to fix JSON parse support for older browser. Not so nice but it works.
     try { return (new Function('return ' + str))(); }
     catch (e) { return null; }
