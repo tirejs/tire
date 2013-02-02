@@ -67,7 +67,7 @@ $('ul li') // returns all li elements that are inside an ul tag.
 
 $('ol > li') // the same as above but for ol tag.
 
-$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag.
+$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag (1.1.0+).
 ```
 
 If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
@@ -194,7 +194,7 @@ Append html to the DOM inside each element in the collection. The html can be a 
 
 <span class="us">.attr(name [, value])</span> <span class="re">value or Tire</span>
 
-Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection. The first argument of `.attr` can be an object containing all attributes.
+Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection. The first argument of `.attr` can be an object containing all attributes (1.1.0+).
 
 ```javascript
 $('<a />').attr('href', '#');
@@ -217,7 +217,7 @@ Get immediate children of each element in the current collection. If a selector 
 
 <span class="us">.clone()</span> <span class="re">Tire</span>
 
-Duplicate all elements in the Tire collection via deep clone. This method doesn't have an option for copying data and event handlers over to the new elements, as it has in jQuery.
+(1.1.0+) Duplicate all elements in the Tire collection via deep clone. This method doesn't have an option for copying data and event handlers over to the new elements, as it has in jQuery.
 
 ### closest
 
@@ -295,7 +295,7 @@ Find elements that match a CSS selector executed in the scope of nodes in the cu
 
 <span class="us">.get(index)</span> <span class="re">DOM element</span>
 
-Retrieve the DOM elements matched by the Tire object.
+(1.1.0+) Retrieve the DOM elements matched by the Tire object.
 
 ### hasClass
 
@@ -480,6 +480,7 @@ $('a').trigger('click');
 
 ## Changelog
 
+* 1.1 - `$(selector, attributes)` and `$().attr(object)` works. Adding `$().clone()`, `$().get()`, `$.isWindow` and `$.isPlainObject`. Renamed $.isFun to $.isFunction and so for each type check functions.
 * 1.0.2 - Fixed so context for `$()` and `$().find()` works.
 * 1.0.1 - Fixed so domready is returned when using `$()`. Added so tire object is passed into the domready callback.
 * 1.0 - First stabel release
