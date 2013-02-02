@@ -98,12 +98,16 @@ tire.fn.extend({
     if (tire.isObject(name)) {
       return this.each(function () {
         for (var key in name) {
-          this.setAttribute(key, name[key]);
+          if (this.setAttribute) {
+            this.setAttribute(key, name[key]);
+          }
         }
       });
-    } else if (value && (tire.isString(value) || tire.isNumeric(value))) {
+    } else if ((value || value === null || value === false) && tire.isString(name)) {
       return this.each(function () {
-        this.setAttribute(name, value);
+        if (this.setAttribute) {
+          this.setAttribute(name, value);
+        }
       });
     } else if (tire.isString(name)) {
       var attribute;
@@ -128,7 +132,8 @@ tire.fn.extend({
    */
 
   data: function (name, value) {
-    return this.attr('data-' + name, value);
+    value = this.attr('data-' + name, seralizeValue(value));
+    return value instanceof tire ? value : deseralizeValue(value);
   },
 
   /**
@@ -150,3 +155,39 @@ tire.fn.extend({
     });
   }
 });
+
+/**
+ * Serialize value into string
+ *
+ * @param {Object} value
+ *
+ * @return {String}
+ */
+
+function seralizeValue (value) {
+  try {
+    return value ? (tire.isPlainObject(value) || tire.isArray(value)) &&
+    JSON.stringify ? JSON.stringify(value) : value : value;
+  } catch (e) {
+    return value;
+  }
+}
+
+/**
+ * Deserialize value from string to true, false, null, number, object or array.
+ *
+ * @param {String} value
+ *
+ * @return {Object}
+ */
+
+function deseralizeValue (value) {
+  var num;
+  try {
+    return value ? value === 'true' || (value === 'false' ? false :
+    value === 'null' ? null : !isNaN(num = Number(value)) ? num :
+    /^[\[\{]/.test(value) ? tire.parseJSON(value) : value) : value;
+  } catch (e) {
+    return value;
+  }
+}

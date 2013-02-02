@@ -231,6 +231,12 @@ Get the first element that matches the selector, beginning at the current elemen
 
 Read or set CSS properties on DOM elements. When no value is given it will read specified CSS property from the first element and return the value of it. When a value is given, it sets the property to that value on each element in the collection.
 
+### data
+
+<span class="us">.data(name [, value])</span> <span class="re">value or Tire</span>
+
+Works just like `.attr(name [, value])` but only for `data-*` attributes. This implementation only stores strings.
+
 ### each
 
 <span class="us">.each(callback)</span> <span class="re">Tire</span>

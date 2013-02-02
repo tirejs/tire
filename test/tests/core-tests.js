@@ -267,7 +267,24 @@ test('attr', function () {
   $('.test').attr({ rel: 'tire' });
   equal($('.test').attr('rel'), 'tire', 'Should add attribute to element via object');
   $('.test', { rel: 'wip' });
-  equal($('.test').attr('rel'), 'wip', 'Should add attribute via second argument in dollar/find function')
+  equal($('.test').attr('rel'), 'wip', 'Should add attribute via second argument in dollar/find function');
+  ok($('.test').attr('tire', 1) instanceof tire, 'Should return tire object when setting the value');
+});
+
+test('data', function () {
+  $('.test').data('object', { a: 1, b: 2, c: 3 });
+  ok($('.test').data('object') instanceof Object, 'Should convert seralize object into object');
+  $('.test').data('array', [1, 2, 3]);
+  ok($('.test').data('array') instanceof Array, 'Should convert seralized array into array');
+  $('.test').data('true', true);
+  equal($('.test').data('true'), true, 'Should convert "true" into true');
+  $('.test').data('false', false);
+  equal($('.test').data('false'), false, 'Should convert "false" into false');
+  $('.test').data('null', null);
+  equal($('.test').data('null'), null, 'Should convert "null" into null');
+  $('.test').data('number', 1);
+  equal($('.test').data('number'), 1, 'Should convert "1" into 1');
+  ok($('.test').data('tire', 1) instanceof tire, 'Should return tire object when setting the value');
 });
 
 test('removeAttr', function () {
@@ -352,9 +369,9 @@ test('Should be able to unbind specific events using', function () {
 module('Tire xhr.js', {
   setup: function () {
     var srh = XMLHttpRequest.prototype.setRequestHeader;
-    
+
     window.headers = {};
-    
+
     XMLHttpRequest.prototype.setRequestHeader = function (key, val) {
         window.headers[key] = val;
         srh.call(this, key, val);
