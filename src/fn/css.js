@@ -1,5 +1,5 @@
 tire.fn.extend({
-  
+
   /**
    * Get css property
    * Set css properties
@@ -17,12 +17,12 @@ tire.fn.extend({
    * @param {String} value
    * @return {String|Object}
    */
-  
+
   css: function (prop, value) {
     if (tire.isString(prop) && value === undefined) {
       return this.length > 0 ? getPropertyValue(this[0], prop) : undefined;
     }
-    
+
     return this.each(function () {
       if (this.style !== undefined) {
         if (tire.isString(prop)) {
@@ -35,27 +35,29 @@ tire.fn.extend({
       }
     });
   },
-  
+
   /**
    * Hide elements in collection
    *
    * @return {Object}
    */
-  
+
   hide: function () {
     return this.css('display', 'none');
   },
-  
+
   /**
    * Show elements in collection
    *
    * @return {Object}
    */
-  
+
   show: function () {
     return this.each(function () {
       if (this.style !== undefined) {
-        if (this.style.display === 'none') this.style.display = null;
+        try { // This don't work in IE8.
+          if (this.style.display === 'none') this.style.display = null;
+        } catch (e) {}
         if (getPropertyValue(this, 'display') === 'none') this.style.display = 'block';
       }
     });
