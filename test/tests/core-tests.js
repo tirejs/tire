@@ -392,7 +392,7 @@ test('get jsonp', function () {
   });
 });
 
-if (window.location.protocol.indexOf('http') !== -1) {
+if (window.location.protocol.indexOf('http') !== -1 || window.location.search.indexOf('ajax=false') !== -1) {
   test('get json', function () {
     stop();
     $.ajax('test.json', function (data) {

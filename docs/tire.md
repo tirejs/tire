@@ -12,7 +12,7 @@ To offer a more lightweight alternative to libraries such as jQuery, Prototype a
 ## Browser support
 
 * Chrome
-* Safari 4
+* Safari 4.0.5
 * Internet Explorer 8
 * Firefox 3.5
 * Opera 10
