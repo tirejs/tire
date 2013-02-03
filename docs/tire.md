@@ -239,6 +239,19 @@ Read or set CSS properties on DOM elements. When no value is given it will read 
 
 Works just like `.attr(name [, value])` but only for `data-*` attributes. This implementation only stores strings. 
 
+When setting data:
+
+* Objects and arrays will be converted to JSON strings.
+* Numbers, boolean and null will be converted to strings.
+
+When reading data:
+
+* "true" will be converted to true.
+* "false" will be converted to false.
+* "null" will be converted to null.
+* JSON strings will be converted to objects or arrays.
+* String numbers will be converted to numbers.
+
 ### each
 
 <span class="us">.each(callback)</span> <span class="re">Tire</span>
@@ -490,9 +503,18 @@ $('a').trigger('click');
 
 ##### 1.1.0
 
-* `$(selector, attributes)` and `$().attr(object)` works. 
-* Adding `$().clone()`, `$().get()`, `$().data()`, `$.isWindow` and `$.isPlainObject`. 
-* Renamed $.isFun to $.isFunction and so for each type check functions. Bug fixes.
+* `$(selector, attributes)` and `$().attr(object)` works.
+* Added `$().clone()`.
+* Added `$().get()`.
+* Added `$().data()`.
+* Added `$.isWindow`.
+* Added `$.isPlainObject`.
+* Renamed `$.isFun` to `$.isFunction`.
+* Renamed `$.isArr` to `$.isArray`.
+* Renamed `$.isObj` to `$.isObject`.
+* Renamed `$.isStr` to `$.isString`.
+* Renamed `$.isNum` to `$.isNumeric`.
+* Bug fixes.
 
 ##### 1.0.2
 
