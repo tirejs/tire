@@ -134,8 +134,8 @@ tire.fn.extend({
    */
 
   data: function (name, value) {
-    value = this.attr('data-' + name, seralizeValue(value));
-    return value instanceof tire ? value : deseralizeValue(value);
+    value = this.attr('data-' + name, serializeValue(value));
+    return value instanceof tire ? value : deserializeValue(value);
   },
 
   /**
@@ -166,7 +166,7 @@ tire.fn.extend({
  * @return {String}
  */
 
-function seralizeValue (value) {
+function serializeValue (value) {
   try {
     return value ? (tire.isPlainObject(value) || tire.isArray(value)) &&
     JSON.stringify ? JSON.stringify(value) : value : value;
@@ -183,7 +183,7 @@ function seralizeValue (value) {
  * @return {Object}
  */
 
-function deseralizeValue (value) {
+function deserializeValue (value) {
   var num;
   try {
     return value ? value === 'true' || (value === 'false' ? false :
