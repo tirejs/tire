@@ -318,6 +318,12 @@ Find elements that match a CSS selector executed in the scope of nodes in the cu
 
 Retrieve the DOM elements matched by the Tire object.
 
+```javascript
+$('div').get(0) // returns the first div tag
+
+$('div').get() // returns an array with all the div tags
+```
+
 ### hasClass
 
 <span class="us">.hasClass(name)</span> <span class="re">boolean</span>
