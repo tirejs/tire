@@ -29,7 +29,7 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.0.3
+Current release: 1.1.0
 
 * [tire.js](http://code.tirejs.com/dist/tire.js) - _35kB uncompressed (lots of comments), for development_
 * [tire.min.js](http://code.tirejs.com/dist/tire.min.js) - _4.5kB when gzipped, for production_
