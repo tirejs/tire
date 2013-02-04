@@ -504,9 +504,9 @@ $('a').trigger('click');
 ##### 1.1.0
 
 * `$(selector, attributes)` and `$().attr(object)` works.
-* Added `$().clone()`.
-* Added `$().get()`.
-* Added `$().data()`.
+* Added .clone()
+* Added .get(index)
+* Added .data(name [, value])
 * Added `$.isWindow`.
 * Added `$.isPlainObject`.
 * Renamed `$.isFun` to `$.isFunction`.
