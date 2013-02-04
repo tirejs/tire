@@ -385,11 +385,11 @@ if (window.location.protocol.indexOf('http') !== -1 && window.location.search.in
     $.ajax('http://echojson.com/hello/world?callback=?&history=false', function (data) {
       start();
       ok(data instanceof Object, true, 'Should return true if data is a instance of object');
-    });
-    stop();
-    $.ajax({ url: 'http://echojson.com/hello/world?callback=?&history=false', dataType: 'jsonp' }, function (data) {
-      start();
-      ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+      stop();
+      $.ajax({ url: 'http://echojson.com/hello/world?callback=?&history=false', dataType: 'jsonp' }, function (data) {
+        start();
+        ok(data instanceof Object, true, 'Should return true if data is a instance of object');
+      });
     });
   });
 
