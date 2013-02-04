@@ -67,7 +67,7 @@ $('ul li') // returns all li elements that are inside an ul tag.
 
 $('ol > li') // the same as above but for ol tag.
 
-$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag <span class="version">(1.1.0+)</span>.
+$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag (1.1.0+).
 ```
 
 If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
