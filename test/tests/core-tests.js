@@ -113,7 +113,7 @@ test('Empty selectors', function () {
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $(null);
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
-  elm = $('');
+  elm = $("");
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
 });
 
