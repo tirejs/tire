@@ -22,21 +22,21 @@ Tire may work in older browsers but is not tested in older than the above.
 ## Build
 
 ```sh
-npm install -g grunt
+npm install
 make
 ```
 
 On Windows
   
 ```sh
-npm install -g grunt
+npm install
 grunt.cmd
 ```
 
 ## Test
 
 Install `connect` via `npm` and start the server. This will create a local server (on port 3000) so the ajax tests don't failes.
-Be sure to build tire first or all tests will fail!
+Be sure to build tire first or all tests will fail! Then you can open `http://localhost:3000/` in your browser to run the tests.
 
 ```sh
 npm install
