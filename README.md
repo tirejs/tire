@@ -63,4 +63,4 @@ Everyone is welcome to contribute with patches, bug-fixes and new features
 5. make sure you pass both existing and newly inserted tests
 6. commit your changes
 7. push to your branch `git push origin my_branch`
-8. create a pull request
+8. create a pull request against `*-wip` branches
