@@ -164,7 +164,7 @@ tire.fn = tire.prototype = {
 
     if (target === this || target instanceof Array) {
       for (i = 0; i < target.length; ++i) {
-        if (callback.call(target[i], target[i], i, target) === false) break;
+        if (callback.call(target[i], i, target[i], target) === false) break;
       }
     } else {
       for (key in target) {
@@ -205,7 +205,7 @@ tire.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  tire.fn.each(slice.call(arguments), function (value) {
+  tire.fn.each(slice.call(arguments), function (index, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }

@@ -8,7 +8,7 @@ tire.fn.extend({
 
   addClass: function (value) {
     if (value && tire.isString(value)) {
-      return this.each(function (elm) {
+      return this.each(function (index, elm) {
         if (elm.nodeType === 1) {
           var classNames = value.split(/\s+/);
           if (!elm.className && classNames.length === 1) {
@@ -36,7 +36,7 @@ tire.fn.extend({
    */
 
   removeClass: function (value) {
-    return this.each(function (elm) {
+    return this.each(function (index, elm) {
       if (value && tire.isString(value)) {
         var classNames = value.split(/\s+/);
         if (elm.nodeType === 1 && elm.className) {
