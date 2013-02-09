@@ -48,6 +48,16 @@ test('isWindow', function () {
   ok(!$.isWindow(undefined), 'Should return false for undefined');
 });
 
+test('each', function () {
+  expect(6);
+  var array = ['foo', 'foo'];
+  $.each(array, function(index, element, array){
+    ok(+index === index, true, 'Should return true if 1st param is the index');
+    ok(element === 'foo', true, 'Should return true if 2nd param is the element of the array');
+    ok(array instanceof Array, true, 'Should return true if 3rd param is array');
+  });
+});
+
 test('parseJSON', function () {
   ok(!!($.parseJSON('{"a":"b"}') instanceof Object || !null), true, 'Should parse JSON string to object or return empty string');
 });
@@ -248,9 +258,11 @@ module('Tire attributes.js', {
 });
 
 test('addClass', function () {
+  expect(2);
   $('.test').addClass('dustin');
   equal($('.test').hasClass('dustin'), true, 'Should return true if the element has the class after adding it');
   $('.test').addClass('item-1 item-2 item-3');
+  equal($('.test').attr('class'), 'test dustin item-1 item-2 item-3', 'Should return classes');
 });
 
 test('removeClass', function () {
@@ -379,7 +391,7 @@ if (window.location.protocol.indexOf('http') !== -1 && window.location.search.in
       }
     }
   });
-  
+
   test('get jsonp', function () {
     stop();
     $.ajax('http://echojson.com/hello/world?callback=?&history=false', function (data) {

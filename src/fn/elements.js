@@ -1,16 +1,16 @@
 tire.fn.extend({
-  
+
   /**
    * Filter element collection
    *
    * @param {String|Function} obj
    * @return {Object}
    */
-  
+
   filter: function (obj) {
     if (tire.isFunction(obj)) {
       var elements = [];
-      this.each(function (elm, index) {
+      this.each(function (index, elm) {
         if (obj.call(elm, index)) {
           elements.push(elm);
         }
@@ -22,27 +22,27 @@ tire.fn.extend({
       });
     }
   },
-  
+
   /**
    * Get elements in list but not with this selector
    *
    * @param {String} selector
    * @return {Object}
    */
-  
+
   not: function (selector) {
     return this.filter(function () {
       return !tire.matches(this, selector);
     });
   },
-  
+
   /**
    * Get the element at position specified by index from the current collection.
    *
    * @param {Integer} index
    * @return {Object}
    */
-  
+
   eq: function (index) {
     return index === -1 ? tire(slice.call(this, this.length -1)) : tire(slice.call(this, index, index + 1));
   },
