@@ -1,3 +1,5 @@
+![tire-logo](http://static.forsmo.me/tire/logo/tire.js-100x100.png)
+
 Tire [![Build Status](https://travis-ci.org/tirejs/tire.png?branch=master)](https://travis-ci.org/tirejs/tire)
 ========
 
