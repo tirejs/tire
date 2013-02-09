@@ -54,13 +54,19 @@ node server.js
   
 ## Contribute
 
-Everyone is welcome to contribute with patches, bug-fixes and new features
+Everyone is welcome to contribute with patches, bug-fixes and new features.
 
-1. create an [issue](https://github.com/tirejs/tire/issues) on github so the community can comment on your idea
-2. fork `tire` in github
-3. create a new branch `git checkout -b my_branch`
-4. create tests for the changes you made
-5. make sure you pass both existing and newly inserted tests
-6. commit your changes
-7. push to your branch `git push origin my_branch`
-8. create a pull request against `*-wip` branches
+1. Create an [issue](https://github.com/tirejs/tire/issues) on Github so the community can comment on your idea.
+2. Fork `tire` on Github.
+3. Create a new branch: `git checkout -b my_branch`.
+4. Create tests for the changes you made.
+5. Make sure you pass both existing and newly inserted tests.
+6. Commit your changes.
+7. Push to your branch: `git push origin my_branch`.
+8. Create a pull request against `*-wip` branches.
+
+**Note:**
+
+* Please follow the code style in Tire.
+* If you are making several changes at once please divide them into multiple pull requests.
+* Always create the pull request against the `*-wip` branches, not the `master`.
