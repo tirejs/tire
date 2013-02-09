@@ -49,12 +49,11 @@ test('isWindow', function () {
 });
 
 test('each', function () {
-  expect(6);
+  expect(4);
   var array = ['foo', 'foo'];
-  $.each(array, function(index, element, array){
+  $.each(array, function(index, element){
     ok(+index === index, true, 'Should return true if 1st param is the index');
     ok(element === 'foo', true, 'Should return true if 2nd param is the element of the array');
-    ok(array instanceof Array, true, 'Should return true if 3rd param is array');
   });
 });
 

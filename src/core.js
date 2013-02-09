@@ -164,7 +164,7 @@ tire.fn = tire.prototype = {
 
     if (target === this || target instanceof Array) {
       for (i = 0; i < target.length; ++i) {
-        if (callback.call(target[i], i, target[i], target) === false) break;
+        if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
       for (key in target) {
