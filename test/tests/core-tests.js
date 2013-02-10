@@ -6,7 +6,7 @@ test('isFunction', function () {
   ok(!$.isFunction(undefined), 'Should return false for undefined');
 });
 
-test('isNumber', function () {
+test('isNumeric', function () {
   ok($.isNumeric(2), 'Should return true for number');
   ok(!$.isNumeric(null), 'Should return false for null');
   ok(!$.isNumeric(undefined), 'Should return falase for undefined');
@@ -185,17 +185,34 @@ test('append', function () {
   elm = $('.html');
   elm.append('<p>append</p>');
   equal(elm.get(0).childNodes[1].innerHTML, 'append', 'Should return inner html for element');
+  var divs = $(['<div id="1" />', '<div id="2" />']);
+  elm = $('#divs');
+  elm.append(divs);
+  equal(elm.children().length, divs.length, 'Should contains the same count divs as we appended');
 });
 
 test('prepend', function () {
   elm = $('.html');
   elm.prepend('<p>prepend</p>');
   equal(elm.get(0).childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
+  elm = $('#divs');
+  elm.prepend($(['<p>prepend</p>', '<p>prepend2</p>']));
+  // IE 8
+  var text1 = elm.children().get(0).childNodes[0];
+  text1 = text1.textContent === undefined ? text1.toString() : text1.textContent;
+  var text2 = elm.children().get(1).childNodes[0];
+  text2 = text2.textContent === undefined ? text2.toString() : text2.textContent;
+  equal(text1, 'prepend2', 'Should return inner html for element');
+  equal(text2, 'prepend', 'Should return inner html for element');
 });
 
 test('before', function () {
   $('.html').before('<p>before</p>');
   equal($('.html').get(0).previousSibling.innerHTML, 'before', 'Should return inner html for element');
+  var divs = $(['<div id="divs-before1" />', '<div id="divs-before2" />']);
+  elm = $('#divs-before');
+  elm.before(divs);
+  equal(elm.parent().children().length, divs.length+2, 'Should contains the same count divs as we added before, plus two extra for a existing div');
 });
 
 test('after', function () {
@@ -204,6 +221,10 @@ test('after', function () {
   // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
   var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
   equal(result, 'after', 'Should return inner html for element');
+  var divs = $(['<div id="divs-after1" />', '<div id="divs-after2" />']);
+  elm = $('#divs-after');
+  elm.before(divs);
+  equal(elm.parent().children().length, divs.length+4, 'Should contains the same count divs as we added before, plus four extra for a existing div');
 });
 
 test('remove', function () {

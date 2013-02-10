@@ -120,7 +120,7 @@ tire.fn = tire.prototype = {
       this.selector = selector.selector;
       this.context = selector.context;
     } else if (this.context === undefined) {
-      if (elms[0] !== undefined) {
+      if (elms[0] !== undefined && !tire.isString(elms[0])) {
         this.context = elms[0];
       } else {
         this.context = document;

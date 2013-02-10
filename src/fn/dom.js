@@ -203,11 +203,16 @@ tire.fn.extend({
 
     location = location || 'inner';
 
-    if (html instanceof tire) html = html[0];
+    if (html instanceof tire) {
+      var self = this;
+      return html.each(function (index, elm) {
+        self.html.call(self, elm, location);
+      });
+    }
 
     return this.each(function () {
       if (location === 'inner') {
-        if (tire.isString(html) || tire.isNumber(html)) {
+        if (tire.isString(html) || tire.isNumeric(html)) {
           this.innerHTML = html;
         } else {
           this.innerHTML = '';
@@ -250,7 +255,7 @@ tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (index, n
 
 function wrap (html) {
   var elm = document.createElement('div');
-  if (tire.isString(html)) {
+  if (tire.isString(html) || tire.isNumeric(html)) {
     elm.innerHTML = html;
   } else {
     elm.appendChild(html);
