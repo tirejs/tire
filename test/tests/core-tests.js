@@ -202,8 +202,8 @@ test('prepend', function () {
   text1 = text1.textContent === undefined ? text1.toString() : text1.textContent;
   var text2 = elm.children().get(1).childNodes[0];
   text2 = text2.textContent === undefined ? text2.toString() : text2.textContent;
-  equal(text1, 'prepend2', 'Should return inner html for element');
-  equal(text2, 'prepend', 'Should return inner html for element');
+  equal(text1, 'prepend2', 'Should return inner text for element');
+  equal(text2, 'prepend', 'Should return inner text for element');
 });
 
 test('before', function () {
