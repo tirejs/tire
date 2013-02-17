@@ -350,7 +350,7 @@ tire.extend({
    * Parse JSON string to object.
    *
    * @param {String} str
-   * @return {Object|null)
+   * @return {Object|null)
    */
 
   parseJSON: function (str) {

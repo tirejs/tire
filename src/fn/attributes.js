@@ -61,7 +61,7 @@ tire.fn.extend({
   /**
    * Check if the first element in the collection has classes
    *
-   * @param {String} value
+   * @param {String} value
    * @return {Boolean}
    */
 

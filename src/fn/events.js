@@ -119,7 +119,7 @@ tire.fn.extend({
    *
    * @param {String} eventName
    * @param {Function} callback
-   * @return {Object}
+   * @return {Object}
    */
 
   on: function (eventName, callback) {
@@ -136,7 +136,7 @@ tire.fn.extend({
    *
    * @param {String} eventName
    * @param {Function} callback (optional)
-   * @return {Object}
+   * @return {Object}
    */
 
   off: function (eventName, callback) {
