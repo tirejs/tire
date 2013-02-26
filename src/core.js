@@ -1,8 +1,8 @@
 var document   = window.document
   , _tire      = window.tire
   , _$         = window.$
-  , idExp      = /^#/
-  , classExp   = /^\./
+  , idExp      = /^#[\w\-]+$/
+  , classExp   = /^\.[\w\-]+$/
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /<([\w:]+)/
   , slice      = [].slice;
@@ -120,7 +120,7 @@ tire.fn = tire.prototype = {
       this.selector = selector.selector;
       this.context = selector.context;
     } else if (this.context === undefined) {
-      if (elms[0] !== undefined) {
+      if (elms[0] !== undefined && !tire.isString(elms[0])) {
         this.context = elms[0];
       } else {
         this.context = document;
@@ -164,7 +164,7 @@ tire.fn = tire.prototype = {
 
     if (target === this || target instanceof Array) {
       for (i = 0; i < target.length; ++i) {
-        if (callback.call(target[i], target[i], i, target) === false) break;
+        if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
       for (key in target) {
@@ -205,7 +205,7 @@ tire.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  tire.fn.each(slice.call(arguments), function (value) {
+  tire.fn.each(slice.call(arguments), function (index, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }
@@ -350,7 +350,7 @@ tire.extend({
    * Parse JSON string to object.
    *
    * @param {String} str
-   * @return {Object|null)
+   * @return {Object|null}
    */
 
   parseJSON: function (str) {

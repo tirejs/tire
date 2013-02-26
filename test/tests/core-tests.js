@@ -6,7 +6,7 @@ test('isFunction', function () {
   ok(!$.isFunction(undefined), 'Should return false for undefined');
 });
 
-test('isNumber', function () {
+test('isNumeric', function () {
   ok($.isNumeric(2), 'Should return true for number');
   ok(!$.isNumeric(null), 'Should return false for null');
   ok(!$.isNumeric(undefined), 'Should return falase for undefined');
@@ -48,6 +48,15 @@ test('isWindow', function () {
   ok(!$.isWindow(undefined), 'Should return false for undefined');
 });
 
+test('each', function () {
+  expect(4);
+  var array = ['foo', 'foo'];
+  $.each(array, function(index, element){
+    ok(+index === index, true, 'Should return true if 1st param is the index');
+    ok(element === 'foo', true, 'Should return true if 2nd param is the element of the array');
+  });
+});
+
 test('parseJSON', function () {
   ok(!!($.parseJSON('{"a":"b"}') instanceof Object || !null), true, 'Should parse JSON string to object or return empty string');
 });
@@ -75,7 +84,7 @@ test('ID Selector', function () {
 test('Class name Selector', function () {
   expect(3);
   elm = $('.test');
-  equal(elm.length, 1, 'Should return length 1 for existing elements with specified classname');
+  equal(elm.length, 1, 'Should return length 1 for existing elements with specified class name');
   equal(elm.get(0).innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('.donotexists');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
@@ -105,6 +114,26 @@ test('HTML string selector', function () {
   elm = $('<a href="#">Hello, world!</a>');
   equal(elm.length, 1, 'Should return length 1 for existing elements');
   ok(elm.get(0) instanceof HTMLAnchorElement, 'Should be a instance of HTMLAnchorElement');
+});
+
+test('Combined selectors', function () {
+  expect(3);
+  elm = $(document.body).find('.test-area ul');
+  equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (.class tag)');
+  elm = $('div ul');
+  equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (tag tag)');
+  elm = $('#ul, #test-area');
+  deepEqual(Array.prototype.slice.call(elm),
+    [document.getElementById('test-area'), document.getElementById('ul')],
+    'Should be able to find elements by group selector, and preserve document order');
+});
+
+test('Find in context', function () {
+  expect(2);
+  elm = $('body', document.getElementById('test-area'));
+  equal(elm.length, 0, 'Should return length 0 for non-existing elements in the context');
+  elm = $('.test-area', document.getElementById('body'));
+  equal(elm.get(0), document.getElementById('test-area'), 'Should be able to find element by class name');
 });
 
 test('Empty selectors', function () {
@@ -157,7 +186,7 @@ test('val', function () {
   elm.val('test text');
   equal(elm.val(), 'test text', 'Should return value of input element');
   elm.val(undefined);
-  equal(elm.val(), '', 'Should return empty value of input element with undefiend argument');
+  equal(elm.val(), '', 'Should return empty value of input element with undefined argument');
   elm.val(null);
   equal(elm.val(), '', 'Should return empty value of input element with null argument');
   elm.val(1);
@@ -176,17 +205,34 @@ test('append', function () {
   elm = $('.html');
   elm.append('<p>append</p>');
   equal(elm.get(0).childNodes[1].innerHTML, 'append', 'Should return inner html for element');
+  var divs = $(['<div id="1" />', '<div id="2" />']);
+  elm = $('#divs');
+  elm.append(divs);
+  equal(elm.children().length, divs.length, 'Should contains the same count divs as we appended');
 });
 
 test('prepend', function () {
   elm = $('.html');
   elm.prepend('<p>prepend</p>');
   equal(elm.get(0).childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
+  elm = $('#divs');
+  elm.prepend($(['<p>prepend</p>', '<p>prepend2</p>']));
+  // IE 8
+  var text1 = elm.children().get(0).childNodes[0];
+  text1 = text1.textContent === undefined ? text1.toString() : text1.textContent;
+  var text2 = elm.children().get(1).childNodes[0];
+  text2 = text2.textContent === undefined ? text2.toString() : text2.textContent;
+  equal(text1, 'prepend2', 'Should return inner text for element');
+  equal(text2, 'prepend', 'Should return inner text for element');
 });
 
 test('before', function () {
   $('.html').before('<p>before</p>');
   equal($('.html').get(0).previousSibling.innerHTML, 'before', 'Should return inner html for element');
+  var divs = $(['<div id="divs-before1" />', '<div id="divs-before2" />']);
+  elm = $('#divs-before');
+  elm.before(divs);
+  equal(elm.parent().children().length, divs.length+2, 'Should contains the same count divs as we added before, plus two extra for a existing div');
 });
 
 test('after', function () {
@@ -195,6 +241,10 @@ test('after', function () {
   // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
   var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
   equal(result, 'after', 'Should return inner html for element');
+  var divs = $(['<div id="divs-after1" />', '<div id="divs-after2" />']);
+  elm = $('#divs-after');
+  elm.before(divs);
+  equal(elm.parent().children().length, divs.length+4, 'Should contains the same count divs as we added before, plus four extra for a existing div');
 });
 
 test('remove', function () {
@@ -248,9 +298,11 @@ module('Tire attributes.js', {
 });
 
 test('addClass', function () {
+  expect(2);
   $('.test').addClass('dustin');
   equal($('.test').hasClass('dustin'), true, 'Should return true if the element has the class after adding it');
   $('.test').addClass('item-1 item-2 item-3');
+  equal($('.test').attr('class'), 'test dustin item-1 item-2 item-3', 'Should return classes');
 });
 
 test('removeClass', function () {
@@ -379,7 +431,7 @@ if (window.location.protocol.indexOf('http') !== -1 && window.location.search.in
       }
     }
   });
-  
+
   test('get jsonp', function () {
     stop();
     $.ajax('http://echojson.com/hello/world?callback=?&history=false', function (data) {

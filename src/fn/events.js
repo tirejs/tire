@@ -36,14 +36,14 @@ function getEventHandlers (id, eventName) {
 function createEventHandler (element, eventName, callback) {
   var id = getEventId(element)
     , handlers = getEventHandlers(id, eventName);
-  
+
   var fn = function (event) {
     if (callback.call(element, event) === false) {
       event.preventDefault();
       event.stopPropagation();
     }
   };
-  
+
   fn.guid = callback.guid = callback.guid || ++_eventId;
   handlers.push(fn);
   return fn;
@@ -60,7 +60,7 @@ function createEventHandler (element, eventName, callback) {
 
 function addEvent (element, eventName, callback) {
   var handler = createEventHandler(element, eventName, callback);
-  
+
   if (element.addEventListener) {
     element.addEventListener(eventName, handler, false);
   } else if (element.attachEvent) {
@@ -80,7 +80,7 @@ function addEvent (element, eventName, callback) {
 function removeEvent (element, eventName, callback) {
   var id = getEventId(element)
     , handlers = getEventHandlers(id, eventName);
-    
+
   for (var i = 0; i < handlers.length; i++) {
     if (callback === undefined || callback.guid === handlers[i].guid) {
       if (element.removeEventListener) {
@@ -93,7 +93,7 @@ function removeEvent (element, eventName, callback) {
       c[id][eventName].remove(i, 1);
     }
   }
-  
+
   delete c[id];
 }
 
@@ -105,7 +105,7 @@ function removeEvent (element, eventName, callback) {
  */
 
 function eachEvent(eventName, callback) {
-  tire.each(eventName.split(' '), function (name) {
+  tire.each(eventName.split(' '), function (index, name) {
     callback(name);
   });
 }
@@ -113,15 +113,15 @@ function eachEvent(eventName, callback) {
 tire.events = tire.events || {};
 
 tire.fn.extend({
-  
+
   /**
    * Add event to element
    *
    * @param {String} eventName
    * @param {Function} callback
-   * @return {Object}
+   * @return {Object}
    */
-  
+
   on: function (eventName, callback) {
     return this.each(function () {
       var self = this;
@@ -130,15 +130,15 @@ tire.fn.extend({
       });
     });
   },
-  
+
   /**
    * Remove event from element
    *
    * @param {String} eventName
    * @param {Function} callback (optional)
-   * @return {Object}
+   * @return {Object}
    */
-  
+
   off: function (eventName, callback) {
     return this.each(function () {
       var self = this;
@@ -147,7 +147,7 @@ tire.fn.extend({
       });
     });
   },
-  
+
   /**
    * Trigger specific event for element collection
    *
@@ -155,14 +155,14 @@ tire.fn.extend({
    * @param {Object} data JSON Object to use as the event's `data` property
    * @return {Object}
    */
-  
+
   trigger: function (eventName, data) {
-    return this.each(function (elm) {
+    return this.each(function (index, elm) {
       if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
-  
+
       var event
         , createEvent = !!document.createEvent;
-  
+
       if (createEvent) {
         event = document.createEvent('HTMLEvents');
         event.initEvent(eventName, true, true);
@@ -170,10 +170,10 @@ tire.fn.extend({
         event = document.createEventObject();
         event.cancelBubble = true;
       }
-        
+
       event.data = data || {};
       event.eventName = eventName;
-        
+
       if (createEvent) {
         elm.dispatchEvent(event);
       } else {
@@ -195,5 +195,5 @@ tire.fn.extend({
       }
     });
   }
-  
+
 });
