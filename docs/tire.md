@@ -29,10 +29,10 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.1.0
+Current release: 1.1.1
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.1.0.js) - _35kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.1.0.min.js) - _4.5kB when gzipped, for production_
+* [tire.js](http://code.tirejs.com/dist/all/tire-1.1.1.js) - _35kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.1.1.min.js) - _4.5kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
@@ -67,7 +67,7 @@ $('ul li') // returns all li elements that are inside an ul tag.
 
 $('ol > li') // the same as above but for ol tag.
 
-$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag (1.1.0+).
+$('<a />', { href: '#', title: 'a' }); // Add attributes to the tag (1.1.1+).
 ```
 
 If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
@@ -98,31 +98,31 @@ Extends target with members of other objects.
 
 <span class="us">$.isArray(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is an array. _(Before 1.1.0 the name was $.isArr)_
+Returns true if the given object is an array. _(Before 1.1.1 the name was $.isArr)_
 
 ### $.isFunction
 
 <span class="us">$.isFunction(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a function. _(Before 1.1.0 the name was $.isFun)_
+Returns true if the given object is a function. _(Before 1.1.1 the name was $.isFun)_
 
 ### $.isNumeric
 
 <span class="us">$.isNumeric(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a number. _(Before 1.1.0 the name was $.isNum)_
+Returns true if the given object is a number. _(Before 1.1.1 the name was $.isNum)_
 
 ### $.isString
 
 <span class="us">$.isString(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is a string. _(Before 1.1.0 the name was $.isStr)_
+Returns true if the given object is a string. _(Before 1.1.1 the name was $.isStr)_
 
 ### $.isObject
 
 <span class="us">$.isObject(object)</span> <span class="re">boolean</span>
 
-Returns true if the given object is an object. _(Before 1.1.0 the name was $.isObj)_
+Returns true if the given object is an object. _(Before 1.1.1 the name was $.isObj)_
 
 ### $.isPlainObject
 
@@ -196,7 +196,7 @@ Append html to the DOM inside each element in the collection. The html can be a 
 
 Read or set DOM attributes. When no value is given it will read specified attribute from the first element and return the value of it. When a value is given, it sets the attribute to that value on each element in the collection. 
 
-The first argument of `.attr` can be an object containing all attributes. <span class="version">(1.1.0+)</span> 
+The first argument of `.attr` can be an object containing all attributes. <span class="version">(1.1.1+)</span> 
 
 ```javascript
 $('<a />').attr('href', '#');
@@ -217,7 +217,7 @@ Get immediate children of each element in the current collection. If a selector 
 
 ### clone
 
-<span class="us">.clone()</span> <span class="re">Tire</span> <span class="version">(1.1.0+)</span>
+<span class="us">.clone()</span> <span class="re">Tire</span> <span class="version">(1.1.1+)</span>
 
 Duplicate all elements in the Tire collection via deep clone. This method doesn't have an option for copying data and event handlers over to the new elements, as it has in jQuery.
 
@@ -235,7 +235,7 @@ Read or set CSS properties on DOM elements. When no value is given it will read 
 
 ### data
 
-<span class="us">.data(name [, value])</span> <span class="re">value or Tire</span> <span class="version">(1.1.0+)</span>
+<span class="us">.data(name [, value])</span> <span class="re">value or Tire</span> <span class="version">(1.1.1+)</span>
 
 Works just like `.attr(name [, value])` but only for `data-*` attributes. This implementation only stores strings. 
 
@@ -314,7 +314,7 @@ Find elements that match a CSS selector executed in the scope of nodes in the cu
 
 ### get
 
-<span class="us">.get(index)</span> <span class="re">DOM element</span> <span class="version">(1.1.0+)</span>
+<span class="us">.get(index)</span> <span class="re">DOM element</span> <span class="version">(1.1.1+)</span>
 
 Retrieve the DOM elements matched by the Tire object.
 
@@ -507,6 +507,13 @@ $('a').trigger('click');
 
 ## Changelog
 
+##### 1.1.1
+
+* `.each()` works correct now for arrays.
+* Combined selectors for .find()` are now working properly
+* Bug fix for .text()` for Internet Explorer 8.
+* `.html()`, `.append()`, `.prepend()`, `.before()` and `.after()` now works with Tire collections.
+
 ##### 1.1.0
 
 * `$(selector, attributes)` and `$().attr(object)` works.
@@ -532,7 +539,7 @@ $('a').trigger('click');
 
 ##### 1.0.0
 
-* First stabel release
+* First stable release
 
 ## Thanks
 
