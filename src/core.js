@@ -79,8 +79,7 @@ tire.fn = tire.prototype = {
     }
 
     if (selector.length === 1 && selector[0].nodeType) {
-      this.selector = selector.selector;
-      this.context = selector[0];
+      this.selector = this.context = selector[0];
       return this.set(selector);
     }
 
