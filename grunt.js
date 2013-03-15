@@ -45,9 +45,6 @@ module.exports = function(grunt) {
         document: true,
         ActiveXObject: true
       }
-    },
-    qunit: {
-      all: ['http://localhost:3000/']
     }
   });
 
@@ -57,9 +54,9 @@ module.exports = function(grunt) {
       , banner = grunt.task.directive(this.file.src[0], function() { return null; });
 
     src += banner;
-    
+
     this.file.src.shift();
-      
+
     grunt.file.expandFiles(this.file.src).forEach(function (file) {
       if (file.indexOf('header') !== -1 || file.indexOf('footer') !== -1) {
         src += grunt.file.read(file) + '\n';
@@ -71,7 +68,7 @@ module.exports = function(grunt) {
       }
       grunt.file.write(dest, src);
     });
-    
+
     grunt.log.writeln('File "' + dest + '" created.');
   });
 

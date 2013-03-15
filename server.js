@@ -18,3 +18,4 @@ var connect = require('connect')
 
 http.createServer(app).listen(3000);
 console.log('Server running at http://localhost:3000');
+fs.writeFileSync(__dirname + '/test/pid.txt', process.pid, 'utf-8');
