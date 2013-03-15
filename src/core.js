@@ -1,8 +1,8 @@
 var document   = window.document
   , _tire      = window.tire
   , _$         = window.$
-  , idExp      = /^#[\w\-]+$/
-  , classExp   = /^\.[\w\-]+$/
+  , idExp      = /^#([\w\-]*)$/
+  , classExp   = /^\.([\w\-]*)$/
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /<([\w:]+)/
   , slice      = [].slice;
