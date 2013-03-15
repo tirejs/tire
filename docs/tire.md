@@ -150,12 +150,6 @@ Many JavaScript libraries use `$` as a function or variable name, just as Tire d
 
 If true is given as a parameter it will return control back to `Tire` if some other library is using it as variabel or function name.
 
-### $.slice
-
-<span class="us">$.slice(array [, begin])</span> <span class="re">array</span>
-
-Returns a one-level deep copy of a portion of an array. The real `Array.slice` can take an end argument too, but `$.slice` can't. You can read more about `Array.slice` on [Mozilla Developer Network](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/slice)
-
 ### $.trim
 
 <span class="us">$.trim(string)</span> <span class="re">string</span>

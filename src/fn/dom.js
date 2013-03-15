@@ -117,7 +117,7 @@ tire.fn.extend({
   children: function (selector) {
     var children = [];
     this.each(function () {
-      tire.each(tire.slice.call(this.children, 0), function (index, value) {
+      tire.each(slice.call(this.children, 0), function (index, value) {
         children.push(value);
       });
     });

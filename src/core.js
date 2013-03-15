@@ -217,9 +217,6 @@ tire.fn.find.prototype = tire.fn;
 
 tire.extend({
 
-  // We sould be able to use slice outside
-  slice: slice,
-
   // We sould be able to use each outside
   each: tire.fn.each,
 
