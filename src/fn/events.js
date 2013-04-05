@@ -39,8 +39,10 @@ function createEventHandler (element, eventName, callback) {
 
   var fn = function (event) {
     if (callback.call(element, event) === false) {
-      event.preventDefault();
-      event.stopPropagation();
+      if (event.stopPropagation) event.stopPropagation();
+      if (event.preventDefault) event.preventDefault();
+      event.cancelBubble = true;
+      event.returnValue = false;
     }
   };
 
