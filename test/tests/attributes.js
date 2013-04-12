@@ -33,6 +33,11 @@ test('attr', function () {
   $('.test', { rel: 'wip' });
   equal($('.test').attr('rel'), 'wip', 'Should add attribute via second argument in dollar/find function');
   ok($('.test').attr('tire', 1) instanceof tire, 'Should return tire object when setting the value');
+  var a = $('.test-class');
+  equal(a.attr('class'), 'test-class', 'Should equal test class');
+  var b = a.find('span');
+  equal(b.attr('class'), 'fjord', 'Should equal fjord class');
+  equal(a.attr('class'), 'test-class', 'Should equal test class after used find method');
 });
 
 test('data', function () {
