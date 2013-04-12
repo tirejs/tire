@@ -504,8 +504,8 @@ $('a').trigger('click');
 ##### 1.1.1
 
 * `.each()` works correct now for arrays.
-* Combined selectors for .find()` are now working properly
-* Bug fix for .text()` for Internet Explorer 8.
+* Combined selectors for `.find()` are now working properly.
+* Bug fix for `.text()` for Internet Explorer 8.
 * `.html()`, `.append()`, `.prepend()`, `.before()` and `.after()` now works with Tire collections.
 
 ##### 1.1.0
