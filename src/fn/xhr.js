@@ -13,9 +13,9 @@ function ajaxJSONP(url, options) {
     tire(elm).remove();
     try { delete window[name]; }
     catch (e) { window[name] = undefined; }
-    if (tire.isFun(options.error)) options.error('abort');
+    if (tire.isFunction(options.error)) options.error('abort');
   };
-  
+
   window[name] = function (data) {
     tire(elm).remove();
     try { delete window[name]; }
@@ -47,9 +47,9 @@ function ajaxSuccess(data, xhr, options) {
   if (!res && data) res = data;
   if (tire.isFunction(options.success)) options.success(res);
 }
-        
+
 tire.fn.extend({
-  
+
   /**
    * Ajax method to create ajax request with XMLHTTPRequest (or ActiveXObject).
    * Supports JSONP, no cross domain yet.
@@ -58,10 +58,10 @@ tire.fn.extend({
    * @param {Object|Function} options
    * @return {Object}
    */
-  
+
   ajax: function (url, options) {
     options = options || {};
-    
+
     if (tire.isObject(url)) {
       if (tire.isFunction(options)) {
         url.success = url.success || options;
@@ -69,14 +69,14 @@ tire.fn.extend({
       options = url;
       url = options.url;
     }
-    
+
     if (tire.isFunction(options)) options = { success: options };
-    
+
     options.dataType = (options.dataType || '').toLowerCase();
-        
+
     // won't do anything without a url
     if (!url) return;
-    
+
     var self = this
       , method = (options.type || 'GET').toUpperCase()
       , params = options.data || null
@@ -88,35 +88,35 @@ tire.fn.extend({
           xml: 'application/xml, text/xml',
           json: 'application/json'
       };
-    
+
     if (window.XMLHttpRequest) {
       xhr = new XMLHttpRequest();
     } else if (window.ActiveXObject) { // < IE 9
       xhr = new ActiveXObject('Microsoft.XMLHTTP');
     }
-    
+
     for (var k in mime) {
       if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
     }
-    
+
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
       if (!/\=\?/.test(url)) url = (url + '&callback=?').replace(/[&?]{1,2}/, '?');
       ajaxJSONP(url, options);
       return this;
     }
-    
+
     if (xhr) {
       xhr.queryString = params;
       xhr.open(method, url, true);
       xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
-      
+
       if ((mime = mime[options.dataType]) !== undefined) {
         xhr.setRequestHeader('Accept', mime);
         if (mime.indexOf(',') !== -1) mime = mime.split(',')[0];
         if (xhr.overrideMimeType) xhr.overrideMimeType(mime);
       }
-      
+
       if (options.contentType || options.data && method !== 'GET') {
         xhr.setRequestHeader('Content-Type', (options.contentType || 'application/x-www-form-urlencoded'));
       }
@@ -126,7 +126,7 @@ tire.fn.extend({
           xhr.setRequestHeader(key, options.headers[key]);
         }
       }
-      
+
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
@@ -138,7 +138,7 @@ tire.fn.extend({
           }
         }
       };
-      
+
       xhr.send(tire.param(params));
     }
 
@@ -148,7 +148,7 @@ tire.fn.extend({
 
 tire.extend({
   ajax: tire.fn.ajax,
-  
+
   /**
    * Create a serialized representation of an array or object.
    *
@@ -156,7 +156,7 @@ tire.extend({
    * @param {Obj} prefix
    * @return {String}
    */
-  
+
   param: function (obj, prefix) {
     var str = [];
     this.each(obj, function (p, v) {
