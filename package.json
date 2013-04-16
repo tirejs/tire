@@ -3,10 +3,10 @@
   "version": "1.1.1",
   "author": "Fredrik Forsmo <fredrik.forsmo@gmail.com>",
   "description": "",
-  "homepage": "https://github.com/frozzare/tire",
+  "homepage": "http://tirejs.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/frozzare/tire.git"
+    "url": "https://github.com/tirejs/tire.git"
   },
   "dependencies" : {},
   "devDependencies": {
