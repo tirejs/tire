@@ -38,7 +38,7 @@ tire.extend({
         }
       , params = tire.param(options.data) !== '' ? tire.param(options.data) : null;
 
-    for (var k in mine) {
+    for (var k in mime) {
       if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
     }
 
@@ -52,7 +52,6 @@ tire.extend({
     if (xhr) {
       xhr.queryString = params;
       xhr.open(options.type, url, true);
-      xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
 
       if ((mime = mime[options.dataType.toLowerCase()]) !== undefined) {
         xhr.setRequestHeader('Accept', mime);
@@ -147,7 +146,9 @@ tire.extend({
     error: function () {},
 
     // An object of additional header key/value pairs to send along with the request
-    headers: {},
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
 
     // Function that runs on a successful request.
     // Takes on argument, the response.
