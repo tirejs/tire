@@ -49,6 +49,12 @@ tire.extend({
       return this;
     }
 
+    if (tire.isFunction(options.beforeOpen)) {
+      var bc = options.beforeOpen(xhr, options);
+      if (!bc) return;
+      xhr = bc;
+    }
+
     if (xhr) {
       xhr.queryString = params;
       xhr.open(options.type, url, true);
@@ -128,7 +134,10 @@ tire.extend({
 
   ajaxSettings: {
 
-    // Modified the xhr object before send. Default is null.
+    // Modify the xhr object before open it. Default is null.
+    beforeOpen: null,
+
+    // Modify the xhr object before send. Default is null.
     beforeSend: null,
 
     // Tell server witch content type it is.
