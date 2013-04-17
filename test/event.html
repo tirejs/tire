@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html debug="true">
+<head>
+  <title>tire test</title>
+  <meta charset="utf-8">
+  <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
+</head>
+<body>
+  <a href="#" class="clear">Clear log</a>
+  <a href="#" class="click-me">Click me!</a>
+  <a href="#" class="remove-a">Remove click event</a>
+  <a href="#" class="trigger-del">Trigger delegated event</a>
+  <ul id="log"></ul>
+  <script src="../dist/tire.js"></script>
+  <script>
+    $(function () {
+      $('.clear').on('click', function () {
+        $('#log').empty();
+      });
+      $('body').on('click', 'a.del', function () {
+        $('#log').append('<li>trigged del</li>');
+      });
+      window.b = function b () {
+        $('#log').append('<li>trigged del b</li>');
+      }
+      $('body').on('click', 'a.del', b);
+      $('body').append('<a href="#" class="del"></a>').find('a.del');//.trigger('click');
+      $('.click-me').on('click', function () {
+        $('#log').append('<li>normal event clicked</li>');
+      });
+      $('.remove-a').on('click', function () {
+        $('#log').append('<li>removed normal click event</li>');
+        $('.click-me').off('click');
+      });
+      $('.trigger-del').on('click', function () {
+        $('a.del').trigger('click');
+      });
+    });
+  </script>
+</body>
+</html>
