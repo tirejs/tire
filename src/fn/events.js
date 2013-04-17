@@ -1,10 +1,19 @@
 var _eventId = 1
-  , c = {};
+  , c = {}
+  , returnTrue = function () { return true; }
+  , returnFalse = function () { return false; }
+  , ignoreProperties = /^([A-Z]|layer[XY]$)/
+  , eventMethods = {
+      preventDefault: 'isDefaultPrevented',
+      stopImmediatePropagation: 'isStopImmediatePropagation',
+      stopPropagation: 'isPropagationStopped'
+    };
 
 /**
  * Get tire event id
  *
  * @param {Object} element The element to get tire event id from
+ *
  * @return {Integer}
  */
 
@@ -16,37 +25,72 @@ function getEventId (element) {
  * Get event handlers
  *
  * @param {Integer} id
- * @param {String} eventName
+ * @param {String} event
+ *
  * @return {Array}
  */
 
-function getEventHandlers (id, eventName) {
+function getEventHandlers (id, event) {
   c[id] = c[id] || {};
-  return c[id][eventName] = c[id][eventName] || [];
+  return c[id][event] = c[id][event] || [];
 }
 
 /**
  * Create event handler
  *
  * @param {Object} element
- * @param {String} eventName
+ * @param {String} event
  * @param {Function} callback
  */
 
-function createEventHandler (element, eventName, callback) {
+function createEventHandler (element, event, callback) {
   var id = getEventId(element)
-    , handlers = getEventHandlers(id, eventName);
+    , handlers = getEventHandlers(id, event)
+    , parts = ('' + event).split('.');
 
   var fn = function (event) {
-    if (callback.call(element, event) === false) {
-      event.preventDefault();
-      event.stopPropagation();
+    var result = callback.apply(element, [event].concat(event.data));
+    if (result === false) {
+      if (event.stopPropagation) event.stopPropagation();
+      if (event.preventDefault) event.preventDefault();
+      event.cancelBubble = true;
+      event.returnValue = false;
     }
+    return result;
   };
 
   fn.guid = callback.guid = callback.guid || ++_eventId;
+  fn.realEvent = parts[0];
+  fn.ns = parts.slice(1).sort().join(' ');
   handlers.push(fn);
   return fn;
+}
+
+/**
+ * Create event proxy for delegated events.
+ *
+ * @param {Object} event
+ *
+ * @return {Object}
+ */
+
+function createProxy (event) {
+  var proxy = { originalEvent: event };
+
+  for (var key in event) {
+    if (!ignoreProperties.test(key) && event[key] !== undefined) {
+      proxy[key] = event[key];
+    }
+    for (var name in eventMethods) {
+      proxy[name] = function () {
+        this[eventMethods[name]] = returnTrue;
+        return event[name].apply(event, arguments);
+      }
+      proxy[eventMethods[name]] = returnFalse;
+    }
+  }
+
+  return proxy;
 }
 
 /**
@@ -54,60 +98,109 @@ function createEventHandler (element, eventName, callback) {
  * Using addEventListener or attachEvent (IE)
  *
  * @param {Object} element
- * @param {String} eventName
+ * @param {String} events
  * @param {Function} callback
+ * @param {String} selector
  */
 
-function addEvent (element, eventName, callback) {
-  var handler = createEventHandler(element, eventName, callback);
+function addEvent (element, events, callback, selector) {
+  var fn;
 
-  if (element.addEventListener) {
-    element.addEventListener(eventName, handler, false);
-  } else if (element.attachEvent) {
-    element.attachEvent('on' + eventName, handler);
+  if (tire.isString(selector)) {
+    fn = function (e) {
+      return (function (element, callback, selector) {
+        return function delegate (e) {
+          var match = tire(e.target).closest(selector, element).get(0)
+            , event;
+
+          // remove me, only for test
+          callback.guid = delegate.guid;
+
+          if (e.target === match) {
+            event = tire.extend(createProxy(e), {
+              currentTarget: match,
+              liveFired: element
+            });
+            return callback.apply(match, [event].concat(slice.call(arguments, 1)));
+          }
+        }
+      }(element, callback, selector));
+    }
+  } else {
+    callback = selector;
+    selector = undefined;
   }
+
+  tire.each(events.split(/\s/), function (index, event) {
+    var handler = createEventHandler(element, event, fn && fn() || callback);
+
+    if (selector) handler.selector = selector;
+
+    if (element.addEventListener) {
+      element.addEventListener(event, handler, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + event, handler);
+    }
+  });
+}
+
+/**
+ * Test event handler
+ *
+ * @param {Object} parts
+ * @param {Function} callback
+ * @param {String} selector
+ * @param {Function} handler
+ */
+
+function testEventHandler (parts, callback, selector, handler) {
+  var ns = parts.slice(1).sort().join(' ');
+
+  return callback === undefined &&
+    (handler.selector === selector ||
+      handler.realEvent === parts[0] ||
+      handler.ns === ns) ||
+      callback.guid === handler.guid;
 }
 
 /**
  * Remove event to element, no support for undelegate yet.
  * Using removeEventListener or detachEvent (IE)
  *
- * @param {Object} element
- * @param {String} eventName
- * @param {Function} callback (optional)
- */
-
-function removeEvent (element, eventName, callback) {
-  var id = getEventId(element)
-    , handlers = getEventHandlers(id, eventName);
-
-  for (var i = 0; i < handlers.length; i++) {
-    if (callback === undefined || callback.guid === handlers[i].guid) {
-      if (element.removeEventListener) {
-        element.removeEventListener(eventName, handlers[i], false);
-      } else if (element.detachEvent) {
-        var name = 'on' + eventName;
-        if (tire.isString(element[name])) element[name] = null;
-        element.detachEvent(name, handlers[i]);
-      }
-      c[id][eventName].remove(i, 1);
-    }
-  }
-
-  delete c[id];
-}
-
-/**
- * Run callback for each event name
+ * @todo Remove delegated events
  *
- * @param {String} eventName
+ * @param {Object} element
+ * @param {String} events
  * @param {Function} callback
+ * @param {String} selector
  */
 
-function eachEvent(eventName, callback) {
-  tire.each(eventName.split(' '), function (index, name) {
-    callback(name);
+function removeEvent (element, events, callback, selector) {
+  var id = getEventId(element);
+
+  if (!callback) callback = selector;
+
+  tire.each(events.split(/\s/), function (index, event) {
+    var handlers = getEventHandlers(id, event)
+      , parts = ('' + event).split('.');
+
+    for (var i = 0; i < handlers.length; i++) {
+      if (testEventHandler(parts, callback, selector, handlers[i])) {
+        if (element.removeEventListener) {
+          element.removeEventListener(event, handlers[i], false);
+        } else if (element.detachEvent) {
+          var name = 'on' + event;
+          if (tire.isString(element[name])) element[name] = null;
+          element.detachEvent(name, handlers[i]);
+        }
+        // todo: fix this after delegated callback guid
+       // if (!c[id][event].length) delete c[id][event];
+       // c[id][event].remove(i, 1);
+      }
+    }
   });
+  // for (var k in c[id]) return;
+  // delete c[id];
 }
 
 tire.events = tire.events || {};
@@ -117,34 +210,30 @@ tire.fn.extend({
   /**
    * Add event to element
    *
-   * @param {String} eventName
+   * @param {String} events
+   * @param {String} selector
    * @param {Function} callback
    * @return {Object}
    */
 
-  on: function (eventName, callback) {
+  on: function (events, selector, callback) {
     return this.each(function () {
-      var self = this;
-      eachEvent(eventName, function (name) {
-        addEvent(self, name, callback);
-      });
+      addEvent(this, events, callback, selector);
     });
   },
 
   /**
    * Remove event from element
    *
-   * @param {String} eventName
-   * @param {Function} callback (optional)
+   * @param {String} events
+   * @param {String} selector
+   * @param {Function} callback
    * @return {Object}
    */
 
-  off: function (eventName, callback) {
+  off: function (events, selector, callback) {
     return this.each(function () {
-      var self = this;
-      eachEvent(eventName, function (name) {
-        removeEvent(self, name, callback);
-      });
+      removeEvent(this, events, callback, selector);
     });
   },
 
