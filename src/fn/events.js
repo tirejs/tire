@@ -110,13 +110,13 @@ function addEvent (element, events, callback, selector) {
     fn = function (e) {
       return (function (element, callback, selector) {
         return function delegate (e) {
-          var match = tire(e.target).closest(selector, element).get(0)
+          var match = tire(e.target || e.srcElement).closest(selector, element).get(0)
             , event;
 
           // remove me, only for test
           callback.guid = delegate.guid;
 
-          if (e.target === match) {
+          if ((e.target || e.srcElement) === match) {
             event = tire.extend(createProxy(e), {
               currentTarget: match,
               liveFired: element
