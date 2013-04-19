@@ -4,7 +4,7 @@ var document   = window.document
   , idExp      = /^#([\w\-]*)$/
   , classExp   = /^\.([\w\-]*)$/
   , tagNameExp = /^[\w\-]+$/
-  , tagExp     = /<([\w:]+)/
+  , tagExp     = /^<([\w:]+)/
   , slice      = [].slice;
 
 // Array Remove - By John Resig (MIT Licensed)
