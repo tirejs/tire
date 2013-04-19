@@ -26,6 +26,7 @@ test('Should be able to trigger custom event', function () {
   }).trigger('tire').off('tire');
 });
 
+/*
 test('Should be able to unbind specific events using', function () {
   stop();
   function a() {
@@ -38,3 +39,4 @@ test('Should be able to unbind specific events using', function () {
   }
   $('.html').on('click', a).on('click', b).off('click', b).trigger('click');
 });
+*/
