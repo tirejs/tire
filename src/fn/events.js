@@ -178,6 +178,11 @@ function testEventHandler (parts, callback, selector, handler) {
 function removeEvent (element, events, callback, selector) {
   var id = getEventId(element);
 
+  if (callback === undefined && tire.isFunction(selector)) {
+    callback = selector;
+    selector = undefined;
+  }
+
   tire.each(events.split(/\s/), function (index, event) {
     var handlers = getEventHandlers(id, event)
       , parts = ('' + event).split('.');
