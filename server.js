@@ -1,6 +1,7 @@
 var connect = require('connect')
   , http = require('http')
   , fs   = require('fs')
+  , port = process.argv[2] || 3000
   , app = connect()
       .use(connect.static(__dirname))
       .use(function (req, res) {
@@ -16,5 +17,5 @@ var connect = require('connect')
         }
       });
 
-http.createServer(app).listen(3000);
+http.createServer(app).listen(port);
 fs.writeFileSync(__dirname + '/test/pid.txt', process.pid, 'utf-8');
