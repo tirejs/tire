@@ -100,6 +100,13 @@ test('Tag name Selector', function () {
   equal(elm.length, 0, 'Should return length 0 for non-existing elemnts in the context');
 });
 
+test('Nested Selector', function () {
+  expect(1);
+  elm = $('ul');
+  elmInner = elm.find('li');
+  equal(elm === elmInner, false, 'Should return false');
+});
+
 test('Elements reference selector', function () {
   expect(3);
   elm = $(document.body);
