@@ -426,7 +426,7 @@ Perform an Ajax request. It can be a to local resource or JSONP. It´s an async 
 
 If a string is passed in as the first argument it will be the URL to request. The seconds argument should be a function that is used as success function if the request succeeds.
 
-**Note.** If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request and the `ajaxJSONP` function will be used. The response data will automatic be parsed as a JSON object if it's a JSONP or JSON request.
+**Note.** If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request. The response data will automatic be parsed as a JSON object if it's a JSONP or JSON request.
 
 Options
 
@@ -449,14 +449,6 @@ $.ajax('http://echojson.com/hello/world?callback=?', function (data) {
   console.log('Hello %s!', data.hello); 
 });
 ```
-
-### $.ajaxJSONP
-
-<span class="us">$.ajaxJSONP(url [, callback])</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
-
-<span class="us">$.ajaxJSONP(url [, options])</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
-
-<span class="us">$.ajaxJSONP(options)</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
 
 ### $.param
 
