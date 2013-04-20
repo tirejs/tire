@@ -416,11 +416,11 @@ Get or set the value of form controls. When no value is given, it returns the va
 
 ### $.ajax
 
-<span class="us">$.ajax(url [, callback])</span> <span class="re">xhr</span>
+<span class="us">$.ajax(url [, callback])</span> <span class="re">xhr (or `undefined` if it's a JSONP request)</span>
 
-<span class="us">$.ajax(url [, options])</span> <span class="re">xhr</span>
+<span class="us">$.ajax(url [, options])</span> <span class="re">xhr (or `undefined` if it's a JSONP request)</span>
 
-<span class="us">$.ajax(options)</span> <span class="re">xhr</span> 
+<span class="us">$.ajax(options)</span> <span class="re">xhr (or `undefined` if it's a JSONP request)</span> 
 
 Perform an Ajax request. It can be a to local resource or JSONP. It´s an async Ajax request. No sync request is supported and no support is planned. As of version 1.2.0 CORS (Cross-origin resource sharing) is supported via the [tire-cors plugin](https://github.com/tirejs/tire-cors).
 
