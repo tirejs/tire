@@ -416,13 +416,17 @@ Get or set the value of form controls. When no value is given, it returns the va
 
 ### $.ajax
 
-<span class="us">$.ajax(options [, callback])</span> <span class="re">Tire</span>
+<span class="us">$.ajax(url [, callback])</span> <span class="re">xhr</span>
 
-Perform an Ajax request. It can be a to local resource or JSONP. It´s a async Ajax request, no sync request is supported and no support is planned. As of version 1.2.0 CORS (Cross-origin resource sharing) is supported via the [tire-cors plugin](https://github.com/tirejs/tire-cors).
+<span class="us">$.ajax(url [, options])</span> <span class="re">xhr</span>
+
+<span class="us">$.ajax(options)</span> <span class="re">xhr</span> 
+
+Perform an Ajax request. It can be a to local resource or JSONP. It´s an async Ajax request. No sync request is supported and no support is planned. As of version 1.2.0 CORS (Cross-origin resource sharing) is supported via the [tire-cors plugin](https://github.com/tirejs/tire-cors).
 
 If a string is passed in as the first argument it will be the URL to request. The seconds argument should be a function that is used as success function if the request succeeds.
 
-If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request. The response data will automatic be parsed as a JSON object if it's a JSONP or JSON request.
+**Note.** If a URL contains `callback=?`, `callback=string` or `dataType` is `jsonp` it will be a JSONP request and the `ajaxJSONP` function will be used. The response data will automatic be parsed as a JSON object if it's a JSONP or JSON request.
 
 Options
 
@@ -434,14 +438,25 @@ Options
 * `headers` Object of additional HTTP headers for the Ajax request.
 * `success` The function to execute when the request is done with data as a argument.
 * `error` The function to execute on error with error arguments.
+* `timeout` Set a timeout in milliseconds for the request.
+* `beforeOpen` Modify the xhr object before opening it. Return `false` to abort the request. Default is `null`.
+* `beforeSend` Modify the xhr object before sending it. Return `false` to prevent the request from being sent. Default is `null`.
 
-Options like `async, global, context` and `timeout` isn't supported. `timeout` will be supported later and maybe `context`.
+Options like `async`, `global` and `context` isn't supported.
 
 ```javascript
 $.ajax('http://echojson.com/hello/world?callback=?', function (data) {
   console.log('Hello %s!', data.hello); 
 });
 ```
+
+### $.ajaxJSONP
+
+<span class="us">$.ajaxJSONP(url [, callback])</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
+
+<span class="us">$.ajaxJSONP(url [, options])</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
+
+<span class="us">$.ajaxJSONP(options)</span> <span class="re">undefined</span> <span class="version">(1.2.0+)</span>
 
 ### $.param
 
