@@ -479,7 +479,7 @@ $('a').on('click', function (e) {
 });
 
 $('a').on('click touchstart', function (e) {
-  // Add on click and tap event to all anchor elements
+  // Add on click and touchstart event to all anchor elements
 });
 
 $('ul.list').on('click', 'li.item', function (e) {
