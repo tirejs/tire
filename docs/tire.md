@@ -465,9 +465,14 @@ $.param({ num: [1, 2, 3] })
 
 ### on
 
-<span class="us">.on(eventName, callback)</span> <span class="re">Tire</span>
+<span class="us">.on(events, callback)</span> <span class="re">Tire</span>
 
-Add an event handler function to one or more events to the selected elements. The event handler have one parameter, the event itself. Tire don't have any support for delegate events (yet).
+<span class="us">.on(events, selector, callback)</span> <span class="re">Tire</span> <span class="version">(1.2.0+)</span>
+
+Add an event handler function to one or more events to the selected elements. The event handler have one parameter, the event itself. 
+
+Delegated events is supported as of version 1.2.0.
+
 ```javascript
 $('a').on('click', function (e) {
   // Add on click event to all anchor elements
@@ -476,13 +481,22 @@ $('a').on('click', function (e) {
 $('a').on('click touchstart', function (e) {
   // Add on click and tap event to all anchor elements
 });
+
+$('ul.list').on('click', 'li.item', function (e) {
+  // Delegated event
+  // Add on click event to all list elements with an 'item' class in all the ul's with a 'list' class
+});
 ```
 
 ### off
 
-<span class="us">.off(eventName [, callback])</span> <span class="re">Tire</span>
+<span class="us">.off(events [, callback])</span> <span class="re">Tire</span>
 
-Remove all event handler or a specified one from the selected elements. Tire don't have any support for undelegate events (yet).
+<span class="us">.off(events, selector [, callback])</span> <span class="re">Tire</span> <span class="version">(1.2.0+)</span>
+
+Remove all event handler or a specified one from the selected elements. 
+
+Undelegated events is supported as of version 1.2.0.
 
 ```javascript
 // Remove all click events from anchor elements
@@ -493,6 +507,9 @@ $('a').off('click tap');
 
 // Remove specified click event handler from anchor elements
 $('a').off('click', eventHandler);
+
+// Remove all the click events from the list elements with an 'item' class in all the ul's with a 'list' class
+$('ul.list').off('click', 'li.item');
 ```
 
 ### trigger
