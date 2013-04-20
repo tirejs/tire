@@ -1,26 +1,46 @@
 /**
- * Get default arguments for `ajax` and `ajaxJSONP` functions.
+ * Create JSONP request.
  *
- * @param {String|Object} url
- * @param {Function|Object} options
- *
- * @return {Object}
+ * @param {String} url
+ * @param {Object} options
  */
 
-function argsDefault (url, options) {
-  options = options || tire.ajaxSettings;
+function ajaxJSONP (url, options) {
+  var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
+    , elm = document.createElement('script')
+    , abortTimeout = null
+    , cleanUp = function () {
+        if (abortTimeout !== null) clearTimeout(abortTimeout);
+        tire(elm).remove();
+        try { delete window[name]; }
+        catch (e) { window[name] = undefined; }
+      }
+    , abort = function (error) {
+        cleanUp();
+        if (error === 'timeout') window[name] = noop;
+        if (tire.isFunction(options.error)) options.error(error, options);
+      };
 
-  if (tire.isObject(url)) {
-    if (tire.isFunction(options)) {
-      url.success = url.success || options;
-    }
-    options = url;
-    url = options.url;
+  elm.onerror = function () {
+    abort('error');
+  };
+
+  if (options.timeout > 0) {
+    abortTimeout = setTimeout(function () {
+      abort('timeout');
+    }, options.timeout);
   }
 
-  if (tire.isFunction(options)) options = { success: options };
+  window[name] = function (data) {
+    tire(elm).remove();
+    try { delete window[name]; }
+    catch (e) { window[name] = undefined; }
+    tire.ajaxSuccess(data, null, options);
+  };
 
-  return { url: url, options: options };
+  options.data = tire.param(options.data);
+  elm.src = url.replace(/\=\?/, '=' + name);
+  tire('head')[0].appendChild(elm);
 }
 
 tire.extend({
@@ -35,10 +55,17 @@ tire.extend({
    */
 
   ajax: function (url, options) {
-    var args = argsDefault(url, options);
+    options = options || tire.ajaxSettings;
 
-    options = args.options;
-    url = args.url;
+    if (tire.isObject(url)) {
+      if (tire.isFunction(options)) {
+        url.success = url.success || options;
+      }
+      options = url;
+      url = options.url;
+    }
+
+    if (tire.isFunction(options)) options = { success: options };
 
     for (var opt in tire.ajaxSettings) {
       if (!options.hasOwnProperty(opt)) {
@@ -67,7 +94,7 @@ tire.extend({
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
       if (!/\=\?/.test(url)) url = (url + '&callback=?').replace(/[&?]{1,2}/, '?');
-      return tire.ajaxJSONP(url, options);
+      return ajaxJSONP(url, options);
     }
 
     if (tire.isFunction(options.beforeOpen)) {
@@ -131,58 +158,6 @@ tire.extend({
 
       return xhr;
     }
-  },
-
-  /**
-   * Create a JSONP request
-   *
-   * @param {String} url
-   * @param {Object} options
-   */
-
-  ajaxJSONP: function (url, options) {
-    if (!url) return undefined;
-
-    var args = argsDefault(url, options);
-
-    options = args.options;
-    url = args.url;
-
-    var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
-      , elm = document.createElement('script')
-      , abortTimeout = null
-      , cleanUp = function () {
-          if (abortTimeout !== null) clearTimeout(abortTimeout);
-          tire(elm).remove();
-          try { delete window[name]; }
-          catch (e) { window[name] = undefined; }
-        }
-      , abort = function (error) {
-          cleanUp();
-          if (error === 'timeout') window[name] = noop;
-          if (tire.isFunction(options.error)) options.error(error, options);
-        };
-
-    elm.onerror = function () {
-      abort('error');
-    };
-
-    if (options.timeout > 0) {
-      abortTimeout = setTimeout(function () {
-        abort('timeout');
-      }, options.timeout);
-    }
-
-    window[name] = function (data) {
-      tire(elm).remove();
-      try { delete window[name]; }
-      catch (e) { window[name] = undefined; }
-      tire.ajaxSuccess(data, null, options);
-    };
-
-    options.data = tire.param(options.data);
-    elm.src = url.replace(/\=\?/, '=' + name);
-    tire('head')[0].appendChild(elm);
   },
 
   /**
