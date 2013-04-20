@@ -72,7 +72,10 @@ tire.extend({
 
     if (tire.isFunction(options.beforeOpen)) {
       var bc = options.beforeOpen(xhr, options);
-      if (!bc) return;
+      if (!bc) {
+        xhr.abort();
+        return xhr;
+      }
       xhr = bc;
     }
 
@@ -121,6 +124,7 @@ tire.extend({
         if (bs !== false) {
           xhr.send(params);
         }
+        xhr = bs;
       } else {
         xhr.send(params);
       }
