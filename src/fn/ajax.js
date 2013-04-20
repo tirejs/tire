@@ -29,6 +29,8 @@ tire.extend({
     }
 
     var xhr = options.xhr
+      , error = 'error'
+      , abortTimeout = null
       , jsonp = options.dataType === 'jsonp'
       , mime = {
           html: 'text/html',
@@ -45,8 +47,7 @@ tire.extend({
     // test for jsonp
     if (jsonp || /\=\?|callback\=/.test(url)) {
       if (!/\=\?/.test(url)) url = (url + '&callback=?').replace(/[&?]{1,2}/, '?');
-      tire.ajaxJSONP(url, options);
-      return this;
+      return tire.ajaxJSONP(url, options);
     }
 
     if (tire.isFunction(options.beforeOpen)) {
@@ -75,6 +76,13 @@ tire.extend({
         }
       }
 
+      if (options.timeout > 0) {
+        abortTimeout = setTimeout(function () {
+          error = 'timeout';
+          xhr.abort();
+        }, options.timeout);
+      }
+
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
@@ -82,7 +90,8 @@ tire.extend({
               tire.ajaxSuccess(null, xhr, options);
             }
           } else if (options.error !== undefined) {
-            options.error(xhr, options);
+            if (abortTimeout !== null) clearTimeout(abortTimeout);
+            options.error(error, options, xhr);
           }
         }
       };
@@ -95,6 +104,8 @@ tire.extend({
       } else {
         xhr.send(params);
       }
+
+      return xhr;
     }
   },
 
@@ -107,14 +118,29 @@ tire.extend({
 
   ajaxJSONP: function (url, options) {
     var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
-      , elm = document.createElement('script');
+      , elm = document.createElement('script')
+      , abortTimeout = null
+      , cleanUp = function () {
+          if (abortTimeout !== null) clearTimeout(abortTimeout);
+          tire(elm).remove();
+          try { delete window[name]; }
+          catch (e) { window[name] = undefined; }
+        }
+      , abort = function (error) {
+          cleanUp();
+          if (error === 'timeout') window[name] = noop;
+          if (tire.isFunction(options.error)) options.error(error, options);
+        };
 
     elm.onerror = function () {
-      tire(elm).remove();
-      try { delete window[name]; }
-      catch (e) { window[name] = undefined; }
-      if (tire.isFunction(options.error)) options.error('abort');
+      abort('error');
     };
+
+    if (options.timeout > 0) {
+      abortTimeout = setTimeout(function () {
+        abort('timeout');
+      }, options.timeout);
+    }
 
     window[name] = function (data) {
       tire(elm).remove();

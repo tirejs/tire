@@ -5,7 +5,8 @@ var document   = window.document
   , classExp   = /^\.([\w\-]*)$/
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /^<([\w:]+)/
-  , slice      = [].slice;
+  , slice      = [].slice
+  , noop       = function () {};
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
