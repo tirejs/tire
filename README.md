@@ -1,6 +1,6 @@
 ![tire-logo](http://static.forsmo.me/tire/logo/tire.js-100x100.png)
 
-Tire [![Build Status](https://travis-ci.org/tirejs/tire.png?branch=master)](https://travis-ci.org/tirejs/tire)
+Tire [![Build Status](https://travis-ci.org/tirejs/tire.png?branch=1.2.0-wip)](https://travis-ci.org/tirejs/tire)
 ========
 
 Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 12-15kb minified and 5kb minified and gzipped. The syntax is inspired from jQuery. It is modular so you can extend it however you like, also replace our features with your own. 
