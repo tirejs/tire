@@ -438,9 +438,9 @@ Options
 * `headers` Object of additional HTTP headers for the Ajax request.
 * `success` The function to execute when the request is done with data as a argument.
 * `error` The function to execute on error with error arguments.
-* `timeout` Set a timeout in milliseconds for the request.
-* `beforeOpen` Modify the xhr object before opening it. Return `false` to abort the request. Default is `null`.
-* `beforeSend` Modify the xhr object before sending it. Return `false` to prevent the request from being sent. Default is `null`.
+* `timeout` Set a timeout in milliseconds for the request. <span class="version">(1.2.0+)</span>
+* `beforeOpen` Modify the xhr object before opening it. Return `false` to abort the request. Default is `null`. <span class="version">(1.2.0+)</span>
+* `beforeSend` Modify the xhr object before sending it. Return `false` to prevent the request from being sent. Default is `null`. <span class="version">(1.2.0+)</span>
 
 Options like `async`, `global` and `context` isn't supported.
 
