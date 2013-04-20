@@ -48,10 +48,11 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerMultiTask('concat', 'Fix indent for files', function () {
+  grunt.registerMultiTask('concat', 'Fix indent for files', function (config) {
     var src = ''
       , dest = this.file.dest
-      , banner = grunt.task.directive(this.file.src[0], function() { return null; });
+      , banner = grunt.task.directive(this.file.src[0], function() { return null; })
+      , pkg = grunt.file.readJSON('package.json');
 
     src += banner;
 
@@ -61,11 +62,13 @@ module.exports = function(grunt) {
       if (file.indexOf('header') !== -1 || file.indexOf('footer') !== -1) {
         src += grunt.file.read(file) + '\n';
       } else {
+        var coreFile = file.indexOf('core') !== -1;
         var lines = grunt.file.read(file).split('\n');
         lines.forEach(function (line) {
           src += '  ' + line + '\n';
         });
       }
+      src = src.replace(/\{\{version\}\}/, pkg.version);
       grunt.file.write(dest, src);
     });
 

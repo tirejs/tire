@@ -221,6 +221,9 @@ tire.fn.find.prototype = tire.fn;
 
 tire.extend({
 
+  // The current version of tire being used
+  version: '{{version}}',
+
   // We sould be able to use each outside
   each: tire.fn.each,
 
