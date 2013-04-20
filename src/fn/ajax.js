@@ -1,3 +1,28 @@
+/**
+ * Get default arguments for `ajax` and `ajaxJSONP` functions.
+ *
+ * @param {String|Object} url
+ * @param {Function|Object} options
+ *
+ * @return {Object}
+ */
+
+function argsDefault (url, options) {
+  options = options || tire.ajaxSettings;
+
+  if (tire.isObject(url)) {
+    if (tire.isFunction(options)) {
+      url.success = url.success || options;
+    }
+    options = url;
+    url = options.url;
+  }
+
+  if (tire.isFunction(options)) options = { success: options };
+
+  return { url: url, options: options };
+}
+
 tire.extend({
 
   /**
@@ -10,25 +35,20 @@ tire.extend({
    */
 
   ajax: function (url, options) {
-    options = options || this.ajaxSettings;
+    var args = argsDefault(url, options);
 
-    if (tire.isObject(url)) {
-      if (tire.isFunction(options)) {
-        url.success = url.success || options;
-      }
-      options = url;
-      url = options.url;
-    }
+    options = args.options;
+    url = args.url;
 
-    if (tire.isFunction(options)) options = { success: options };
-
-    for (var opt in this.ajaxSettings) {
+    for (var opt in tire.ajaxSettings) {
       if (!options.hasOwnProperty(opt)) {
-        options[opt] = this.ajaxSettings[opt];
+        options[opt] = tire.ajaxSettings[opt];
       }
     }
 
-    var xhr = options.xhr
+    if (!url) return options.xhr();
+
+    var xhr = options.xhr()
       , error = 'error'
       , abortTimeout = null
       , jsonp = options.dataType === 'jsonp'
@@ -117,6 +137,13 @@ tire.extend({
    */
 
   ajaxJSONP: function (url, options) {
+    if (!url) return undefined;
+
+    var args = argsDefault(url, options);
+
+    options = args.options;
+    url = args.url;
+
     var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
       , elm = document.createElement('script')
       , abortTimeout = null
@@ -178,7 +205,7 @@ tire.extend({
 
     // Error function that is called on failed request.
     // Take to arguments, xhr and the options object.
-    error: function () {},
+    error: noop,
 
     // An object of additional header key/value pairs to send along with the request
     headers: {
@@ -187,7 +214,10 @@ tire.extend({
 
     // Function that runs on a successful request.
     // Takes on argument, the response.
-    success: function () {},
+    success: noop,
+
+    // Set a timeout (in milliseconds) for the request.
+    timeout: 0,
 
     // The type of the request. Default is GET.
     type: 'GET',
@@ -195,12 +225,12 @@ tire.extend({
     // The url to make request to. If empty no request will be made.
     url: '',
 
-    // The `xhr` object.
     // ActiveXObject when available (IE), otherwise XMLHttpRequest.
-    xhr: window.ActiveXObject ?
-      new ActiveXObject('Microsoft.XMLHTTP') :
-      new XMLHttpRequest()
-
+    xhr: function () {
+      return window.ActiveXObject ?
+        new ActiveXObject('Microsoft.XMLHTTP') :
+        new XMLHttpRequest()
+    }
   },
 
   /**
