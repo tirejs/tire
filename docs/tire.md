@@ -418,7 +418,7 @@ Get or set the value of form controls. When no value is given, it returns the va
 
 <span class="us">$.ajax(options [, callback])</span> <span class="re">Tire</span>
 
-Perform an Ajax request. It can be a to local resource or JSONP. No support for cross-domain (yet). It´s a async Ajax request, no sync request is supported and no support is planned.
+Perform an Ajax request. It can be a to local resource or JSONP. It´s a async Ajax request, no sync request is supported and no support is planned. As of version 1.2.0 CORS (Cross-origin resource sharing) is supported via the [tire-cors plugin](https://github.com/tirejs/tire-cors).
 
 If a string is passed in as the first argument it will be the URL to request. The seconds argument should be a function that is used as success function if the request succeeds.
 
