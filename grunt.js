@@ -62,7 +62,6 @@ module.exports = function(grunt) {
       if (file.indexOf('header') !== -1 || file.indexOf('footer') !== -1) {
         src += grunt.file.read(file) + '\n';
       } else {
-        var coreFile = file.indexOf('core') !== -1;
         var lines = grunt.file.read(file).split('\n');
         lines.forEach(function (line) {
           src += '  ' + line + '\n';
