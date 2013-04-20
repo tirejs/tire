@@ -107,7 +107,6 @@ tire.extend({
     }
 
     if (xhr) {
-      xhr.queryString = params;
       xhr.open(options.type, url, true);
 
       if ((mime = mime[options.dataType.toLowerCase()]) !== undefined) {
@@ -206,9 +205,13 @@ tire.extend({
 
     // ActiveXObject when available (IE), otherwise XMLHttpRequest.
     xhr: function () {
-      return window.ActiveXObject ?
-        new ActiveXObject('Microsoft.XMLHTTP') :
-        new XMLHttpRequest()
+      var xhr = null;
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+      } else if (window.ActiveXObject) { // < IE 9
+        xhr = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+      return xhr;
     }
   },
 
