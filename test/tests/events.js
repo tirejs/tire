@@ -42,8 +42,8 @@ test('Should be able to unbind specific events using', function () {
 
 test('Should trigger delegated event', function () {
   stop();
+  expect(6);
   $('body').on('click', 'a.del', function (e, data) {
-    start();
     equal(data.some, 'data', '`data` should contain `some` key with a string value eqauls `data`');
     equal(e.type, 'click', 'e.type should equal click');
     equal((e.srcElement || e.target), $('body').find('a.del').get(0), 'e.srcElement/e.target should equal a.del element');
@@ -52,4 +52,6 @@ test('Should trigger delegated event', function () {
     ok(true, 'Event should be trigged');
   });
   $('body').append('<a href="#" class="del"></a>').find('a.del').trigger('click', { some: 'data' });
+  $('body').off('click', 'a.del');
+  start();
 });
