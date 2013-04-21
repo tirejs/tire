@@ -17,12 +17,13 @@
       $('.clear').on('click', function () {
         $('#log').empty();
       });
-      $('body').on('click', 'a.del', function () {
+      window.a = function () {
         $('#log').append('<li>trigged del</li>');
-      });
+      };
+      $('body').on('click', 'a.del', a);
       window.b = function b () {
         $('#log').append('<li>trigged del b</li>');
-      }
+      };
       $('body').on('click', 'a.del', b);
       $('body').append('<a href="#" class="del"></a>').find('a.del');//.trigger('click');
       $('.click-me').on('click', function () {

@@ -1,5 +1,5 @@
 var _eventId = 1
-  , c = {}
+  , c = window.c = {}
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
@@ -41,12 +41,14 @@ function getEventHandlers (id, event) {
  * @param {Object} element
  * @param {String} event
  * @param {Function} callback
+ * @param {Function} _callback Orginal callback if delegated event
  */
 
-function createEventHandler (element, event, callback) {
+function createEventHandler (element, event, callback, _callback) {
   var id = getEventId(element)
     , handlers = getEventHandlers(id, event)
-    , parts = ('' + event).split('.');
+    , parts = ('' + event).split('.')
+    , cb = _callback || callback;
 
   var fn = function (event) {
     var result = callback.apply(element, [event].concat(event.data));
@@ -59,7 +61,7 @@ function createEventHandler (element, event, callback) {
     return result;
   };
 
-  fn.guid = callback.guid = callback.guid || ++_eventId;
+  fn._i = cb._i = cb._i || ++_eventId;
   fn.realEvent = parts[0];
   fn.ns = parts.slice(1).sort().join(' ');
   handlers.push(fn);
@@ -104,9 +106,10 @@ function createProxy (event) {
  */
 
 function addEvent (element, events, callback, selector) {
-  var fn;
+  var fn, _callback;
 
   if (tire.isString(selector)) {
+    _callback = callback;
     fn = function (e) {
       return (function (element, callback, selector) {
         return function delegate (e) {
@@ -114,7 +117,6 @@ function addEvent (element, events, callback, selector) {
             , event;
 
           // remove me, only for test
-          callback.guid = delegate.guid;
 
           if ((e.target || e.srcElement) === match) {
             event = tire.extend(createProxy(e), {
@@ -132,7 +134,7 @@ function addEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var handler = createEventHandler(element, event, fn && fn() || callback);
+    var handler = createEventHandler(element, event, fn && fn() || callback, _callback);
 
     if (selector) handler.selector = selector;
 
@@ -160,7 +162,7 @@ function testEventHandler (parts, callback, selector, handler) {
     (handler.selector === selector ||
       handler.realEvent === parts[0] ||
       handler.ns === ns) ||
-      callback.guid === handler.guid;
+      callback._i === handler._i;
 }
 
 /**
@@ -196,14 +198,13 @@ function removeEvent (element, events, callback, selector) {
           if (tire.isString(element[name])) element[name] = null;
           element.detachEvent(name, handlers[i]);
         }
-        // todo: fix this after delegated callback guid
-       // if (!c[id][event].length) delete c[id][event];
-       // c[id][event].remove(i, 1);
+        Array.remove(c[id][event], i, 1);
       }
     }
+    if (!c[id][event].length) delete c[id][event];
   });
-  // for (var k in c[id]) return;
-  // delete c[id];
+  for (var k in c[id]) return;
+  delete c[id];
 }
 
 tire.events = tire.events || {};
