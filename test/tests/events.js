@@ -2,10 +2,11 @@ module('Tire events.js');
 
 test('Should add event with on and trigger', function () {
   stop();
-  $('.test').on('click', function () {
+  $('.test').on('click', function (e, data) {
     start();
+    equal(data.some, 'data', '`data` should contain `some` key with a string value eqauls `data`');
     ok(true, 'Event should be trigged');
-  }).trigger('click');
+  }).trigger('click', { some: 'data' });
 });
 
 test('Should remove event with off, event should not be trigged after', function () {
@@ -13,10 +14,8 @@ test('Should remove event with off, event should not be trigged after', function
   expect(0);
   $('.html').on('click', function () {
     start();
-    equal(e.data.some, 'data', 'e.data should contain `some` key with a string value eqauls `data`');
-    equal(e.type, 'click', 'e.type should equal click');
     ok(false, 'Event should not be trigged');
-  }).off('click').trigger('click', { some: 'data' });
+  }).off('click').trigger('click');
   start();
 });
 
@@ -43,9 +42,9 @@ test('Should be able to unbind specific events using', function () {
 
 test('Should trigger delegated event', function () {
   stop();
-  $('body').on('click', 'a.del', function (e) {
+  $('body').on('click', 'a.del', function (e, data) {
     start();
-    equal(e.data.some, 'data', 'e.data should contain `some` key with a string value eqauls `data`');
+    equal(data.some, 'data', '`data` should contain `some` key with a string value eqauls `data`');
     equal(e.type, 'click', 'e.type should equal click');
     equal((e.srcElement || e.target), $('body').find('a.del').get(0), 'e.srcElement/e.target should equal a.del element');
     equal(e.currentTarget, $('body').find('a.del').get(0), 'e.target should equal a.del element');
