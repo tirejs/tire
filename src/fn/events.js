@@ -53,7 +53,7 @@ function createEventHandler (element, event, callback, _callback) {
   var fn = function (event) {
     var data = event.data;
     if (tire.isString(data) && /^[\[\{]/.test(data)) data = tire.parseJSON(event.data);
-    var result = callback.apply(element, [event].concat(data), data);
+    var result = callback.apply(element, [event].concat(data));
     if (result === false) {
       if (event.stopPropagation) event.stopPropagation();
       if (event.preventDefault) event.preventDefault();
