@@ -116,8 +116,6 @@ function addEvent (element, events, callback, selector) {
           var match = tire(e.target || e.srcElement).closest(selector, element).get(0)
             , event;
 
-          // remove me, only for test
-
           if ((e.target || e.srcElement) === match) {
             event = tire.extend(createProxy(e), {
               currentTarget: match,

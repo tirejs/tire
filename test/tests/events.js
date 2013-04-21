@@ -44,7 +44,7 @@ test('Should trigger delegated event', function () {
   $('body').on('click', 'a.del', function (e) {
     start();
     equal(e.type, 'click', 'e.type should equal click');
-    equal(e.target, $('body').find('a.del').get(0), 'e.target should equal a.del element');
+    equal((e.srcElement || e.target), $('body').find('a.del').get(0), 'e.srcElement/e.target should equal a.del element');
     equal(e.currentTarget, $('body').find('a.del').get(0), 'e.target should equal a.del element');
     equal(e.liveFired, $('body').get(0), 'e.liveFired should equal body element');
     ok(true, 'Event should be trigged');
