@@ -38,3 +38,16 @@ test('Should be able to unbind specific events using', function () {
   }
   $('.html').on('click', a).on('click', b).off('click', b).trigger('click');
 });
+
+test('Should trigger delegated event', function () {
+  stop();
+  $('body').on('click', 'a.del', function (e) {
+    start();
+    equal(e.type, 'click', 'e.type should equal click');
+    equal(e.target, $('body').find('a.del').get(0), 'e.target should equal a.del element');
+    equal(e.currentTarget, $('body').find('a.del').get(0), 'e.target should equal a.del element');
+    equal(e.liveFired, $('body').get(0), 'e.liveFired should equal body element');
+    ok(true, 'Event should be trigged');
+  });
+  $('body').append('<a href="#" class="del"></a>').find('a.del').trigger('click');
+});
