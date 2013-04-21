@@ -514,13 +514,15 @@ $('ul.list').off('click', 'li.item');
 
 ### trigger
 
-<span class="us">.trigger(eventName)</span> <span class="re">Tire</span>
+<span class="us">.trigger(eventName, data)</span> <span class="re">Tire</span>
 
-Trigger the specified event on elements collection. Tire don't have any support for passing on data via trigger.
+Trigger the specified event on elements collection. When a `data` object is passed along with the event,
+it will become available as `e.data` in the `eventHandler` defined with `on`.
+
 Trigger only takes one event name and not multiple like `on` and `off`.
 
 ```javascript
-$('a').trigger('click');
+$('a').trigger('click', {foo: 'bar'});
 ```
 
 ## Changelog
