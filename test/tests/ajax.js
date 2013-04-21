@@ -1,5 +1,5 @@
 if (window.location.protocol.indexOf('http') !== -1 && window.location.search.indexOf('ajax=false') === -1) {
-  module('Tire xhr.js', {
+  module('Tire ajax.js', {
     setup: function () {
       var srh = XMLHttpRequest.prototype.setRequestHeader;
 
