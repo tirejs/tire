@@ -115,7 +115,7 @@ tire.extend({
         if (xhr.overrideMimeType) xhr.overrideMimeType(mime);
       }
 
-      if (options.contentType || options.data && method !== 'GET') {
+      if (options.contentType || options.data && options.type !== 'GET') {
         xhr.setRequestHeader('Content-Type', (options.contentType || 'application/x-www-form-urlencoded'));
       }
 

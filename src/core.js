@@ -128,7 +128,7 @@ tire.fn = tire.prototype = {
     }
 
     return this.set(elms).each(function () {
-      return attrs && $(this).attr(attrs);
+      return attrs && tire(this).attr(attrs);
     });
   },
 

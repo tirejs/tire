@@ -43,7 +43,8 @@ module.exports = function(grunt) {
         define: true,
         slice: true,
         document: true,
-        ActiveXObject: true
+        ActiveXObject: true,
+        noop: true
       }
     }
   });

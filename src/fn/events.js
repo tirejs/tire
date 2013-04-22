@@ -89,7 +89,7 @@ function createProxy (event) {
       proxy[name] = function () {
         this[eventMethods[name]] = returnTrue;
         return event[name].apply(event, arguments);
-      }
+      };
       proxy[eventMethods[name]] = returnFalse;
     }
   }
@@ -125,9 +125,9 @@ function addEvent (element, events, callback, selector) {
             });
             return callback.apply(match, [event].concat(slice.call(arguments, 1)));
           }
-        }
+        };
       }(element, callback, selector));
-    }
+    };
   } else {
     callback = selector;
     selector = undefined;
