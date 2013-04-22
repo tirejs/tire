@@ -235,7 +235,7 @@ tire.extend({
    */
 
   trim: function (str) {
-    return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
+    return str == null ? '' : str.trim ? str.trim() : ('' + str).replace(/^\s+|\s+$/g, '');
   },
 
   /**

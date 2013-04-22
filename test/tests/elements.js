@@ -1,15 +1,8 @@
-module('Tire elements.js', {
-  setup: function () {
-    var elm;
-  },
-  teardown: function () {
-    elm = null;
-  }
-});
+module('Tire elements.js');
 
 test('filter', function () {
   expect(2);
-  elm = $('div').filter(function () {
+  var elm = $('div').filter(function () {
     if ($(this).hasClass('test')) return true;
   });
   equal(elm.get(0), $('.test').get(0), 'Filter should only return the elements we filter');

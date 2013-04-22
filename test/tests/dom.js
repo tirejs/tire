@@ -1,11 +1,4 @@
-module('Tire dom.js', {
-  setup: function () {
-    var elm;
-  },
-  teardown: function () {
-    elm = null;
-  }
-});
+module('Tire dom.js');
 
 test('is', function () {
   ok($('.test').is('div'), true, 'Should return true if the element matches the selector');
@@ -32,7 +25,7 @@ test('text', function () {
 });
 
 test('val', function () {
-  elm = $('input[type=text]');
+  var elm = $('input[type=text]');
   elm.val('');
   equal(elm.val(), '', 'Should return value of input element');
   elm.val('test text');
@@ -47,14 +40,14 @@ test('val', function () {
 
 test('html', function () {
   expect(2);
-  elm = $('.html');
+  var elm = $('.html');
   equal(elm.html(), 'test text', 'Should return inner html for element');
   elm.html('html test');
   equal(elm.html(), 'html test', 'Should return inner html for element after it changed');
 });
 
 test('append', function () {
-  elm = $('.html');
+  var elm = $('.html');
   elm.append('<p>append</p>');
   equal(elm.get(0).childNodes[1].innerHTML, 'append', 'Should return inner html for element');
   var divs = $(['<div id="1" />', '<div id="2" />']);
@@ -64,7 +57,7 @@ test('append', function () {
 });
 
 test('prepend', function () {
-  elm = $('.html');
+  var elm = $('.html');
   elm.prepend('<p>prepend</p>');
   equal(elm.get(0).childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
   elm = $('#divs');
@@ -82,14 +75,14 @@ test('before', function () {
   $('.html').before('<p>before</p>');
   equal($('.html').get(0).previousSibling.innerHTML, 'before', 'Should return inner html for element');
   var divs = $(['<div id="divs-before1" />', '<div id="divs-before2" />']);
-  elm = $('#divs-before');
+  var elm = $('#divs-before');
   elm.before(divs);
   equal(elm.parent().children().length, divs.length+2, 'Should contains the same count divs as we added before, plus two extra for a existing div');
 });
 
 test('after', function () {
   $('.html').after('<p>after</p>');
-  elm = $('.html').get(0);
+  var elm = $('.html').get(0);
   // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
   var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
   equal(result, 'after', 'Should return inner html for element');

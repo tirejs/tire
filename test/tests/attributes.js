@@ -1,13 +1,4 @@
-
-
-module('Tire attributes.js', {
-  setup: function () {
-    var elm;
-  },
-  teardown: function () {
-    elm = null;
-  }
-});
+module('Tire attributes.js');
 
 test('addClass', function () {
   expect(2);

@@ -61,18 +61,34 @@ test('parseJSON', function () {
   ok(!!($.parseJSON('{"a":"b"}') instanceof Object || !null), true, 'Should parse JSON string to object or return empty string');
 });
 
-module('Selectors', {
-  setup: function () {
-    var elm;
-  },
-  teardown: function () {
-    elm = null;
-  }
+test('noConflict', function () {
+  var _tire = tire
+    , _t = _tire;
+
+  window.$ = _t;
+
+  equal(_t, _t.noConflict(), 'noConflict should return tire');
+  equal(window.$, undefined, 'Dollar sign should be undefined after we runned noConflict()');
+  equal(_t.noConflict(true), _tire, 'noConflict(true) should return tire');
+
+  // Make sure to set orginal tire to dollar sign again and to the global tire object.
+  window.$ = window.tire = _tire;
 });
+
+test('trim', function () {
+  equal(tire.trim('tire  '), 'tire', 'Should remove all white space');
+  equal(tire.trim('  tire  '), 'tire', 'Should remove all white space');
+  equal(tire.trim(undefined), '', 'Undefined value should equal empty string');
+  equal(tire.trim(null), '', 'null value should equal empty string');
+  equal(tire.trim(5), '5', 'Number vallue should equal number string');
+  equal(tire.trim(true), 'true', 'Boolean value should equal boolean string');
+});
+
+module('Selectors');
 
 test('ID Selector', function () {
   expect(4);
-  elm = $('#test');
+  var elm = $('#test');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified ID');
   equal(elm.get(0).innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('#donotexists');
@@ -83,7 +99,7 @@ test('ID Selector', function () {
 
 test('Class name Selector', function () {
   expect(3);
-  elm = $('.test');
+  var elm = $('.test');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified class name');
   equal(elm.get(0).innerHTML, 'test text', 'Should contain innerHTML as exists in markup');
   elm = $('.donotexists');
@@ -92,7 +108,7 @@ test('Class name Selector', function () {
 
 test('Tag name Selector', function () {
   expect(3);
-  elm = $('ul');
+  var elm = $('ul');
   equal(elm.length, 1, 'Should return length 1 for existing elements with specified tagname');
   elm = $('blink');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
@@ -102,14 +118,14 @@ test('Tag name Selector', function () {
 
 test('Nested Selector', function () {
   expect(1);
-  elm = $('ul');
-  elmInner = elm.find('li');
+  var elm = $('ul')
+    , elmInner = elm.find('li');
   equal(elm === elmInner, false, 'Should return false');
 });
 
 test('Elements reference selector', function () {
   expect(3);
-  elm = $(document.body);
+  var elm = $(document.body);
   equal(elm.length, 1, 'Should return length 1 for existing body element');
   equal(elm.get(0), document.body, 'Should be document.body if document.body is the selector');
   elm = $(window);
@@ -118,14 +134,14 @@ test('Elements reference selector', function () {
 
 test('HTML string selector', function () {
   expect(2);
-  elm = $('<a href="#">Hello, world!</a>');
+  var elm = $('<a href="#">Hello, world!</a>');
   equal(elm.length, 1, 'Should return length 1 for existing elements');
   ok(elm.get(0) instanceof HTMLAnchorElement, 'Should be a instance of HTMLAnchorElement');
 });
 
 test('Combined selectors', function () {
   expect(3);
-  elm = $(document.body).find('.test-area ul');
+  var elm = $(document.body).find('.test-area ul');
   equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (.class tag)');
   elm = $('div ul');
   equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (tag tag)');
@@ -137,7 +153,7 @@ test('Combined selectors', function () {
 
 test('Find in context', function () {
   expect(2);
-  elm = $('body', document.getElementById('test-area'));
+  var elm = $('body', document.getElementById('test-area'));
   equal(elm.length, 0, 'Should return length 0 for non-existing elements in the context');
   elm = $('.test-area', document.getElementById('body'));
   equal(elm.get(0), document.getElementById('test-area'), 'Should be able to find element by class name');
@@ -145,10 +161,15 @@ test('Find in context', function () {
 
 test('Empty selectors', function () {
   expect(3);
-  elm = $(undefined);
+  var elm = $(undefined);
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $(null);
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $("");
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
+});
+
+test('Array selector', function () {
+  equal($([document.body, document.getElementById('qunit')]).get(0), document.body, 'First value in array should equal document.body');
+  equal($([1,2,3]).get(1), 2, 'Second value in array should equal 2');
 });

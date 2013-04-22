@@ -1,11 +1,4 @@
-module('Tire css.js', {
-  setup: function () {
-    var elm;
-  },
-  teardown: function () {
-    elm = null;
-  }
-});
+module('Tire css.js');
 
 test('css', function () {
   expect(4);
