@@ -8,6 +8,8 @@ module.exports = function(grunt) {
         ' * Copyright (c) 2012-<%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
         ' * Version: <%= pkg.version %>\n' +
         ' * Released under the MIT License.\n' +
+        ' *\n' +
+        ' * Date: {{date}}\n' +
         ' */'
     },
     concat: {
@@ -69,6 +71,7 @@ module.exports = function(grunt) {
         });
       }
       src = src.replace(/\{\{version\}\}/, pkg.version);
+      src = src.replace(/\{\{date\}\}/, (new Date()).toISOString().split('T')[0]);
       grunt.file.write(dest, src);
     });
 
