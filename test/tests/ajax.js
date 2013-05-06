@@ -11,7 +11,7 @@ if (window.location.protocol.indexOf('http') !== -1 && window.location.search.in
       }
     },
     teardown: function () {
-      delete window.headers;
+      window.headers = [];
     }
   });
 
