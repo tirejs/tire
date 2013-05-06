@@ -239,6 +239,19 @@ tire.extend({
   },
 
   /**
+   * Check to see if a DOM element is a descendant of another DOM element.
+   *
+   * @param {Object} parent
+   * @param {Object} node
+   *
+   * @return {Boolean}
+   */
+
+  contains: function (parent, node) {
+    return parent.contains ? parent != node && parent.contains(node) : !!(parent.compareDocumentPosition(node) & 16);
+  },
+
+  /**
    * Check if the element matches the selector
    *
    * @param {Object} element

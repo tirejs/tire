@@ -55,3 +55,12 @@ test('Should trigger delegated event', function () {
   $('body').off('click', 'a.del');
   start();
 });
+
+test('Should test mouse enter delegated event', function () {
+  stop();
+  $('body').on('mouseenter', 'a.mouseenter', function () {
+    start();
+    ok(true, 'Event should be trigged');
+  });
+  $('body').append('<a href="#" class="mouseenter"></a>').find('a.mouseenter').trigger('mouseenter');
+});

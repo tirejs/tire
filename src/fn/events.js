@@ -3,6 +3,10 @@ var _eventId = 1
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
+  , mouse = {
+      mouseenter: 'mouseover',
+      mouseleave: 'mouseout'
+    }
   , eventMethods = {
       preventDefault: 'isDefaultPrevented',
       stopImmediatePropagation: 'isStopImmediatePropagation',
@@ -112,9 +116,9 @@ function addEvent (element, events, callback, selector) {
 
   if (tire.isString(selector)) {
     _callback = callback;
-    fn = function (e) {
+    fn = function () {
       return (function (element, callback, selector) {
-        return function delegate (e) {
+        return function (e) {
           var match = tire(e.target || e.srcElement).closest(selector, element).get(0)
             , event;
 
@@ -134,6 +138,22 @@ function addEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
+    var parts = (event + '').split('.');
+
+    if (_callback !== undefined && parts[0] in mouse) {
+      var _fn = fn();
+      fn = function () {
+        return function (e) {
+          var related = e.relatedTarget;
+          if (!related || (related !== this && !tire.contains(this, related))) {
+            return _fn.apply(this, arguments);
+          }
+        }
+      }
+    }
+
+    event = mouse[parts[0]] || parts[0];
+
     var handler = createEventHandler(element, event, fn && fn() || callback, _callback);
 
     if (selector) handler.selector = selector;
@@ -186,8 +206,9 @@ function removeEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var handlers = getEventHandlers(id, event)
-      , parts = ('' + event).split('.');
+    var parts = ('' + event).split('.');
+    event = mouse[parts[0]] || parts[0];
+    var handlers = getEventHandlers(id, event);
 
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
@@ -254,7 +275,10 @@ tire.fn.extend({
       if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
 
       var event
-        , createEvent = !!document.createEvent;
+        , createEvent = !!document.createEvent
+        , parts = (eventName + '').split('.');
+
+      eventName = mouse[parts[0]] || parts[0];
 
       if (createEvent) {
         event = document.createEvent('HTMLEvents');
