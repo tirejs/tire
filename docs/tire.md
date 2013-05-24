@@ -46,7 +46,7 @@ Please do not hotlink directly to the files hosted on [code.tirejs.com](http://c
 
 `$()` is just a shortcut for `tire()`. If another framework or library is using `$()` and you like to continue to use it, you can use tire's `$.noConflict()` to fix it.
 
-This function is used to create Tire collections, wrapp DOM nodes or create elements from HTML string. Tire support the basic selectors, but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
+This function is used to create Tire collections, wrap DOM nodes or create elements from HTML string. Tire support the basic selectors, but in a modern browser advanced selectors are supported as well via `document.querySelectorAll`.
 
 The function will take two parameters, the first is a selector and the second is the context (or attribute object) where you are searching for the DOM node. If no context is given the context will be `document`. If a tire collection is given it will just return the given collection.
 
