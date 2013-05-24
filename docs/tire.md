@@ -29,10 +29,10 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.1.1
+Current release: 1.2.0
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.1.1.js) - _35kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.1.1.min.js) - _4.5kB when gzipped, for production_
+* [tire.js](http://code.tirejs.com/dist/all/tire-1.2.0.js) - _35kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.2.0.min.js) - _4.5kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
@@ -71,6 +71,12 @@ $('<a />', { href: '#', title: 'a' }); // Add attributes to the tag (1.1.1+).
 ```
 
 If a function is given it will be used as a callback for the dom ready event. `$(function () {})` is a shortcut for `$.ready()` or `$().ready`. When the dom is ready, the function is executed.
+
+### $.contains
+
+<span class="us">$.contains(container, contained)</span> <span class="re">boolean</span>
+
+Check to see if a DOM element is a descendant of another DOM element.
 
 ### $.each
 
@@ -526,6 +532,17 @@ $('a').trigger('click', {foo: 'bar'});
 ```
 
 ## Changelog
+
+##### 1.2.0
+
+* Delegated events.
+* The way tire.js handles and use AJAX is rewritten. The new AJAX code base will add a few options and opens up for reuse of tire.js AJAX functions in plugins.
+* Added `tire.version`.
+* Added `$.contains(container, contained)`.
+* Fixed `.find()`.
+* Fixed `preventDefault` for IE8.
+* Documentation fixes.
+* Bug fixes.
 
 ##### 1.1.1
 
