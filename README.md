@@ -30,10 +30,10 @@ Tire may work in older browsers but is not tested in older than the above.
 
 ## Download
 
-Current release: 1.1.1
+Current release: 1.2.0
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.1.1.js) - _35kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.1.1.min.js) - _4.5kB when gzipped, for production_
+* [tire.js](http://code.tirejs.com/dist/all/tire-1.2.0.js) - _35kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.2.0.min.js) - _4.5kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
@@ -78,4 +78,4 @@ Everyone is welcome to contribute with patches, bug-fixes and new features.
 
 * Please follow the code style in Tire.
 * If you are making several changes at once please divide them into multiple pull requests.
-* Always create the pull request against the `*-wip` branches, not the `master`.
+* Always create the pull request against the `*-wip` branches (use `master` when no `*-wip` exists), not the `master`.
