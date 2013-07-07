@@ -35,8 +35,24 @@ function getEventId (element) {
  */
 
 function getEventHandlers (id, event) {
+  var parts = ('' + event).split('.')
+    , ns = parts.slice(1).sort().join(' ')
+    , handlers;
+
+  event = mouse[parts[0]] || parts[0];
+
   c[id] = c[id] || {};
-  return c[id][event] = c[id][event] || [];
+  handlers = c[id][event] = c[id][event] || [];
+
+  if (ns.length) {
+    for (event in c[id]) {
+      for (var i = 0, l = c[id][event].length; i < l; i++) {
+        if (c[id][event][i].ns === ns) handlers.push(c[id][event][i]);
+      }
+    }
+  }
+
+  return handlers;
 }
 
 /**
@@ -152,9 +168,9 @@ function addEvent (element, events, callback, selector) {
       }
     }
 
-    event = mouse[parts[0]] || parts[0];
-
     var handler = createEventHandler(element, event, fn && fn() || callback, _callback);
+
+    event = mouse[parts[0]] || parts[0];
 
     if (selector) handler.selector = selector;
 
@@ -206,16 +222,17 @@ function removeEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var parts = ('' + event).split('.');
+    var handlers = getEventHandlers(id, event)
+      , parts = ('' + event).split('.');
+
     event = mouse[parts[0]] || parts[0];
-    var handlers = getEventHandlers(id, event);
 
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
         if (element.removeEventListener) {
-          element.removeEventListener(event, handlers[i], false);
+          element.removeEventListener(event || handlers[i].realEvent, handlers[i], false);
         } else if (element.detachEvent) {
-          var name = 'on' + event;
+          var name = 'on' + (event || handlers[i].realEvent);
           if (tire.isString(element[name])) element[name] = null;
           element.detachEvent(name, handlers[i]);
         }

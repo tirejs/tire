@@ -64,3 +64,18 @@ test('Should test mouse enter delegated event', function () {
   });
   $('body').append('<a href="#" class="mouseenter"></a>').find('a.mouseenter').trigger('mouseenter');
 });
+
+test('Custom events, with namespaces', function () {
+  var count = 0;
+
+  $('body').on('fake$event.namespaced', function () {
+    count++;
+  });
+
+  $('body').trigger('fake$event').trigger('fake$event');
+  equal(count, 2);
+
+  $('body').off('.namespaced');
+  $('body').trigger('fake$event');
+  equal(count, 2);
+});
