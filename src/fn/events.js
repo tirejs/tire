@@ -14,6 +14,31 @@ var _eventId = 1
     };
 
 /**
+ * Get event parts.
+ *
+ * @param {String} event
+ *
+ * @return {Object}
+ */
+
+function getEventParts (event) {
+  var parts = ('' + event).split('.');
+  return { ev: parts[0], ns: parts.slice(1).sort().join(' ') }; 
+}
+
+/**
+ * Get real event.
+ *
+ * @param {String} event
+ *
+ * @return {String}
+ */
+ 
+function realEvent (event) {
+  return mouse[event] || event;
+}
+
+/**
  * Get tire event id
  *
  * @param {Object} element The element to get tire event id from
@@ -35,19 +60,18 @@ function getEventId (element) {
  */
 
 function getEventHandlers (id, event) {
-  var parts = ('' + event).split('.')
-    , ns = parts.slice(1).sort().join(' ')
+  var parts = getEventParts(event)
     , handlers;
 
-  event = mouse[parts[0]] || parts[0];
+  event = realEvent(parts.ev);
 
   c[id] = c[id] || {};
   handlers = c[id][event] = c[id][event] || [];
 
-  if (ns.length) {
+  if (parts.ns.length) {
     for (event in c[id]) {
       for (var i = 0, l = c[id][event].length; i < l; i++) {
-        if (c[id][event][i].ns === ns) handlers.push(c[id][event][i]);
+        if (c[id][event][i].ns === parts.ns) handlers.push(c[id][event][i]);
       }
     }
   }
@@ -67,7 +91,7 @@ function getEventHandlers (id, event) {
 function createEventHandler (element, event, callback, _callback) {
   var id = getEventId(element)
     , handlers = getEventHandlers(id, event)
-    , parts = ('' + event).split('.')
+    , parts = getEventParts(event)
     , cb = _callback || callback;
 
   var fn = function (event) {
@@ -84,8 +108,8 @@ function createEventHandler (element, event, callback, _callback) {
   };
 
   fn._i = cb._i = cb._i || ++_eventId;
-  fn.realEvent = parts[0];
-  fn.ns = parts.slice(1).sort().join(' ');
+  fn.realEvent = realEvent(parts.ev);
+  fn.ns = parts.ns;
   handlers.push(fn);
   return fn;
 }
@@ -154,9 +178,9 @@ function addEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var parts = (event + '').split('.');
+    var parts = getEventParts(event);
 
-    if (_callback !== undefined && parts[0] in mouse) {
+    if (_callback !== undefined && parts.ev in mouse) {
       var _fn = fn();
       fn = function () {
         return function (e) {
@@ -170,7 +194,7 @@ function addEvent (element, events, callback, selector) {
 
     var handler = createEventHandler(element, event, fn && fn() || callback, _callback);
 
-    event = mouse[parts[0]] || parts[0];
+    event = realEvent(parts.ev);
 
     if (selector) handler.selector = selector;
 
@@ -192,12 +216,10 @@ function addEvent (element, events, callback, selector) {
  */
 
 function testEventHandler (parts, callback, selector, handler) {
-  var ns = parts.slice(1).sort().join(' ');
-
   return callback === undefined &&
     (handler.selector === selector ||
-      handler.realEvent === parts[0] ||
-      handler.ns === ns) ||
+      handler.realEvent === parts.ev ||
+      handler.ns === parts.ns) ||
       callback._i === handler._i;
 }
 
@@ -223,9 +245,9 @@ function removeEvent (element, events, callback, selector) {
 
   tire.each(events.split(/\s/), function (index, event) {
     var handlers = getEventHandlers(id, event)
-      , parts = ('' + event).split('.');
+      , parts = getEventParts(event);
 
-    event = mouse[parts[0]] || parts[0];
+    event = realEvent(parts.ev);
 
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
@@ -293,9 +315,9 @@ tire.fn.extend({
 
       var event
         , createEvent = !!document.createEvent
-        , parts = (eventName + '').split('.');
+        , parts = getEventParts(eventName);
 
-      eventName = mouse[parts[0]] || parts[0];
+      eventName = realEvent(parts.ev);
 
       if (createEvent) {
         event = document.createEvent('HTMLEvents');
