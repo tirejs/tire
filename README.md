@@ -37,6 +37,11 @@ Current release: 1.2.0
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
+### CDN
+
+* [tire.js](http://cdn.jsdelivr.net/tire/1.2.0/tire.js) `//cdn.jsdelivr.net/tire/1.2.0/tire.js`
+* [tire.min.js](http://cdn.jsdelivr.net/tire/1.2.0/tire.min.js) `//cdn.jsdelivr.net/tire/1.2.0/tire.min.js`
+
 ## Build
 
 ```sh
