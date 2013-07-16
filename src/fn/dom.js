@@ -226,9 +226,9 @@ tire.fn.extend({
           , parent;
 
         if (location === 'prepend') {
-          this.insertBefore(wrapped, this.firstChild);
+          target(this, html).insertBefore(wrapped, this.firstChild);
         } else if (location === 'append') {
-          this.insertBefore(wrapped, null);
+          target(this, html).appendChild(wrapped);
         } else if (location === 'before') {
           this.parentNode.insertBefore(wrapped, this);
         } else if (location === 'after') {
@@ -254,11 +254,23 @@ tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (index, n
 });
 
 function wrap (html) {
-  var elm = document.createElement('div');
+  var name = tagExp.test(html) && tagExp.exec(html)[1]
+    , elm = document.createElement('div');
+  if (containers.hasOwnProperty(name)) elm = containers[name];
   if (tire.isString(html) || tire.isNumeric(html)) {
     elm.innerHTML = html;
   } else {
     elm.appendChild(html);
   }
   return elm;
+}
+
+function nodeName (elm, name) {
+  return elm.nodeName.toLowerCase() === name.toLowerCase();
+}
+
+function target (elm, html) {
+  return nodeName(elm, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
+    elm.getElementsByTagName('tbody')[0] ||elm.appendChild(elm.ownerDocument.createElement('tbody')) :
+    elm;
 }
