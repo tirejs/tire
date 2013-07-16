@@ -271,6 +271,6 @@ function nodeName (elm, name) {
 
 function target (elm, html) {
   return nodeName(elm, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
-    elm.getElementsByTagName('tbody')[0] ||elm.appendChild(elm.ownerDocument.createElement('tbody')) :
+    elm.getElementsByTagName('tbody')[0] || elm.appendChild(elm.ownerDocument.createElement('tbody')) :
     elm;
 }
