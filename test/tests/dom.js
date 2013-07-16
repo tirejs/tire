@@ -101,3 +101,12 @@ test('empty', function () {
   $('.html').empty();
   equal($('.html').html(), '', 'Should return empty inner html after empty');
 });
+
+test('table elements', function () {
+  equal($('<td></td>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<th></th>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<tr></tr>').get(0).parentNode.nodeName.toLowerCase(), 'tbody');
+  equal($('<thead></thead>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tbody></tbody>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tfoot></tfoot>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+});
