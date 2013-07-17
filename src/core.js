@@ -17,9 +17,7 @@ var document   = window.document
       'td': tableRow,
       'th': tableRow,
        '*': document.createElement('div')
-    }
-  // On Property Change event handler for IE8.
-  , opcHandler;
+    };
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.remove = function(array, from, to) {

@@ -340,7 +340,7 @@ tire.fn.extend({
         try { // fire event in < IE 9
           elm.fireEvent('on' + eventName, event);
         } catch (e) { // solution to trigger custom events in < IE 9
-          opcHandler = opcHandler || function (ev) {
+          elm.attachEvent('onpropertychange', function (ev) {
             if (ev.eventName === eventName && ev.srcElement._eventId) {
               var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
               if (handlers.length) {
@@ -349,9 +349,7 @@ tire.fn.extend({
                 }
               }
             }
-          }
-          elm.detachEvent('onpropertychange', opcHandler);
-          elm.attachEvent('onpropertychange', opcHandler);
+          });
           elm.fireEvent('onpropertychange', event);
         }
       }
