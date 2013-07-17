@@ -23,7 +23,7 @@ var _eventId = 1
 
 function getEventParts (event) {
   var parts = ('' + event).split('.');
-  return { ev: parts[0], ns: parts.slice(1).sort().join(' ') }; 
+  return { ev: parts[0], ns: parts.slice(1).sort().join(' ') };
 }
 
 /**
@@ -33,7 +33,7 @@ function getEventParts (event) {
  *
  * @return {String}
  */
- 
+
 function realEvent (event) {
   return mouse[event] || event;
 }
@@ -340,16 +340,18 @@ tire.fn.extend({
         try { // fire event in < IE 9
           elm.fireEvent('on' + eventName, event);
         } catch (e) { // solution to trigger custom events in < IE 9
-          elm.attachEvent('onpropertychange', function (ev) {
+          opcHandler = opcHandler || function (ev) {
             if (ev.eventName === eventName && ev.srcElement._eventId) {
               var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
               if (handlers.length) {
-                for (var i = 0; i < handlers.length; i++) {
+                for (var i = 0, l = handlers.length; i < l; i++) {
                   handlers[i](ev);
                 }
               }
             }
-          });
+          }
+          elm.detachEvent('onpropertychange', opcHandler);
+          elm.attachEvent('onpropertychange', opcHandler);
           elm.fireEvent('onpropertychange', event);
         }
       }
