@@ -23,14 +23,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '/*!\n' +
-         ' * tire.js\n' +
-         ' * Copyright (c) 2012-<%= grunt.template.today("yyyy") %> Fredrik Forsmo\n' +
-         ' * Version: <%= pkg.version %>\n' +
-         ' * Released under the MIT License.\n' +
-         ' *\n' +
-         ' * Date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-         ' */\n\n',
+        banner: '// tire.js v<%= pkg.version %> | Copyright (c) 2012-<%= grunt.template.today("yyyy") %> Fredrik Forsmo | MIT License | <%= grunt.template.today("yyyy-mm-dd") %>\n',
         report: 'gzip'
       },
       build: {
@@ -40,12 +33,12 @@ module.exports = function(grunt) {
     },
 
     eslint: {
-      target: ['src/core.js', 'src/fn/*.js']
+      target: ['src/fn/events.js']
     },
 
     watch: {
       tasks: ['eslint'],
-      files: ['src/core.js', 'src/fn/*.js']
+      files: ['src/core.js']
     }
   });
 
