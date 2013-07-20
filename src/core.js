@@ -180,8 +180,12 @@ tire.fn = tire.prototype = {
         if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
-      for (key in target) {
-        if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+      if (target instanceof tire) {
+        return tire.each(slice.call(target), callback);
+      } else {
+        for (key in target) {
+          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+        }
       }
     }
 
