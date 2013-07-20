@@ -22,8 +22,9 @@
     <ul></ul>
     <script src="../dist/tire.js"></script>
     <script>
-      var $ul1 = $('ul').eq(0)
-        , $ul2 = $('ul').eq(1)
+      var body = $('body');
+      var $ul1 = $('ul', body).eq(0)
+        , $ul2 = $('ul', body).eq(1)
         , tags = $('#container').find('a');
 
       $ul1.css('background', 'red');
@@ -36,7 +37,7 @@
 
       $.each(tags, function (i, el) {
         $ul2.append('<li>ul2 - a: ' + $(el).text() + ' i: ' + i + '</li>');
-      }, true);
+      });
 
     </script>
   </body>
