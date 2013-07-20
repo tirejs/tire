@@ -103,6 +103,10 @@ tire.fn = tire.prototype = {
       context = document;
     }
 
+    if (context instanceof tire) {
+      context = context.context;
+    }
+
     if (tire.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
