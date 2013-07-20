@@ -30,11 +30,12 @@ Array.remove = function(array, from, to) {
 try {
   slice.call(document.documentElement.childNodes, 0)[0].nodeType;
 } catch(e) {
-  slice = function (i) {
+  slice = function (i, e) {
     i = i || 0;
-    var elem, results = [];
-    for (; (elem = this[i]); i++) {
-      results.push(elem);
+    var elm, results = [];
+    for (; (elm = this[i]); i++) {
+      if (i === e) break;
+      results.push(elm);
     }
     return results;
   };

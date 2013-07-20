@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <title>tire test</title>
+    <meta charset="utf-8">
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="https://getfirebug.com/releases/lite/1.3/firebug-lite.js"></script>
+      <script>
+        console.open();
+      </script>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="container">
+      <a href="#">One</a>
+      <a href="#">Two</a>
+      <a href="#">Three</a>
+    </div>
+    <p>tags.each</p>
+    <ul></ul>
+    <p>.each(tags)</p>
+    <ul></ul>
+    <script src="../dist/tire.js"></script>
+    <script>
+      var $ul1 = $('ul').eq(0)
+        , $ul2 = $('ul').eq(1)
+        , tags = $('#container').find('a');
+
+      $ul1.css('background', 'red');
+
+      tags.each(function (i, el) {
+        $ul1.append('<li>ul1 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+      });
+
+      $ul2.css('background', 'green');
+
+      $.each(tags, function (i, el) {
+        $ul2.append('<li>ul2 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+      }, true);
+
+    </script>
+  </body>
+</html>
