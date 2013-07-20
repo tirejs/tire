@@ -28,7 +28,7 @@ Array.remove = function(array, from, to) {
 
 // If slice is not available we provide a backup
 try {
-  slice.call(document.documentElement.childNodes, 0)[0].nodeType;
+  slice.call(document.childNodes);
 } catch(e) {
   slice = function (i, e) {
     i = i || 0;
