@@ -69,10 +69,8 @@ function getPropertyValue(elm, prop) {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
     value = document.defaultView.getComputedStyle(elm, '').getPropertyValue(prop);
-  } else if (elm.currentStyle) {
-    value = elm.currentStyle[prop];
   } else {
-    value = elm.style[prop];
+    value = elm.currentStyle[prop] || elm.style[prop];
   }
   return !!value ? value : '';
 }
