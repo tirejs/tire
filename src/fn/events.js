@@ -1,5 +1,5 @@
 var _eventId = 1
-  , c = window.c = {}
+  , c = {}
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
