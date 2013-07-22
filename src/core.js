@@ -230,7 +230,7 @@ tire.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  tire.fn.each(slice.call(arguments), function (index, value) {
+  tire.fn.each(slice.call(arguments), function (i, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }
@@ -276,26 +276,26 @@ tire.extend({
   /**
    * Check if the element matches the selector
    *
-   * @param {Object} element
+   * @param {Object} elm
    * @param {String} selector
    * @return {Boolean}
    */
 
-  matches: function (element, selector) {
-    if (!element || element.nodeType !== 1) return false;
+  matches: function (elm, selector) {
+    if (!elm || elm.nodeType !== 1) return false;
 
     // Trying to use matchesSelector if it is available
-    var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
+    var matchesSelector = elm.webkitMatchesSelector || elm.mozMatchesSelector || elm.oMatchesSelector || elm.matchesSelector;
     if (matchesSelector) {
-      return matchesSelector.call(element, selector);
+      return matchesSelector.call(elm, selector);
     }
 
     // querySelectorAll fallback
     if (document.querySelectorAll !== undefined) {
-      var nodes = element.parentNode.querySelectorAll(selector);
+      var nodes = elm.parentNode.querySelectorAll(selector);
 
       for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] === element) return true;
+        if (nodes[i] === elm) return true;
       }
     }
 
