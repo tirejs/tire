@@ -4,15 +4,6 @@ tire.fn.extend({
    * Get css property
    * Set css properties
    *
-   * Examples:
-   *
-   *  // Get property
-   *  $('div').css('color'); will return the css property
-   *
-   *  // Set properties
-   *  $('div').css('color', 'black');
-   *  $('div').css({ color: 'black', backgroundColor: 'white' });
-   *
    * @param {String|Object} prop
    * @param {String} value
    * @return {String|Object}
