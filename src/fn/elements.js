@@ -39,7 +39,7 @@ tire.fn.extend({
   /**
    * Get the element at position specified by index from the current collection.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {Object}
    */
 
@@ -50,7 +50,7 @@ tire.fn.extend({
   /**
    * Retrieve the DOM elements matched by the tire object.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {object}
    */
 

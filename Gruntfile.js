@@ -33,12 +33,12 @@ module.exports = function(grunt) {
     },
 
     eslint: {
-      target: ['src/fn/events.js']
+      target: ['src/core.js', 'src/fn/*.js']
     },
 
     watch: {
       tasks: ['eslint'],
-      files: ['src/core.js']
+      files: ['src/core.js', 'src/fn/*.js']
     }
   });
 

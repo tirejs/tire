@@ -11,7 +11,9 @@ var _eventId = 1
       preventDefault: 'isDefaultPrevented',
       stopImmediatePropagation: 'isStopImmediatePropagation',
       stopPropagation: 'isPropagationStopped'
-    };
+    }
+  , opcHandler
+  , opcCache = {};
 
 /**
  * Get event parts.
@@ -43,7 +45,7 @@ function realEvent (event) {
  *
  * @param {Object} element The element to get tire event id from
  *
- * @return {Integer}
+ * @return {Number}
  */
 
 function getEventId (element) {
@@ -53,7 +55,7 @@ function getEventId (element) {
 /**
  * Get event handlers
  *
- * @param {Integer} id
+ * @param {Number} id
  * @param {String} event
  *
  * @return {Array}
@@ -61,17 +63,22 @@ function getEventId (element) {
 
 function getEventHandlers (id, event) {
   var parts = getEventParts(event)
-    , handlers;
+    , handlers = [];
 
   event = realEvent(parts.ev);
 
   c[id] = c[id] || {};
-  handlers = c[id][event] = c[id][event] || [];
+
+  if (event.length) {
+    handlers = c[id][event] = c[id][event] || [];
+  }
 
   if (parts.ns.length) {
     for (event in c[id]) {
       for (var i = 0, l = c[id][event].length; i < l; i++) {
-        if (c[id][event][i].ns === parts.ns) handlers.push(c[id][event][i]);
+        if (c[id][event][i] && c[id][event][i].ns === parts.ns) {
+          handlers.push(c[id][event][i]);
+        }
       }
     }
   }
@@ -251,12 +258,17 @@ function removeEvent (element, events, callback, selector) {
 
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
+        event = (event || handlers[i].realEvent);
         if (element.removeEventListener) {
-          element.removeEventListener(event || handlers[i].realEvent, handlers[i], false);
+          element.removeEventListener(event, handlers[i], false);
         } else if (element.detachEvent) {
-          var name = 'on' + (event || handlers[i].realEvent);
+          var name = 'on' + event;
           if (tire.isString(element[name])) element[name] = null;
           element.detachEvent(name, handlers[i]);
+          if (opcCache[element.nodeName]) { // Remove custom event handler on IE8.
+            element.detachEvent('onpropertychange', opcHandler);
+            delete opcCache[element.nodeName];
+          }
         }
         Array.remove(c[id][event], i, 1);
       }
@@ -340,16 +352,20 @@ tire.fn.extend({
         try { // fire event in < IE 9
           elm.fireEvent('on' + eventName, event);
         } catch (e) { // solution to trigger custom events in < IE 9
-          elm.attachEvent('onpropertychange', function (ev) {
-            if (ev.eventName === eventName && ev.srcElement._eventId) {
-              var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
-              if (handlers.length) {
-                for (var i = 0, l = handlers.length; i < l; i++) {
-                  handlers[i](ev);
+          if (!opcCache[elm.nodeName]) {
+            opcHandler = opcHandler || function (ev) {
+              if (ev.eventName && ev.srcElement._eventId) {
+                var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
+                if (handlers.length) {
+                  for (var i = 0, l = handlers.length; i < l; i++) {
+                    if (tire.isFunction(handlers[i])) handlers[i](ev);
+                  }
                 }
               }
-            }
-          });
+            };
+            elm.attachEvent('onpropertychange', opcHandler);
+          }
+          opcCache[elm.nodeName] = opcCache[elm.nodeName] || true;
           elm.fireEvent('onpropertychange', event);
         }
       }

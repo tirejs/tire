@@ -254,7 +254,7 @@ tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (index, n
 });
 
 function wrap (html) {
-  var name = tagExp.exec(html)[1]
+  var name = tagExp.test(html) && tagExp.exec(html)[1]
     , elm = document.createElement('div');
   if (containers.hasOwnProperty(name)) elm = containers[name];
   if (tire.isString(html) || tire.isNumeric(html)) {
@@ -270,7 +270,7 @@ function nodeName (elm, name) {
 }
 
 function target (elm, html) {
-  return nodeName(elm, 'table') && tagExp.exec(html)[1] === 'tr' ?
+  return nodeName(elm, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
     elm.getElementsByTagName('tbody')[0] || elm.appendChild(elm.ownerDocument.createElement('tbody')) :
     elm;
 }

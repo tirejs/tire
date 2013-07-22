@@ -28,13 +28,14 @@ Array.remove = function(array, from, to) {
 
 // If slice is not available we provide a backup
 try {
-  slice.call(document.documentElement.childNodes, 0)[0].nodeType;
+  slice.call(document.childNodes);
 } catch(e) {
-  slice = function (i) {
+  slice = function (i, e) {
     i = i || 0;
-    var elem, results = [];
-    for (; (elem = this[i]); i++) {
-      results.push(elem);
+    var elm, results = [];
+    for (; (elm = this[i]); i++) {
+      if (i === e) break;
+      results.push(elm);
     }
     return results;
   };
@@ -100,6 +101,10 @@ tire.fn = tire.prototype = {
     if (tire.isPlainObject(context)) {
       attrs = context;
       context = document;
+    }
+
+    if (context instanceof tire) {
+      context = context.context;
     }
 
     if (tire.isString(selector)) {
@@ -180,8 +185,12 @@ tire.fn = tire.prototype = {
         if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
-      for (key in target) {
-        if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+      if (target instanceof tire) {
+        return tire.each(slice.call(target), callback);
+      } else {
+        for (key in target) {
+          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+        }
       }
     }
 
