@@ -160,7 +160,7 @@ tire.fn.extend({
         }).pluck('value') : this[0].value;
       }
 
-      return null;
+      return undefined;
     } else {
       return this.each(function () {
         if (this.nodeType !== 1) {
