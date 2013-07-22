@@ -198,7 +198,7 @@ tire.fn.extend({
 
   html: function (html, location) {
     if (arguments.length === 0) {
-      return this.length > 0 ? this[0].innerHTML : null;
+      return this.length > 0 ? this[0].innerHTML : undefined;
     }
 
     location = location || 'inner';
