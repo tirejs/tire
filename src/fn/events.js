@@ -37,7 +37,7 @@ function getEventParts (event) {
  */
 
 function realEvent (event) {
-  return mouse[event] || event;
+  return mouse[event] || event;
 }
 
 /**
