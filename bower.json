@@ -1,0 +1,7 @@
+{
+  "name": "tire",
+  "version": "1.2.1-wip",
+  "devDependencies": {
+    "qunit": "~1.11.0"
+  }
+}
