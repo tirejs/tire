@@ -35,7 +35,7 @@ function normalize (node) {
     });
     return els;
   }
-  return typeof node === 'string' ? wrap(node) : isNode(node) ? [node] : node;
+  return tire.isString(node) ? wrap(node) : isNode(node) ? [node] : node;
 }
 
 /**
@@ -168,7 +168,7 @@ tire.fn.extend({
    */
 
   html: function (html) {
-    if (typeof html === 'undefined') {
+    if (html === undefined) {
       return this[0] ? this[0].innerHTML : undefined;
     }
 
