@@ -38,7 +38,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      tasks: ['concat'],
+      tasks: ['eslint'],
       files: ['src/core.js', 'src/fn/*.js']
     }
   });
