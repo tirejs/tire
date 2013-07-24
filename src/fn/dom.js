@@ -183,7 +183,9 @@ tire.fn.extend({
 
   empty: function () {
     return this.each(function () {
-      this.innerHTML = '';
+      while (this.hasChildNodes()) {
+        this.removeChild(this.childNodes[0]);
+      }
     });
   },
 
