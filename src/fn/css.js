@@ -60,8 +60,15 @@ function getPropertyValue(el, prop) {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
     value = document.defaultView.getComputedStyle(el, '').getPropertyValue(prop);
-  } else {
-    value = el.currentStyle[prop] || el.style[prop];
   }
+
+  if (!!value && value.length) {
+    value = value;
+  } else if (el.currentStyle) {
+    value = el.currentStyle[prop] || el.style[prop];
+  } else {
+    value = el.style[prop];
+  }
+
   return !!value ? value : '';
 }
