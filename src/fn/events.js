@@ -43,13 +43,13 @@ function realEvent (event) {
 /**
  * Get tire event id
  *
- * @param {Object} elm The element to get tire event id from
+ * @param {Object} el The element to get tire event id from
  *
  * @return {Number}
  */
 
-function getEventId (elm) {
-  return elm._eventId || (elm._eventId = _eventId++);
+function getEventId (el) {
+  return el._eventId || (el._eventId = _eventId++);
 }
 
 /**
@@ -89,14 +89,14 @@ function getEventHandlers (id, event) {
 /**
  * Create event handler
  *
- * @param {Object} elm
+ * @param {Object} el
  * @param {String} event
  * @param {Function} callback
  * @param {Function} _callback Orginal callback if delegated event
  */
 
-function createEventHandler (elm, event, callback, _callback) {
-  var id = getEventId(elm)
+function createEventHandler (el, event, callback, _callback) {
+  var id = getEventId(el)
     , handlers = getEventHandlers(id, event)
     , parts = getEventParts(event)
     , cb = _callback || callback;
@@ -104,7 +104,7 @@ function createEventHandler (elm, event, callback, _callback) {
   var fn = function (event) {
     var data = event.data;
     if (tire.isString(data) && /^[\[\{]/.test(data)) data = tire.parseJSON(event.data);
-    var result = callback.apply(elm, [event].concat(data));
+    var result = callback.apply(el, [event].concat(data));
     if (result === false) {
       if (event.stopPropagation) event.stopPropagation();
       if (event.preventDefault) event.preventDefault();
@@ -152,32 +152,32 @@ function createProxy (event) {
  * Add event to element, no support for delegate yet.
  * Using addEventListener or attachEvent (IE)
  *
- * @param {Object} elm
+ * @param {Object} el
  * @param {String} events
  * @param {Function} callback
  * @param {String} selector
  */
 
-function addEvent (elm, events, callback, selector) {
+function addEvent (el, events, callback, selector) {
   var fn, _callback;
 
   if (tire.isString(selector)) {
     _callback = callback;
     fn = function () {
-      return (function (elm, callback, selector) {
+      return (function (el, callback, selector) {
         return function (e) {
-          var match = tire(e.target || e.srcElement).closest(selector, elm).get(0)
+          var match = tire(e.target || e.srcElement).closest(selector, el).get(0)
             , event;
 
           if ((e.target || e.srcElement) === match) {
             event = tire.extend(createProxy(e), {
               currentTarget: match,
-              liveFired: elm
+              liveFired: el
             });
             return callback.apply(match, [event].concat(slice.call(arguments, 1)));
           }
         };
-      }(elm, callback, selector));
+      }(el, callback, selector));
     };
   } else {
     callback = selector;
@@ -199,16 +199,16 @@ function addEvent (elm, events, callback, selector) {
       }
     }
 
-    var handler = createEventHandler(elm, event, fn && fn() || callback, _callback);
+    var handler = createEventHandler(el, event, fn && fn() || callback, _callback);
 
     event = realEvent(parts.ev);
 
     if (selector) handler.selector = selector;
 
-    if (elm.addEventListener) {
-      elm.addEventListener(event, handler, false);
-    } else if (elm.attachEvent) {
-      elm.attachEvent('on' + event, handler);
+    if (el.addEventListener) {
+      el.addEventListener(event, handler, false);
+    } else if (el.attachEvent) {
+      el.attachEvent('on' + event, handler);
     }
   });
 }
@@ -236,14 +236,14 @@ function testEventHandler (parts, callback, selector, handler) {
  *
  * @todo Remove delegated events
  *
- * @param {Object} elm
+ * @param {Object} el
  * @param {String} events
  * @param {Function} callback
  * @param {String} selector
  */
 
-function removeEvent (elm, events, callback, selector) {
-  var id = getEventId(elm);
+function removeEvent (el, events, callback, selector) {
+  var id = getEventId(el);
 
   if (callback === undefined && tire.isFunction(selector)) {
     callback = selector;
@@ -259,15 +259,15 @@ function removeEvent (elm, events, callback, selector) {
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
         event = (event || handlers[i].realEvent);
-        if (elm.removeEventListener) {
-          elm.removeEventListener(event, handlers[i], false);
-        } else if (elm.detachEvent) {
+        if (el.removeEventListener) {
+          el.removeEventListener(event, handlers[i], false);
+        } else if (el.detachEvent) {
           var name = 'on' + event;
-          if (tire.isString(elm[name])) elm[name] = null;
-          elm.detachEvent(name, handlers[i]);
-          if (opcCache[elm.nodeName]) { // Remove custom event handler on IE8.
-            elm.detachEvent('onpropertychange', opcHandler);
-            delete opcCache[elm.nodeName];
+          if (tire.isString(el[name])) el[name] = null;
+          el.detachEvent(name, handlers[i]);
+          if (opcCache[el.nodeName]) { // Remove custom event handler on IE8.
+            el.detachEvent('onpropertychange', opcHandler);
+            delete opcCache[el.nodeName];
           }
         }
         Array.remove(c[id][event], i, 1);
@@ -322,8 +322,8 @@ tire.fn.extend({
    */
 
   trigger: function (eventName, data) {
-    return this.each(function (index, elm) {
-      if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
+    return this.each(function (index, el) {
+      if (el === document && !el.dispatchEvent) el = document.documentElement;
 
       var event
         , createEvent = !!document.createEvent
@@ -347,12 +347,12 @@ tire.fn.extend({
       }
 
       if (createEvent) {
-        elm.dispatchEvent(event);
+        el.dispatchEvent(event);
       } else {
         try { // fire event in < IE 9
-          elm.fireEvent('on' + eventName, event);
+          el.fireEvent('on' + eventName, event);
         } catch (e) { // solution to trigger custom events in < IE 9
-          if (!opcCache[elm.nodeName]) {
+          if (!opcCache[el.nodeName]) {
             opcHandler = opcHandler || function (ev) {
               if (ev.eventName && ev.srcElement._eventId) {
                 var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
@@ -363,10 +363,10 @@ tire.fn.extend({
                 }
               }
             };
-            elm.attachEvent('onpropertychange', opcHandler);
+            el.attachEvent('onpropertychange', opcHandler);
           }
-          opcCache[elm.nodeName] = opcCache[elm.nodeName] || true;
-          elm.fireEvent('onpropertychange', event);
+          opcCache[el.nodeName] = opcCache[el.nodeName] || true;
+          el.fireEvent('onpropertychange', event);
         }
       }
     });

@@ -7,11 +7,11 @@
 
 function ajaxJSONP (url, options) {
   var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
-    , elm = document.createElement('script')
+    , el = document.createElement('script')
     , abortTimeout = null
     , cleanUp = function () {
         if (abortTimeout !== null) clearTimeout(abortTimeout);
-        tire(elm).remove();
+        tire(el).remove();
         try { delete window[name]; }
         catch (e) { window[name] = undefined; }
       }
@@ -21,7 +21,7 @@ function ajaxJSONP (url, options) {
         if (tire.isFunction(options.error)) options.error(error, options);
       };
 
-  elm.onerror = function () {
+  el.onerror = function () {
     abort('error');
   };
 
@@ -32,15 +32,15 @@ function ajaxJSONP (url, options) {
   }
 
   window[name] = function (data) {
-    tire(elm).remove();
+    tire(el).remove();
     try { delete window[name]; }
     catch (e) { window[name] = undefined; }
     tire.ajaxSuccess(data, null, options);
   };
 
   options.data = tire.param(options.data);
-  elm.src = url.replace(/\=\?/, '=' + name);
-  tire('head')[0].appendChild(elm);
+  el.src = url.replace(/\=\?/, '=' + name);
+  tire('head')[0].appendChild(el);
 }
 
 tire.extend({

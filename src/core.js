@@ -21,10 +21,10 @@ try {
 } catch(e) {
   slice = function (i, e) {
     i = i || 0;
-    var elm, results = [];
-    for (; (elm = this[i]); i++) {
+    var el, results = [];
+    for (; (el = this[i]); i++) {
       if (i === e) break;
-      results.push(elm);
+      results.push(el);
     }
     return results;
   };
@@ -64,7 +64,7 @@ tire.fn = tire.prototype = {
    */
 
   find: function (selector, context) {
-    var elms = [], attrs;
+    var els = [], attrs;
 
     if (!selector) {
       return this;
@@ -99,38 +99,38 @@ tire.fn = tire.prototype = {
     if (tire.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
-        elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
+        els = (els = context.getElementById(selector.substr(1))) ? [els] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
-        elms = [];
+        els = [];
       } else if (tagExp.test(selector)) {
         tire.each(normalize(selector), function () {
-          elms.push(this);
+          els.push(this);
         });
       } else {
-        elms = slice.call(
+        els = slice.call(
           classExp.test(selector) && context.getElementsByClassName !== undefined ? context.getElementsByClassName(selector.substr(1)) :
           tagNameExp.test(selector) ? context.getElementsByTagName(selector) :
           context.querySelectorAll(selector)
         );
       }
     } else if (selector.nodeName || selector === window) {
-      elms = [selector];
+      els = [selector];
     } else if (tire.isArray(selector)) {
-      elms = selector;
+      els = selector;
     }
 
     if (selector.selector !== undefined) {
       this.selector = selector.selector;
       this.context = selector.context;
     } else if (this.context === undefined) {
-      if (elms[0] !== undefined && !tire.isString(elms[0])) {
-        this.context = elms[0];
+      if (els[0] !== undefined && !tire.isString(els[0])) {
+        this.context = els[0];
       } else {
         this.context = document;
       }
     }
 
-    return this.set(elms).each(function () {
+    return this.set(els).each(function () {
       return attrs && tire(this).attr(attrs);
     });
   },
@@ -261,26 +261,26 @@ tire.extend({
   /**
    * Check if the element matches the selector
    *
-   * @param {Object} elm
+   * @param {Object} el
    * @param {String} selector
    * @return {Boolean}
    */
 
-  matches: function (elm, selector) {
-    if (!elm || elm.nodeType !== 1) return false;
+  matches: function (el, selector) {
+    if (!el || el.nodeType !== 1) return false;
 
     // Trying to use matchesSelector if it is available
-    var matchesSelector = elm.webkitMatchesSelector || elm.mozMatchesSelector || elm.oMatchesSelector || elm.matchesSelector;
+    var matchesSelector = el.webkitMatchesSelector || el.mozMatchesSelector || el.oMatchesSelector || el.matchesSelector;
     if (matchesSelector) {
-      return matchesSelector.call(elm, selector);
+      return matchesSelector.call(el, selector);
     }
 
     // querySelectorAll fallback
     if (document.querySelectorAll !== undefined) {
-      var nodes = elm.parentNode.querySelectorAll(selector);
+      var nodes = el.parentNode.querySelectorAll(selector);
 
       for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] === elm) return true;
+        if (nodes[i] === el) return true;
       }
     }
 

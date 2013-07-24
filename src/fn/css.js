@@ -55,13 +55,13 @@ tire.fn.extend({
   }
 });
 
-function getPropertyValue(elm, prop) {
+function getPropertyValue(el, prop) {
   var value = '';
   if (document.defaultView && document.defaultView.getComputedStyle) {
     prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
-    value = document.defaultView.getComputedStyle(elm, '').getPropertyValue(prop);
+    value = document.defaultView.getComputedStyle(el, '').getPropertyValue(prop);
   } else {
-    value = elm.currentStyle[prop] || elm.style[prop];
+    value = el.currentStyle[prop] || el.style[prop];
   }
   return !!value ? value : '';
 }

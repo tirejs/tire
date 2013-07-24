@@ -62,22 +62,22 @@ function wrap (node) {
  * @return {Bool}
  */
 
-function nodeName (elm, name) {
-  return elm.nodeName.toLowerCase() === name.toLowerCase();
+function nodeName (el, name) {
+  return el.nodeName.toLowerCase() === name.toLowerCase();
 }
 
 /**
  * Find right target to use with dom manipulation methods.
  *
- * @param {Object} elm
+ * @param {Object} el
  * @param {String} html
  * @return {Object}
  */
 
-function target (elm, html) {
-  return nodeName(elm, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
-    elm.getElementsByTagName('tbody')[0] || elm.appendChild(elm.ownerDocument.createElement('tbody')) :
-    elm;
+function target (el, html) {
+  return nodeName(el, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
+    el.getElementsByTagName('tbody')[0] || el.appendChild(el.ownerDocument.createElement('tbody')) :
+    el;
 }
 
 tire.fn.extend({

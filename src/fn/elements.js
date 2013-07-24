@@ -9,13 +9,13 @@ tire.fn.extend({
 
   filter: function (obj) {
     if (tire.isFunction(obj)) {
-      var elms = [];
-      this.each(function (index, elm) {
-        if (obj.call(elm, index)) {
-          elms.push(elm);
+      var els = [];
+      this.each(function (index, el) {
+        if (obj.call(el, index)) {
+          els.push(el);
         }
       });
-      return tire(elms);
+      return tire(els);
     } else {
       return this.filter(function () {
         return tire.matches(this, obj);
@@ -65,10 +65,10 @@ tire.fn.extend({
    */
 
   clone: function () {
-    var elms = [];
+    var els = [];
     this.each(function () {
-      elms.push(this.cloneNode(true));
+      els.push(this.cloneNode(true));
     });
-    return tire(elms);
+    return tire(els);
   }
 });
