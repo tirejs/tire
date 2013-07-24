@@ -136,7 +136,7 @@ tire.fn.extend({
 
   text: function (text) {
     if (text === undefined) {
-      return this.length > 0 ? this[0].textContent === undefined ? this[0].innerText : this[0].textContent : null;
+      return this.length > 0 ? this[0].textContent === undefined ? this[0].innerText : this[0].textContent : '';
     } else {
       return this.each(function () {
         this.textContent = text;
@@ -160,7 +160,7 @@ tire.fn.extend({
         }).pluck('value') : this[0].value;
       }
 
-      return null;
+      return undefined;
     } else {
       return this.each(function () {
         if (this.nodeType !== 1) {
@@ -183,7 +183,9 @@ tire.fn.extend({
 
   empty: function () {
     return this.each(function () {
-      this.innerHTML = '';
+      while (this.hasChildNodes()) {
+        this.removeChild(this.childNodes[0]);
+      }
     });
   },
 
@@ -198,7 +200,7 @@ tire.fn.extend({
 
   html: function (html, location) {
     if (arguments.length === 0) {
-      return this.length > 0 ? this[0].innerHTML : null;
+      return this.length > 0 ? this[0].innerHTML : undefined;
     }
 
     location = location || 'inner';
@@ -226,9 +228,9 @@ tire.fn.extend({
           , parent;
 
         if (location === 'prepend') {
-          this.insertBefore(wrapped, this.firstChild);
+          target(this, html).insertBefore(wrapped, this.firstChild);
         } else if (location === 'append') {
-          this.insertBefore(wrapped, null);
+          target(this, html).appendChild(wrapped);
         } else if (location === 'before') {
           this.parentNode.insertBefore(wrapped, this);
         } else if (location === 'after') {
@@ -254,11 +256,23 @@ tire.each(['prepend', 'append', 'before', 'after', 'remove'], function (index, n
 });
 
 function wrap (html) {
-  var elm = document.createElement('div');
+  var name = tagExp.test(html) && tagExp.exec(html)[1]
+    , elm = document.createElement('div');
+  if (containers.hasOwnProperty(name)) elm = containers[name];
   if (tire.isString(html) || tire.isNumeric(html)) {
     elm.innerHTML = html;
   } else {
     elm.appendChild(html);
   }
   return elm;
+}
+
+function nodeName (elm, name) {
+  return elm.nodeName.toLowerCase() === name.toLowerCase();
+}
+
+function target (elm, html) {
+  return nodeName(elm, 'table') && tagExp.test(html) && tagExp.exec(html)[1] === 'tr' ?
+    elm.getElementsByTagName('tbody')[0] || elm.appendChild(elm.ownerDocument.createElement('tbody')) :
+    elm;
 }

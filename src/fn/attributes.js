@@ -120,7 +120,7 @@ tire.fn.extend({
           continue;
         }
       }
-      return attribute;
+      return attribute || undefined;
     }
   },
 

@@ -9,13 +9,13 @@ tire.fn.extend({
 
   filter: function (obj) {
     if (tire.isFunction(obj)) {
-      var elements = [];
+      var elms = [];
       this.each(function (index, elm) {
         if (obj.call(elm, index)) {
-          elements.push(elm);
+          elms.push(elm);
         }
       });
-      return tire(elements);
+      return tire(elms);
     } else {
       return this.filter(function () {
         return tire.matches(this, obj);
@@ -39,7 +39,7 @@ tire.fn.extend({
   /**
    * Get the element at position specified by index from the current collection.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {Object}
    */
 
@@ -50,7 +50,7 @@ tire.fn.extend({
   /**
    * Retrieve the DOM elements matched by the tire object.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {object}
    */
 
@@ -65,10 +65,10 @@ tire.fn.extend({
    */
 
   clone: function () {
-    var res = [];
+    var elms = [];
     this.each(function () {
-      res.push(this.cloneNode(true));
+      elms.push(this.cloneNode(true));
     });
-    return tire(res);
+    return tire(elms);
   }
 });

@@ -163,3 +163,32 @@ test('append and prepend td to tr with existing table', function () {
   equal(c.children().get(0).nodeName.toLowerCase(), 'td');
   equal(c.children().text(), 'Maria');
 });
+
+test('each', function () {
+  var t = $('#a-container')
+    , $ul1 = $('ul', t).eq(0)
+    , $ul2 = $('ul', t).eq(1)
+    , tags = $('div a', t);
+
+  $ul1.css('background', 'red');
+
+  tags.each(function (i, el) {
+    $ul1.append('<li>ul1 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+  });
+
+  $ul2.css('background', 'green');
+
+  $.each(tags, function (i, el) {
+    $ul2.append('<li>ul2 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+  });
+
+  notEqual($ul1.css('background'), $ul2.css('background'));
+  equal($ul1.attr('id'), 'ul1');
+  equal($ul1.find('li').length, 3);
+  ok($ul1.find('li').text().indexOf('ul1') !== -1);
+
+  notEqual($ul2.css('background'), $ul1.css('background'));
+  equal($ul2.attr('id'), 'ul2');
+  equal($ul1.find('li').length, 3);
+  ok($ul2.find('li').text().indexOf('ul2') !== -1);
+});

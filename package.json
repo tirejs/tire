@@ -1,6 +1,6 @@
 {
   "name": "tire",
-  "version": "1.2.0",
+  "version": "1.2.1-wip",
   "author": "Fredrik Forsmo <fredrik.forsmo@gmail.com>",
   "description": "",
   "homepage": "http://tirejs.com",
@@ -8,10 +8,15 @@
     "type": "git",
     "url": "https://github.com/tirejs/tire.git"
   },
-  "dependencies" : {},
+  "dependencies": {},
   "devDependencies": {
     "connect": "*",
-    "grunt": "0.3.17"
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-eslint": "0.0.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-cli": "~0.1.9"
   },
   "license": "MIT"
 }

@@ -6,7 +6,18 @@ var document   = window.document
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /^<([\w:]+)/
   , slice      = [].slice
-  , noop       = function () {};
+  , noop       = function () {}
+  , table      = document.createElement('table')
+  , tableRow   = document.createElement('tr')
+  , containers = {
+      'thead': table,
+      'tbody': table,
+      'tfoot': table,
+      'tr': document.createElement('tbody'),
+      'td': tableRow,
+      'th': tableRow,
+       '*': document.createElement('div')
+    };
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.remove = function(array, from, to) {
@@ -17,13 +28,14 @@ Array.remove = function(array, from, to) {
 
 // If slice is not available we provide a backup
 try {
-  slice.call(document.documentElement.childNodes, 0)[0].nodeType;
+  slice.call(document.childNodes);
 } catch(e) {
-  slice = function (i) {
+  slice = function (i, e) {
     i = i || 0;
-    var elem, results = [];
-    for (; (elem = this[i]); i++) {
-      results.push(elem);
+    var elm, results = [];
+    for (; (elm = this[i]); i++) {
+      if (i === e) break;
+      results.push(elm);
     }
     return results;
   };
@@ -91,6 +103,10 @@ tire.fn = tire.prototype = {
       context = document;
     }
 
+    if (context instanceof tire) {
+      context = context.context;
+    }
+
     if (tire.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
@@ -98,9 +114,11 @@ tire.fn = tire.prototype = {
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         elms = [];
       } else if (tagExp.test(selector)) {
-        var tmp = context.createElement('div');
+        var name = tagExp.exec(selector)[1], tmp;
+        if (!containers.hasOwnProperty(name)) name = '*';
+        tmp = containers[name];
         tmp.innerHTML = selector;
-        this.each.call(slice.call(tmp.childNodes, 0), function () {
+        this.each.call(slice.call(tmp.childNodes), function () {
           elms.push(this);
         });
       } else {
@@ -167,8 +185,12 @@ tire.fn = tire.prototype = {
         if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
-      for (key in target) {
-        if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+      if (target instanceof tire) {
+        return tire.each(slice.call(target), callback);
+      } else {
+        for (key in target) {
+          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+        }
       }
     }
 
@@ -208,7 +230,7 @@ tire.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  tire.fn.each(slice.call(arguments), function (index, value) {
+  tire.fn.each(slice.call(arguments), function (i, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }
@@ -254,26 +276,26 @@ tire.extend({
   /**
    * Check if the element matches the selector
    *
-   * @param {Object} element
+   * @param {Object} elm
    * @param {String} selector
    * @return {Boolean}
    */
 
-  matches: function (element, selector) {
-    if (!element || element.nodeType !== 1) return false;
+  matches: function (elm, selector) {
+    if (!elm || elm.nodeType !== 1) return false;
 
     // Trying to use matchesSelector if it is available
-    var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
+    var matchesSelector = elm.webkitMatchesSelector || elm.mozMatchesSelector || elm.oMatchesSelector || elm.matchesSelector;
     if (matchesSelector) {
-      return matchesSelector.call(element, selector);
+      return matchesSelector.call(elm, selector);
     }
 
     // querySelectorAll fallback
     if (document.querySelectorAll !== undefined) {
-      var nodes = element.parentNode.querySelectorAll(selector);
+      var nodes = elm.parentNode.querySelectorAll(selector);
 
       for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] === element) return true;
+        if (nodes[i] === elm) return true;
       }
     }
 

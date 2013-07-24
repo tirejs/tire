@@ -240,7 +240,7 @@ tire.extend({
    * Create a serialized representation of an array or object.
    *
    * @param {Array|Object} obj
-   * @param {Obj} prefix
+   * @param {Object} prefix
    * @return {String}
    */
 

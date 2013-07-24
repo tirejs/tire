@@ -84,7 +84,7 @@ test('trim', function () {
   equal(tire.trim(true), 'true', 'Boolean value should equal boolean string');
 });
 
-module('Selectors');
+module('Tire selectors');
 
 test('ID Selector', function () {
   expect(4);
@@ -109,7 +109,7 @@ test('Class name Selector', function () {
 test('Tag name Selector', function () {
   expect(3);
   var elm = $('ul');
-  equal(elm.length, 1, 'Should return length 1 for existing elements with specified tagname');
+  equal(elm.length, 3, 'Should return length 3 for existing elements with specified tagname');
   elm = $('blink');
   equal(elm.length, 0, 'Should return length 0 for non-existing elements');
   elm = $('body').find('html');
@@ -141,9 +141,9 @@ test('HTML string selector', function () {
 
 test('Combined selectors', function () {
   expect(3);
-  var elm = $(document.body).find('.test-area ul');
+  var elm = $(document.body).find('.test-area ul#ul');
   equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (.class tag)');
-  elm = $('div ul');
+  elm = $('div ul#ul');
   equal(elm.get(0), document.getElementById('ul'), 'Should be able to find element by descendant combinator (tag tag)');
   elm = $('#ul, #test-area');
   deepEqual(Array.prototype.slice.call(elm),
