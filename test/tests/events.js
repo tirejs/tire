@@ -66,16 +66,38 @@ test('Should test mouse enter delegated event', function () {
 });
 
 test('Custom events, with namespaces', function () {
-  var count = 0;
+  var count = 0
+    , tcount = 0
+    , el = $('body');
 
-  $('body').on('fake$event.namespaced', function () {
+  el.on('fake$event.namespaced', function () {
     count++;
   });
 
-  $('body').trigger('fake$event').trigger('fake$event');
+  el.on('tcount.events', function () {
+    tcount++;
+  });
+
+  el.trigger('fake$event').trigger('fake$event');
   equal(count, 2);
 
-  $('body').off('.namespaced');
-  $('body').trigger('fake$event');
+  el.trigger('tcount');
+  equal(tcount, 1);
+
+  el.off('.namespaced');
+  el.trigger('fake$event');
   equal(count, 2);
+
+  el.trigger('tcount');
+  el.off('.events');
+  el.trigger('tcount');
+  equal(tcount, 2);
+
+  el.on('fake$event.namespaced', function () {
+    count++;
+  });
+
+  el.trigger('fake$event');
+  el.off('.namespaced');
+  equal(count, 3);
 });

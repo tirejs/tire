@@ -270,10 +270,12 @@ function removeEvent (el, events, callback, selector) {
             delete opcCache[el.nodeName];
           }
         }
-        Array.remove(c[id][event], i, 1);
+
+        c[id][event] = splice.call(c[id][event], i, 1);
+        c[id][event].length = i < 0 ? c[id][event].length + 1 : i;
       }
     }
-    if (!c[id][event].length) delete c[id][event];
+    if (c[id][event] && !c[id][event].length) delete c[id][event];
   });
   for (var k in c[id]) return;
   delete c[id];
