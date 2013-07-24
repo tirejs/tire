@@ -111,6 +111,8 @@ module.exports = function(grunt) {
       , releaseDir = 'release'
       , tmp;
 
+    grunt.task.run(['concat', 'uglify', 'uglify:after']);
+
     // Replace paths in source map file.
     tmp = grunt.file.read(files[4]);
     tmp = tmp.replace(files[0], files[1].replace('dist/', ''));

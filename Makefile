@@ -14,4 +14,7 @@ test:
 	@kill -9 `cat test/pid.txt`
 	@rm test/pid.txt
 
-.PHONY: all docs test
+release:
+	@node_modules/grunt-cli/bin/grunt release
+
+.PHONY: all docs test release
