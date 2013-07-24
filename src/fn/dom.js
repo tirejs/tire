@@ -136,7 +136,7 @@ tire.fn.extend({
 
   text: function (text) {
     if (text === undefined) {
-      return this.length > 0 ? this[0].textContent === undefined ? this[0].innerText : this[0].textContent : '';
+      return this[0] ? this[0].textContent === undefined ? this[0].innerText : this[0].textContent : '';
     } else {
       return this.each(function () {
         this.textContent = text;
