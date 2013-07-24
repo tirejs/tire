@@ -107,9 +107,12 @@ tire.fn.extend({
   prepend: function (node) {
     return this.each(function (i, el) {
       var first = target(el, node).firstChild;
-      if (!first) return tire(this).append(node);
       tire.each(normalize(node), function () {
-        first.parentNode.insertBefore(this, first);
+        if (first) {
+          first.parentNode.insertBefore(this, first);
+        } else {
+          target(el, node).appendChild(this);
+        }
       });
     });
   },
