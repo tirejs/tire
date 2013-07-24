@@ -6,18 +6,7 @@ var document   = window.document
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /^<([\w:]+)/
   , slice      = [].slice
-  , noop       = function () {}
-  , table      = document.createElement('table')
-  , tableRow   = document.createElement('tr')
-  , containers = {
-      'thead': table,
-      'tbody': table,
-      'tfoot': table,
-      'tr': document.createElement('tbody'),
-      'td': tableRow,
-      'th': tableRow,
-       '*': document.createElement('div')
-    };
+  , noop       = function () {};
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.remove = function(array, from, to) {
@@ -114,11 +103,7 @@ tire.fn = tire.prototype = {
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         elms = [];
       } else if (tagExp.test(selector)) {
-        var name = tagExp.exec(selector)[1], tmp;
-        if (!containers.hasOwnProperty(name)) name = '*';
-        tmp = containers[name];
-        tmp.innerHTML = selector;
-        this.each.call(slice.call(tmp.childNodes), function () {
+        tire.each(normalize(selector), function () {
           elms.push(this);
         });
       } else {
