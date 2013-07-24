@@ -24,7 +24,8 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         banner: '// tire.js v<%= pkg.version %> | Copyright (c) 2012-<%= grunt.template.today("yyyy") %> Fredrik Forsmo | MIT License | <%= grunt.template.today("yyyy-mm-dd") %>\n',
-        report: 'gzip'
+        report: 'gzip',
+        sourceMap: 'dist/<%= pkg.name %>.min.map'
       },
       build: {
         src: 'dist/<%= pkg.name %>.js',
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      tasks: ['eslint'],
+      tasks: ['concat'],
       files: ['src/core.js', 'src/fn/*.js']
     }
   });
@@ -81,7 +82,51 @@ module.exports = function(grunt) {
     grunt.log.writeln('File "' + dest + '" created.');
   });
 
+  // Our custom after uglify task.
+  grunt.registerTask('uglify:after', function () {
+    var file = grunt.template.process('dist/<%= pkg.name %>.min.js')
+      , src = grunt.file.read(file)
+      , lines = src.split('\n');
+
+    for (var i = 0, l = lines.length; i < l; i++) {
+      if (lines[i].indexOf('sourceMappingURL') !== -1) {
+        lines[i] = lines[i].replace('//@', '//#');
+      }
+    }
+
+    grunt.file.write(file, lines.join('\n'));
+  });
+
+  // Our custom release task.
+  grunt.registerTask('release', function () {
+    var fs = require('fs')
+      , files = [
+          grunt.template.process('dist/<%= pkg.name %>.js'),
+          grunt.template.process('dist/<%= pkg.name %>-<%= pkg.version %>.js'),
+          grunt.template.process('dist/<%= pkg.name %>.min.js'),
+          grunt.template.process('dist/<%= pkg.name %>-<%= pkg.version %>.min.js'),
+          grunt.template.process('dist/<%= pkg.name %>.min.map'),
+          grunt.template.process('dist/<%= pkg.name %>-<%= pkg.version %>.min.map')
+        ]
+      , releaseDir = 'release'
+      , tmp;
+
+    // Replace paths in source map file.
+    tmp = grunt.file.read(files[4]);
+    tmp = tmp.replace(files[0], files[1].replace('dist/', ''));
+    tmp = tmp.replace(files[2], files[3].replace('dist/', ''));
+    grunt.file.write(files[4], tmp);
+
+    if (!fs.existsSync(releaseDir)) fs.mkdirSync(releaseDir);
+
+    // Move files.
+    for (var i = 0, l = files.length; i < l; i++) {
+      fs.writeFileSync(files[i + 1].replace('dist', releaseDir), fs.readFileSync(files[i]));
+      i += 1;
+    }
+  });
+
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'uglify']);
+  grunt.registerTask('default', ['concat', 'uglify', 'uglify:after']);
 
 };
