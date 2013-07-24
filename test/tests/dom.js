@@ -97,3 +97,69 @@ test('empty', function () {
   $('.html').empty();
   equal($('.html').html(), '', 'Should return empty inner html after empty');
 });
+
+test('table elements', function () {
+  equal($('<td></td>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<th></th>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<tr></tr>').get(0).parentNode.nodeName.toLowerCase(), 'tbody');
+  equal($('<thead></thead>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tbody></tbody>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tfoot></tfoot>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+});
+
+test('append elements to empty table element', function () {
+  var a = $('#table-a');
+
+  // thead, tr, th
+  a.append('<thead><tr><th>Name</th></tr></thead>');
+
+  equal(a.children().length, 1);
+  equal(a.children().get(0).nodeName.toLowerCase(), 'thead');
+  equal(a.children().eq(0).children().length, 1);
+  equal(a.children().eq(0).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(a.children().eq(0).children().children().length, 1);
+  equal(a.children().eq(0).children().children().get(0).nodeName.toLowerCase(), 'th');
+  equal(a.children().eq(0).children().children().text(), 'Name');
+
+  // tbody, tr, td
+  a.append('<tbody><tr><td>Fredrik</td></tr></tbody>');
+
+  equal(a.children().length, 2);
+  equal(a.children().get(1).nodeName.toLowerCase(), 'tbody');
+  equal(a.children().eq(1).children().length, 1);
+  equal(a.children().eq(1).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(a.children().eq(1).children().children().length, 1);
+  equal(a.children().eq(1).children().children().get(0).nodeName.toLowerCase(), 'td');
+  equal(a.children().eq(1).children().children().text(), 'Fredrik');
+});
+
+test('append elements to table with existing thead', function () {
+  var b = $('#table-b');
+
+  // tbody, tr, td
+  b.append('<tbody><tr><td>Fredrik</td></tr></tbody>');
+
+  equal(b.children().length, 2);
+  equal(b.children().get(1).nodeName.toLowerCase(), 'tbody');
+  equal(b.children().eq(1).children().length, 1);
+  equal(b.children().eq(1).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(b.children().eq(1).children().children().length, 1);
+  equal(b.children().eq(1).children().children().get(0).nodeName.toLowerCase(), 'td');
+  equal(b.children().eq(1).children().children().text(), 'Fredrik');
+});
+
+test('append and prepend td to tr with existing table', function () {
+  var c = $('#table-c tbody tr');
+
+  c.append('<td>Fredrik</td>');
+
+  equal(c.children().length, 1);
+  equal(c.children().get(0).nodeName.toLowerCase(), 'td');
+  equal(c.children().text(), 'Fredrik');
+
+  c.prepend('<td>Maria</td>');
+
+  equal(c.children().length, 2);
+  equal(c.children().get(0).nodeName.toLowerCase(), 'td');
+  equal(c.children().text(), 'Maria');
+});
