@@ -119,7 +119,7 @@ module.exports = function(grunt) {
 
     if (!fs.existsSync(releaseDir)) fs.mkdirSync(releaseDir);
 
-    // Move files.
+    // Copy files.
     for (var i = 0, l = files.length; i < l; i++) {
       fs.writeFileSync(files[i + 1].replace('dist', releaseDir), fs.readFileSync(files[i]));
       i += 1;
