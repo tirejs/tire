@@ -185,14 +185,14 @@ tire.fn = tire.prototype = {
 
   set: function (elements) {
     // Introduce a fresh `tire` set to prevent context from being overridden
-    var i = 0, newSet = tire();
-    newSet.selector = this.selector;
-    newSet.context = this.context;
+    var i = 0, set = tire();
+    set.selector = this.selector;
+    set.context = this.context;
     for (; i < elements.length; i++) {
-      newSet[i] = elements[i];
+      set[i] = elements[i];
     }
-    newSet.length = i;
-    return newSet;
+    set.length = i;
+    return set;
   }
 };
 
