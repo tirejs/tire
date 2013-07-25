@@ -186,3 +186,18 @@ tire.fn.extend({
   }
 
 });
+
+/**
+ * Add `appendTo`, `prependTo`, `insertBefore` and `insertAfter` methods.
+ */
+
+tire.each({
+  appendTo: 'append',
+  prependTo: 'prepend',
+  insertBefore: 'before',
+  insertAfter: 'after'
+}, function (key, value) {
+  tire.fn[key] = function (selector) {
+    return tire(selector)[value](this);
+  };
+});

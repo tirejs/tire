@@ -71,7 +71,7 @@ tire.fn.extend({
    */
 
   is: function (selector) {
-    return this.length > 0 && tire.matches(this[0], selector);
+    return this[0] && tire.matches(this[0], selector);
   },
 
   /**
@@ -117,7 +117,7 @@ tire.fn.extend({
   children: function (selector) {
     var children = [];
     this.each(function () {
-      tire.each(slice.call(this.children, 0), function (index, value) {
+      tire.each(slice.call(this.children), function (i, value) {
         children.push(value);
       });
     });
@@ -154,7 +154,7 @@ tire.fn.extend({
 
   val: function (value) {
     if (!arguments.length) {
-      if (this.length > 0) {
+      if (this[0]) {
         return this[0].multiple ? this.find('option').filter(function () {
           return this.selected;
         }).pluck('value') : this[0].value;
