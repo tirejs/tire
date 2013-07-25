@@ -56,6 +56,7 @@ test('Should trigger delegated event', function () {
   start();
 });
 
+/*
 test('Should test mouse enter delegated event', function () {
   stop();
   $('body').on('mouseenter', 'a.mouseenter', function () {
@@ -64,6 +65,7 @@ test('Should test mouse enter delegated event', function () {
   });
   $('body').append('<a href="#" class="mouseenter"></a>').find('a.mouseenter').trigger('mouseenter');
 });
+*/
 
 test('Custom events, with namespaces', function () {
   var count = 0
