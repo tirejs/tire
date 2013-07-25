@@ -376,7 +376,7 @@ tire.Event = function (type, props) {
 
   if (createEvent) {
     event = document.createEvent((sepcialExp.test(type) ? 'Mouse' : '') + 'Events');
-    event.initEvent(type, true, true, null, null, null, null, null, null, null, null, null, null, null, null);
+    event.initEvent(realEvent(type), true, true, null, null, null, null, null, null, null, null, null, null, null, null);
   } else {
     event = document.createEventObject();
     event.cancelBubble = true;
