@@ -3,6 +3,7 @@ var _eventId = 1
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
+  , sepcialExp = /click|mouse/
   , mouse = {
       mouseenter: 'mouseover',
       mouseleave: 'mouseout'
@@ -13,7 +14,8 @@ var _eventId = 1
       stopPropagation: 'isPropagationStopped'
     }
   , opcHandler
-  , opcCache = {};
+  , opcCache = {}
+  , createEvent = !!document.createEvent;
 
 /**
  * Get event parts.
@@ -169,13 +171,12 @@ function addEvent (el, events, callback, selector) {
           var match = tire(e.target || e.srcElement).closest(selector, el).get(0)
             , event;
 
-          if ((e.target || e.srcElement) === match) {
-            event = tire.extend(createProxy(e), {
-              currentTarget: match,
-              liveFired: el
-            });
-            return callback.apply(match, [event].concat(slice.call(arguments, 1)));
-          }
+          event = tire.extend(createProxy(e), {
+            currentTarget: match,
+            liveFired: el
+          });
+
+          return callback.apply(match, [event].concat(slice.call(arguments, 1)));
         };
       }(el, callback, selector));
     };
@@ -318,31 +319,15 @@ tire.fn.extend({
   /**
    * Trigger specific event for element collection
    *
-   * @param {String} eventName The event to trigger
+   * @param {Object|String} eventName The event to trigger or event object
    * @param {Object} data JSON Object to use as the event's `data` property
    * @return {Object}
    */
 
-  trigger: function (eventName, data) {
-    return this.each(function (index, el) {
-      if (el === document && !el.dispatchEvent) el = document.documentElement;
-
-      var event
-        , createEvent = !!document.createEvent
-        , parts = getEventParts(eventName);
-
-      eventName = realEvent(parts.ev);
-
-      if (createEvent) {
-        event = document.createEvent('HTMLEvents');
-        event.initEvent(eventName, true, true);
-      } else {
-        event = document.createEventObject();
-        event.cancelBubble = true;
-      }
-
+  trigger: function (event, data, elm) {
+    return this.each(function (i, el) {
+      event = tire.Event(event);
       event.data = data || {};
-      event.eventName = eventName;
 
       if (tire.isString(event.data) && !tire.isString(data) && JSON.stringify) {
         event.data = JSON.stringify(data);
@@ -352,12 +337,12 @@ tire.fn.extend({
         el.dispatchEvent(event);
       } else {
         try { // fire event in < IE 9
-          el.fireEvent('on' + eventName, event);
+          el.fireEvent('on' + event.type || event, event);
         } catch (e) { // solution to trigger custom events in < IE 9
           if (!opcCache[el.nodeName]) {
             opcHandler = opcHandler || function (ev) {
-              if (ev.eventName && ev.srcElement._eventId) {
-                var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
+              if (ev.type && ev.srcElement._eventId) {
+                var handlers = getEventHandlers(ev.srcElement._eventId, ev.type);
                 if (handlers.length) {
                   for (var i = 0, l = handlers.length; i < l; i++) {
                     if (tire.isFunction(handlers[i])) handlers[i](ev);
@@ -371,7 +356,57 @@ tire.fn.extend({
           el.fireEvent('onpropertychange', event);
         }
       }
+
+      /*if (!event.isPropagationStopped()) {
+        var parent = el.parentNode || el.ownerDocument;
+        if (parent) {
+          tire(parent).trigger(event, data, elm || el);
+        }
+      }*/
     });
   }
 
 });
+
+tire.Event = function (type, props) {
+  if (typeof type !== 'string') {
+    props = type;
+    type = props.type;
+  }
+
+  if (createEvent) {
+    event = document.createEvent((sepcialExp.test(type) ? 'Mouse' : '') + 'Events');
+    event.initEvent(type, true, true, null, null, null, null, null, null, null, null, null, null, null, null);
+  } else {
+    event = document.createEventObject();
+    event.cancelBubble = true;
+  }
+
+  if (props) {
+    for (var name in props) {
+      (name === 'bubbles') ? (bubbles = !!props[name]) : (event[name] = props[name]);
+    }
+  }
+
+  event.isDefaultPrevented = returnTrue;
+
+  event.isPropagationStopped = returnFalse;
+
+  event.stopPropagation = function () {
+    this.isPropagationStopped = returnTrue;
+    var e = this.originalEvent;
+    if(!e) return;
+    if (e.stopPropagation) e.stopPropagation();
+    e.returnValue = false;
+  };
+
+  event.preventDefault = function () {
+    this.isDefaultPrevented = returnTrue;
+    var e = this.originalEvent;
+    if(!e) return;
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+  };
+
+  return event;
+};

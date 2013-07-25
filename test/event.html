@@ -3,11 +3,11 @@
 <head>
   <title>tire test</title>
   <meta charset="utf-8">
-  <script type="text/javascript"
+  <!--<script type="text/javascript"
   src="https://getfirebug.com/releases/lite/1.3/firebug-lite.js"></script>
   <script>
     console.open();
-  </script>
+  </script>-->
 </head>
 <body>
   <a href="#" class="clear">Clear log</a>
@@ -16,6 +16,12 @@
   <a href="#" class="remove-a">Remove click event</a>
   <a href="#" class="trigger-del">Trigger delegated event</a>
   <ul id="log"></ul>
+  <a href="#" class="del">click</a>
+  <div>
+    <p>
+      <strong><span>click</span></strong>
+    </p>
+  </div>
   <script src="../dist/tire.js"></script>
   <!--
     <script>
@@ -50,7 +56,7 @@
   </script>
 -->
   <script>
-    var count = 0;
+    /*var count = 0;
 
     $('body').on('fake$event.namespaced', function () {
       count++;
@@ -63,6 +69,11 @@
     $('body').off('.namespaced');
     $('body').trigger('fake$event');
     console.log('second', count, count === 2);
+    */
+    $('body').on('click', 'a.del', function(event) {
+      $('#log').append('<li>clicked: ' + event.target.nodeName + '</li>');
+      $('#log').append('<li>clicked: ' + event.currentTarget.nodeName + '</li>');
+    });
   </script>
 </body>
 </html>
