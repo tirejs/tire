@@ -88,14 +88,61 @@ test('after', function () {
   equal(el.parent().children().length, divs.length + 2, 'Should contains the same count divs as we added before, plus two extra for existing div');
 });
 
+test('appendTo', function () {
+  var el = $('#playground div').clone();
+  el.addClass('appendTo');
+  el.appendTo('body');
+  equal($('body div.appendTo').length, 1, 'Should have append the div to body');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('appendTo');
+  el.appendTo($('body'));
+  equal($('body div.appendTo').length, 1, 'Should have append the div to body');
+  el.remove();
+});
+
+test('prependTo', function () {
+  var el = $('#playground div').clone();
+  el.addClass('prependTo');
+  el.prependTo('#test-area');
+  equal($('#test-area div.prependTo').length, 1, 'Should have prepend the div to test area div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('prependTo');
+  el.prependTo($('#test-area'));
+  equal($('#test-area div.prependTo').length, 1, 'Should have prepend the div to test area div');
+  el.remove();
+});
+
+test('insertBefore', function () {
+  var el = $('#playground div').clone();
+  el.addClass('insertBefore');
+  el.insertBefore('#qunit');
+  equal($('body div').eq(0).length, 1, 'Should have inserted the div before qunit div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('insertBefore');
+  el.insertBefore($('#qunit'));
+  equal($('body div').eq(0).length, 1, 'Should have inserted the div before qunit div');
+  el.remove();
+});
+
+test('insertAfter', function () {
+  var el = $('#playground div').clone();
+  el.addClass('insertAfter');
+  el.insertAfter('#qunit');
+  equal($('body div').eq(2).length, 1, 'Should have inserted the div after qunit div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('insertAfter');
+  el.insertAfter($('#qunit'));
+  equal($('body div').eq(2).length, 1, 'Should have inserted the div after qunit div');
+  el.remove();
+});
+
 test('remove', function () {
   $('#remove-me-a').remove();
   equal(document.getElementById('remove-me-a'), null, 'Element should not exists after calling remove');
-});
-
-test('empty', function () {
-  $('.html').empty();
-  equal($('.html').html(), '', 'Should return empty inner html after empty');
 });
 
 test('table elements', function () {
@@ -191,4 +238,11 @@ test('each', function () {
   equal($ul2.attr('id'), 'ul2');
   equal($ul1.find('li').length, 3);
   ok($ul2.find('li').text().indexOf('ul2') !== -1);
+});
+
+test('empty', function () {
+  var el = $('.html').empty();
+  equal(el.html(), '', 'Should return empty inner html after empty');
+  el = $('#table-a').empty();
+  equal(el.html(), '', 'Should return empty inner html after empty table');
 });
