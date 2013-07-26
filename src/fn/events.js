@@ -171,12 +171,14 @@ function addEvent (el, events, callback, selector) {
           var match = tire(e.target || e.srcElement).closest(selector, el).get(0)
             , event;
 
-          event = tire.extend(createProxy(e), {
-            currentTarget: match,
-            liveFired: el
-          });
+          if ((e.target || e.srcElement) === match) {
+            event = tire.extend(createProxy(e), {
+              currentTarget: match,
+              liveFired: el
+            });
 
-          return callback.apply(match, [event].concat(slice.call(arguments, 1)));
+            return callback.apply(match, [event].concat(slice.call(arguments, 1)));
+          }
         };
       }(el, callback, selector));
     };
@@ -326,7 +328,11 @@ tire.fn.extend({
 
   trigger: function (event, data, elm) {
     return this.each(function (i, el) {
-      event = tire.Event(event);
+      if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
+
+      var parts = getEventParts(event.type || event);
+
+      event = tire.Event(event)
       event.data = data || {};
 
       if (tire.isString(event.data) && !tire.isString(data) && JSON.stringify) {
@@ -337,12 +343,12 @@ tire.fn.extend({
         el.dispatchEvent(event);
       } else {
         try { // fire event in < IE 9
-          el.fireEvent('on' + event.type || event, event);
+          el.fireEvent('on' + event.type, event);
         } catch (e) { // solution to trigger custom events in < IE 9
           if (!opcCache[el.nodeName]) {
             opcHandler = opcHandler || function (ev) {
-              if (ev.type && ev.srcElement._eventId) {
-                var handlers = getEventHandlers(ev.srcElement._eventId, ev.type);
+              if (ev.eventName && ev.srcElement._eventId) {
+                var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
                 if (handlers.length) {
                   for (var i = 0, l = handlers.length; i < l; i++) {
                     if (tire.isFunction(handlers[i])) handlers[i](ev);
@@ -369,10 +375,13 @@ tire.fn.extend({
 });
 
 tire.Event = function (type, props) {
-  if (typeof type !== 'string') {
+  if (!tire.isString(type)) {
+    if (type.type) return type;
     props = type;
     type = props.type;
   }
+
+  var event;
 
   if (createEvent) {
     event = document.createEvent((sepcialExp.test(type) ? 'Mouse' : '') + 'Events');
@@ -382,7 +391,7 @@ tire.Event = function (type, props) {
     event.cancelBubble = true;
   }
 
-  if (props) {
+  if (props !== undefined) {
     for (var name in props) {
       (name === 'bubbles') ? (bubbles = !!props[name]) : (event[name] = props[name]);
     }
@@ -407,6 +416,13 @@ tire.Event = function (type, props) {
     if (e.preventDefault) e.preventDefault();
     e.returnValue = false;
   };
+
+  if (!event.type.length) {
+    event.type = realEvent(type);
+  }
+
+  // IE8
+  event.eventName = event.type;
 
   return event;
 };
