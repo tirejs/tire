@@ -363,12 +363,21 @@ tire.fn.extend({
         }
       }
 
-      /*if (!event.isPropagationStopped()) {
-        var parent = el.parentNode || el.ownerDocument;
-        if (parent) {
-          tire(parent).trigger(event, data, elm || el);
-        }
-      }*/
+      // TODO: Fix this for IE8.
+      //
+      // Add test cases like this.
+      //
+      // $('<p><a id="test"></a></p>').on('click', function () { console.log(1); }).trigger('click');
+      // $('<p><a id="test"></a></p>').on('click', function () { console.log(1); }).find('#test').trigger('click');
+      //
+      // Both test cases above should log 1 if it works.
+      //
+      // if (!event.isPropagationStopped()) {
+      //   var parent = el.parentNode || el.ownerDocument;
+      //   if (parent) {
+      //     tire(parent).trigger(event, data);
+      //   }
+      // }
     });
   }
 
