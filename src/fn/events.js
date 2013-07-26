@@ -328,7 +328,7 @@ tire.fn.extend({
 
   trigger: function (event, data, elm) {
     return this.each(function (i, el) {
-      if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
+      if (el === document && !el.dispatchEvent) el = document.documentElement;
 
       var parts = getEventParts(event.type || event);
 
