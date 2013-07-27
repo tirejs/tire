@@ -42,13 +42,10 @@ test('Should be able to unbind specific events using', function () {
 
 test('Should trigger delegated event', function () {
   stop();
- // expect(6);
   $('body').on('click', 'a.del', function (e, data) {
     equal(data.some, 'data', '`data` should contain `some` key with a string value eqauls `data`');
     equal(e.type, 'click', 'e.type should equal click');
-    equal((e.srcElement || e.target), $('body').find('a.del').get(0), 'e.srcElement/e.target should equal a.del element');
-    equal(e.currentTarget, $('body').find('a.del').get(0), 'e.target should equal a.del element');
-    equal(e.liveFired, $('body').get(0), 'e.liveFired should equal body element');
+    equal(e.liveTarget, $('body').find('a.del').get(0), 'e.liveTarget should equal a.del element');
     ok(true, 'Event should be trigged');
   });
   $('body').append('<a href="#" class="del"></a>').find('a.del').trigger('click', { some: 'data' });
@@ -56,7 +53,7 @@ test('Should trigger delegated event', function () {
   start();
 });
 
-/*test('Should test mouse enter delegated event', function () {
+test('Should test mouse enter delegated event', function () {
   stop();
   $('body').on('mouseenter', 'a.mouseenter', function () {
     start();
@@ -65,7 +62,7 @@ test('Should trigger delegated event', function () {
   });
   $('body').append('<a href="#" class="mouseenter"></a>').find('a.mouseenter').trigger('mouseenter');
 });
-*/
+
 test('Custom events, with namespaces', function () {
   var count = 0
     , tcount = 0
@@ -110,4 +107,20 @@ test('Should trigger event with tire event object', function () {
     equal(data.some, 'data', '`data` should contain `some` key with a string value eqauls `data`');
     ok(true, 'Event should be trigged');
   }).trigger(tire.Event('click'), { some: 'data' }, true);
+});
+
+test('Should trigger element and compare e.liveTarget', function () {
+  stop();
+  $('<p><a id="test"></a></p>').on('click', function (e) {
+    start();
+    ok(true);
+    ok(this === e.liveTarget);
+  }).trigger('click');
+});
+
+test('Should trigger element inside the element that has the event handler and compare e.liveTarget', function () {
+  $('<p><a id="test"></a></p>').on('click', function (e) {
+    ok(true);
+    ok($(this).find('#test').get(0) === e.liveTarget);
+  }).find('#test').trigger('click');
 });

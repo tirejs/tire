@@ -55,6 +55,24 @@ function getEventId (el) {
 }
 
 /**
+ * Check if ns or event allreday is in the handlers array.
+ *
+ * @param {Object} parts
+ * @param {Array} handlers
+ *
+ * @return {Bool}
+ */
+
+function inHandlers (parts, handlers) {
+  for (var i = 0; i < handlers.length; i++) {
+    if (handlers[i].realEvent === realEvent(parts.ev) || handlers[i].ns === parts.ns) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Get event handlers
  *
  * @param {Number} id
@@ -65,9 +83,16 @@ function getEventId (el) {
 
 function getEventHandlers (id, event) {
   var parts = getEventParts(event)
-    , handlers = [];
+    , handlers = []
+    , tmp
+    , ns;
 
   event = realEvent(parts.ev);
+  ns = parts.ns;
+
+  if (!event.length && !parts.ns.length) {
+    return handlers;
+  }
 
   c[id] = c[id] || {};
 
@@ -77,9 +102,10 @@ function getEventHandlers (id, event) {
 
   if (parts.ns.length) {
     for (event in c[id]) {
-      for (var i = 0, l = c[id][event].length; i < l; i++) {
-        if (c[id][event][i] && c[id][event][i].ns === parts.ns) {
-          handlers.push(c[id][event][i]);
+      tmp = c[id][event];
+      for (var i = 0, l = tmp.length; i < l; i++) {
+        if (tmp[i] && ns.length && tmp[i].ns.length && tire.inArray(ns, tmp[i].ns.split(' ')) !== -1) {
+          handlers.push(tmp[i]);
         }
       }
     }
@@ -104,18 +130,16 @@ function createEventHandler (el, event, callback, _callback) {
     , cb = _callback || callback;
 
   var fn = function (event) {
+    if (!event.liveTarget) event.liveTarget = event.target || event.srcElement;
     var data = event.data;
     if (tire.isString(data) && /^[\[\{]/.test(data)) data = tire.parseJSON(event.data);
-    var result = callback.apply(el, [event].concat(data));
+    var result = cb.apply(el, [event].concat(data));
     if (result === false) {
       if (event.stopPropagation) event.stopPropagation();
       if (event.preventDefault) event.preventDefault();
-      event.cancelBubble = true;
-      event.returnValue = false;
     }
     return result;
   };
-
   fn._i = cb._i = cb._i || ++_eventId;
   fn.realEvent = realEvent(parts.ev);
   fn.ns = parts.ns;
@@ -278,7 +302,7 @@ function removeEvent (el, events, callback, selector) {
         c[id][event].length = i < 0 ? c[id][event].length + 1 : i;
       }
     }
-    if (c[id][event] && !c[id][event].length) delete c[id][event];
+    if (c[id] && c[id][event] && !c[id][event].length) delete c[id][event];
   });
   for (var k in c[id]) return;
   delete c[id];
@@ -326,7 +350,7 @@ tire.fn.extend({
    * @return {Object}
    */
 
-  trigger: function (event, data, elm) {
+  trigger: function (event, data, _el) {
     return this.each(function (i, el) {
       if (el === document && !el.dispatchEvent) el = document.documentElement;
 
@@ -363,25 +387,29 @@ tire.fn.extend({
         }
       }
 
-      // TODO: Fix this for IE8.
-      //
-      // Add test cases like this.
-      //
-      // $('<p><a id="test"></a></p>').on('click', function () { console.log(1); }).trigger('click');
-      // $('<p><a id="test"></a></p>').on('click', function () { console.log(1); }).find('#test').trigger('click');
-      //
-      // Both test cases above should log 1 if it works.
-      //
-      // if (!event.isPropagationStopped()) {
-      //   var parent = el.parentNode || el.ownerDocument;
-      //   if (parent) {
-      //     tire(parent).trigger(event, data);
-      //   }
-      // }
+      if (!event.isPropagationStopped()) {
+        var parent = el.parentNode || el.ownerDocument;
+        if (parent && parent._eventId > 0) {
+          // Tire use `liveTarget` instead of creating a own Event object that modifies `target` property.
+          event.liveTarget = el;
+          tire(parent).trigger(event, data);
+        } else {
+          event.stopPropagation();
+        }
+      }
     });
   }
 
 });
+
+/**
+ * Create a event object
+ *
+ * @param {String|Object} type
+ * @param {Object} props
+ *
+ * @return {Object}
+ */
 
 tire.Event = function (type, props) {
   if (!tire.isString(type)) {
@@ -406,10 +434,7 @@ tire.Event = function (type, props) {
     }
   }
 
-  event.isDefaultPrevented = returnTrue;
-
   event.isPropagationStopped = returnFalse;
-
   event.stopPropagation = function () {
     this.isPropagationStopped = returnTrue;
     var e = this.originalEvent;
@@ -418,6 +443,7 @@ tire.Event = function (type, props) {
     e.returnValue = false;
   };
 
+  event.isDefaultPrevented = returnTrue;
   event.preventDefault = function () {
     this.isDefaultPrevented = returnTrue;
     var e = this.originalEvent;

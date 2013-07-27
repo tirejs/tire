@@ -387,9 +387,27 @@ tire.extend({
   },
 
   /**
+   * Check if given value exists in the array or not.
+   *
+   * @param {Object|String} val
+   * @param {Array} arr
+   * @param {Number} i
+   * @return {Bool}
+   */
+
+  inArray: function (val, arr, i) {
+    return Array.prototype.indexOf ? arr.indexOf(val, i) : function () {
+        var l = arr.length;
+        i = i ? i < 0 ? Math.max(0, l + i) : i : 0;
+        for (; i < l; i++) if (i in arr && arr[i] === val) return true;
+        return -1;
+      }();
+  },
+
+  /**
    * Calling .noConflict will restore the window.$` to its previous value.
    *
-   * @param {Boolean} name Restore `tire` to it's previous value.
+   * @param {Bool} name Restore `tire` to it's previous value.
    * @return {Object}
    */
 
