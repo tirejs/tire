@@ -1,5 +1,5 @@
 var _eventId = 1
-  , c = {}
+  , c = window.c = {}
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
@@ -297,7 +297,6 @@ function removeEvent (el, events, callback, selector) {
             delete opcCache[el.nodeName];
           }
         }
-
         c[id][event] = splice.call(c[id][event], i, 1);
         c[id][event].length = i < 0 ? c[id][event].length + 1 : i;
       }
@@ -366,24 +365,26 @@ tire.fn.extend({
       if (createEvent) {
         el.dispatchEvent(event);
       } else {
-        try { // fire event in < IE 9
-          el.fireEvent('on' + event.type, event);
-        } catch (e) { // solution to trigger custom events in < IE 9
-          if (!opcCache[el.nodeName]) {
-            opcHandler = opcHandler || function (ev) {
-              if (ev.eventName && ev.srcElement._eventId) {
-                var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
-                if (handlers.length) {
-                  for (var i = 0, l = handlers.length; i < l; i++) {
-                    if (tire.isFunction(handlers[i])) handlers[i](ev);
+        if (el._eventId > 0) {
+          try { // fire event in < IE 9
+            el.fireEvent('on' + event.type, event);
+          } catch (e) { // solution to trigger custom events in < IE 9
+            if (!opcCache[el.nodeName]) {
+              opcHandler = opcHandler || function (ev) {
+                if (ev.eventName && ev.srcElement._eventId) {
+                  var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
+                  if (handlers.length) {
+                    for (var i = 0, l = handlers.length; i < l; i++) {
+                      if (tire.isFunction(handlers[i])) handlers[i](ev);
+                    }
                   }
                 }
-              }
-            };
-            el.attachEvent('onpropertychange', opcHandler);
+              };
+              el.attachEvent('onpropertychange', opcHandler);
+            }
+            opcCache[el.nodeName] = opcCache[el.nodeName] || true;
+            el.fireEvent('onpropertychange', event);
           }
-          opcCache[el.nodeName] = opcCache[el.nodeName] || true;
-          el.fireEvent('onpropertychange', event);
         }
       }
 
