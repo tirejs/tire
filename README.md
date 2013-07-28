@@ -26,7 +26,6 @@ Tire may work in older browsers but is not tested in older than the above.
 * Read the [docs](http://tirejs.com/).
 * Follow us on [Twitter](https://twitter.com/tire_js).
 * Follow our [blog](http://blog.tirejs.com/).
-* Join us at [#tirejs](http://webchat.freenode.net/?channels=#tirejs) on freenode!
 
 ## Download
 
