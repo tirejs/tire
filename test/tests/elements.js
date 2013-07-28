@@ -38,7 +38,7 @@ test('toggleClass', function () {
   el.toggleClass('yet');
   equal(el.attr('class'), 'hello yet', 'Should return hello and yet as class attribute values');
   el.toggleClass(function () {
-    return $(this).is('.yet')) ? 'happy' : 'sad';
+    return $(this).is('.yet') ? 'happy' : 'sad';
   });
   equal(el.attr('class'), 'hello yet happy', 'Should return hello, yet and happy as class attribute values when yet class exists');
   el.toggleClass('state', true);
