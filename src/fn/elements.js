@@ -70,5 +70,37 @@ tire.fn.extend({
       els.push(this.cloneNode(true));
     });
     return tire(els);
+  },
+
+  /**
+   * Toggle show/hide.
+   *
+   * @param {Bool} state
+   * @return {Object}
+   */
+
+  toggle: function (state) {
+    return this.each(function () {
+      var el = $(this);
+      el[(state === undefined ? el.css('display') === 'none' : state) ? 'show': 'hide']();
+    });
+  },
+
+  /**
+   * Toggle class.
+   *
+   * @param {Function|String} name
+   * @param {Bool} state
+   * @return {Object}
+   */
+
+  toggleClass: function (name, state) {
+    return this.each(function (i) {
+      var el = $(this);
+      name = tire.isFunction(name) ? name.call(this, i, el.attr('class'), state) : tire.isString(name) ? name : '';
+      tire.each(name.split(/\s+/g), function (i, klass) {
+        el[(state === undefined ? !el.hasClass(klass) : state) ? 'addClass' : 'removeClass'](klass);
+      });
+    });
   }
 });
