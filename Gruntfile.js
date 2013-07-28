@@ -40,14 +40,6 @@ module.exports = function(grunt) {
     watch: {
       tasks: ['concat'],
       files: ['src/core.js', 'src/fn/*.js']
-    },
-    sizediff: {
-      dist: {
-        src: [
-          'dist/<%= pkg.name %>.js',
-          'dist/<%= pkg.name %>.min.js'
-        ]
-      }
     }
   });
 
@@ -62,9 +54,6 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "watch" task
   grunt.loadNpmTasks('grunt-contrib-watch');
-  
-  // Load the plugin that provides the "sizediff" task.
-  grunt.loadNpmTasks('grunt-sizediff');
 
   // Our custom concat task.
   grunt.registerMultiTask('concat', 'Fix identation for files', function (config) {

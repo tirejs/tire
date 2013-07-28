@@ -17,8 +17,7 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-cli": "~0.1.9",
-    "bower": "~1.0.0",
-    "grunt-sizediff": "~0.3.1"
+    "bower": "~1.0.0"
   },
   "scripts": {
     "postinstall": "bower install"
