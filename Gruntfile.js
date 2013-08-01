@@ -52,7 +52,7 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "eslint" task.
   grunt.loadNpmTasks('grunt-eslint');
 
-  // Load the plugin that provides the "watch" task
+  // Load the plugin that provides the "watch" task,
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Our custom concat task.
