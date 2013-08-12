@@ -91,7 +91,7 @@ function createProxy (event) {
     }
     for (var name in eventMethods) {
       proxy[name] = function () {
-        this[eventMethods[name]] = returnTrue;
+        this[eventMethods[name]] = returnTrue;
         return event[name].apply(event, arguments);
       };
       proxy[eventMethods[name]] = returnFalse;
