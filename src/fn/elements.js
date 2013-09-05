@@ -9,13 +9,13 @@ tire.fn.extend({
 
   filter: function (obj) {
     if (tire.isFunction(obj)) {
-      var elements = [];
-      this.each(function (index, elm) {
-        if (obj.call(elm, index)) {
-          elements.push(elm);
+      var els = [];
+      this.each(function (index, el) {
+        if (obj.call(el, index)) {
+          els.push(el);
         }
       });
-      return tire(elements);
+      return tire(els);
     } else {
       return this.filter(function () {
         return tire.matches(this, obj);
@@ -39,7 +39,7 @@ tire.fn.extend({
   /**
    * Get the element at position specified by index from the current collection.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {Object}
    */
 
@@ -50,7 +50,7 @@ tire.fn.extend({
   /**
    * Retrieve the DOM elements matched by the tire object.
    *
-   * @param {Integer} index
+   * @param {Number} index
    * @return {object}
    */
 
@@ -65,10 +65,42 @@ tire.fn.extend({
    */
 
   clone: function () {
-    var res = [];
+    var els = [];
     this.each(function () {
-      res.push(this.cloneNode(true));
+      els.push(this.cloneNode(true));
     });
-    return tire(res);
+    return tire(els);
+  },
+
+  /**
+   * Toggle show/hide.
+   *
+   * @param {Bool} state
+   * @return {Object}
+   */
+
+  toggle: function (state) {
+    return this.each(function () {
+      var el = $(this);
+      el[(state === undefined ? el.css('display') === 'none' : state) ? 'show': 'hide']();
+    });
+  },
+
+  /**
+   * Toggle class.
+   *
+   * @param {Function|String} name
+   * @param {Bool} state
+   * @return {Object}
+   */
+
+  toggleClass: function (name, state) {
+    return this.each(function (i) {
+      var el = $(this);
+      name = tire.isFunction(name) ? name.call(this, i, el.attr('class'), state) : tire.isString(name) ? name : '';
+      tire.each(name.split(/\s+/g), function (i, klass) {
+        el[(state === undefined ? !el.hasClass(klass) : state) ? 'addClass' : 'removeClass'](klass);
+      });
+    });
   }
 });

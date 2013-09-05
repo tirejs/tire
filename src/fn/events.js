@@ -1,8 +1,9 @@
 var _eventId = 1
-  , c = {}
+  , c = window.c = {}
   , returnTrue = function () { return true; }
   , returnFalse = function () { return false; }
   , ignoreProperties = /^([A-Z]|layer[XY]$)/
+  , sepcialExp = /click|mouse/
   , mouse = {
       mouseenter: 'mouseover',
       mouseleave: 'mouseout'
@@ -11,65 +12,137 @@ var _eventId = 1
       preventDefault: 'isDefaultPrevented',
       stopImmediatePropagation: 'isStopImmediatePropagation',
       stopPropagation: 'isPropagationStopped'
-    };
+    }
+  , opcHandler
+  , opcCache = {}
+  , createEvent = !!document.createEvent;
+
+/**
+ * Get event parts.
+ *
+ * @param {String} event
+ *
+ * @return {Object}
+ */
+
+function getEventParts (event) {
+  var parts = ('' + event).split('.');
+  return { ev: parts[0], ns: parts.slice(1).sort().join(' ') };
+}
+
+/**
+ * Get real event.
+ *
+ * @param {String} event
+ *
+ * @return {String}
+ */
+
+function realEvent (event) {
+  return mouse[event] || event;
+}
 
 /**
  * Get tire event id
  *
- * @param {Object} element The element to get tire event id from
+ * @param {Object} el The element to get tire event id from
  *
- * @return {Integer}
+ * @return {Number}
  */
 
-function getEventId (element) {
-  return element._eventId || (element._eventId = _eventId++);
+function getEventId (el) {
+  return el._eventId || (el._eventId = _eventId++);
+}
+
+/**
+ * Check if ns or event allreday is in the handlers array.
+ *
+ * @param {Object} parts
+ * @param {Array} handlers
+ *
+ * @return {Bool}
+ */
+
+function inHandlers (parts, handlers) {
+  for (var i = 0; i < handlers.length; i++) {
+    if (handlers[i].realEvent === realEvent(parts.ev) || handlers[i].ns === parts.ns) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
  * Get event handlers
  *
- * @param {Integer} id
+ * @param {Number} id
  * @param {String} event
  *
  * @return {Array}
  */
 
 function getEventHandlers (id, event) {
+  var parts = getEventParts(event)
+    , handlers = []
+    , tmp
+    , ns;
+
+  event = realEvent(parts.ev);
+  ns = parts.ns;
+
+  if (!event.length && !parts.ns.length) {
+    return handlers;
+  }
+
   c[id] = c[id] || {};
-  return c[id][event] = c[id][event] || [];
+
+  if (event.length) {
+    handlers = c[id][event] = c[id][event] || [];
+  }
+
+  if (parts.ns.length) {
+    for (event in c[id]) {
+      tmp = c[id][event];
+      for (var i = 0, l = tmp.length; i < l; i++) {
+        if (tmp[i] && ns.length && tmp[i].ns.length && tire.inArray(ns, tmp[i].ns.split(' ')) !== -1) {
+          handlers.push(tmp[i]);
+        }
+      }
+    }
+  }
+
+  return handlers;
 }
 
 /**
  * Create event handler
  *
- * @param {Object} element
+ * @param {Object} el
  * @param {String} event
  * @param {Function} callback
  * @param {Function} _callback Orginal callback if delegated event
  */
 
-function createEventHandler (element, event, callback, _callback) {
-  var id = getEventId(element)
+function createEventHandler (el, event, callback, _callback) {
+  var id = getEventId(el)
     , handlers = getEventHandlers(id, event)
-    , parts = ('' + event).split('.')
+    , parts = getEventParts(event)
     , cb = _callback || callback;
 
   var fn = function (event) {
+    if (!event.liveTarget) event.liveTarget = event.target || event.srcElement;
     var data = event.data;
     if (tire.isString(data) && /^[\[\{]/.test(data)) data = tire.parseJSON(event.data);
-    var result = callback.apply(element, [event].concat(data));
+    var result = cb.apply(el, [event].concat(data));
     if (result === false) {
       if (event.stopPropagation) event.stopPropagation();
       if (event.preventDefault) event.preventDefault();
-      event.cancelBubble = true;
-      event.returnValue = false;
     }
     return result;
   };
-
   fn._i = cb._i = cb._i || ++_eventId;
-  fn.realEvent = parts[0];
-  fn.ns = parts.slice(1).sort().join(' ');
+  fn.realEvent = realEvent(parts.ev);
+  fn.ns = parts.ns;
   handlers.push(fn);
   return fn;
 }
@@ -105,32 +178,33 @@ function createProxy (event) {
  * Add event to element, no support for delegate yet.
  * Using addEventListener or attachEvent (IE)
  *
- * @param {Object} element
+ * @param {Object} el
  * @param {String} events
  * @param {Function} callback
  * @param {String} selector
  */
 
-function addEvent (element, events, callback, selector) {
+function addEvent (el, events, callback, selector) {
   var fn, _callback;
 
   if (tire.isString(selector)) {
     _callback = callback;
     fn = function () {
-      return (function (element, callback, selector) {
+      return (function (el, callback, selector) {
         return function (e) {
-          var match = tire(e.target || e.srcElement).closest(selector, element).get(0)
+          var match = tire(e.target || e.srcElement).closest(selector, el).get(0)
             , event;
 
           if ((e.target || e.srcElement) === match) {
             event = tire.extend(createProxy(e), {
               currentTarget: match,
-              liveFired: element
+              liveFired: el
             });
+
             return callback.apply(match, [event].concat(slice.call(arguments, 1)));
           }
         };
-      }(element, callback, selector));
+      }(el, callback, selector));
     };
   } else {
     callback = selector;
@@ -138,9 +212,9 @@ function addEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var parts = (event + '').split('.');
+    var parts = getEventParts(event);
 
-    if (_callback !== undefined && parts[0] in mouse) {
+    if (_callback !== undefined && parts.ev in mouse) {
       var _fn = fn();
       fn = function () {
         return function (e) {
@@ -152,16 +226,16 @@ function addEvent (element, events, callback, selector) {
       }
     }
 
-    event = mouse[parts[0]] || parts[0];
+    var handler = createEventHandler(el, event, fn && fn() || callback, _callback);
 
-    var handler = createEventHandler(element, event, fn && fn() || callback, _callback);
+    event = realEvent(parts.ev);
 
     if (selector) handler.selector = selector;
 
-    if (element.addEventListener) {
-      element.addEventListener(event, handler, false);
-    } else if (element.attachEvent) {
-      element.attachEvent('on' + event, handler);
+    if (el.addEventListener) {
+      el.addEventListener(event, handler, false);
+    } else if (el.attachEvent) {
+      el.attachEvent('on' + event, handler);
     }
   });
 }
@@ -176,12 +250,10 @@ function addEvent (element, events, callback, selector) {
  */
 
 function testEventHandler (parts, callback, selector, handler) {
-  var ns = parts.slice(1).sort().join(' ');
-
   return callback === undefined &&
     (handler.selector === selector ||
-      handler.realEvent === parts[0] ||
-      handler.ns === ns) ||
+      handler.realEvent === parts.ev ||
+      handler.ns === parts.ns) ||
       callback._i === handler._i;
 }
 
@@ -191,14 +263,14 @@ function testEventHandler (parts, callback, selector, handler) {
  *
  * @todo Remove delegated events
  *
- * @param {Object} element
+ * @param {Object} el
  * @param {String} events
  * @param {Function} callback
  * @param {String} selector
  */
 
-function removeEvent (element, events, callback, selector) {
-  var id = getEventId(element);
+function removeEvent (el, events, callback, selector) {
+  var id = getEventId(el);
 
   if (callback === undefined && tire.isFunction(selector)) {
     callback = selector;
@@ -206,23 +278,30 @@ function removeEvent (element, events, callback, selector) {
   }
 
   tire.each(events.split(/\s/), function (index, event) {
-    var parts = ('' + event).split('.');
-    event = mouse[parts[0]] || parts[0];
-    var handlers = getEventHandlers(id, event);
+    var handlers = getEventHandlers(id, event)
+      , parts = getEventParts(event);
+
+    event = realEvent(parts.ev);
 
     for (var i = 0; i < handlers.length; i++) {
       if (testEventHandler(parts, callback, selector, handlers[i])) {
-        if (element.removeEventListener) {
-          element.removeEventListener(event, handlers[i], false);
-        } else if (element.detachEvent) {
+        event = (event || handlers[i].realEvent);
+        if (el.removeEventListener) {
+          el.removeEventListener(event, handlers[i], false);
+        } else if (el.detachEvent) {
           var name = 'on' + event;
-          if (tire.isString(element[name])) element[name] = null;
-          element.detachEvent(name, handlers[i]);
+          if (tire.isString(el[name])) el[name] = null;
+          el.detachEvent(name, handlers[i]);
+          if (opcCache[el.nodeName]) { // Remove custom event handler on IE8.
+            el.detachEvent('onpropertychange', opcHandler);
+            delete opcCache[el.nodeName];
+          }
         }
-        Array.remove(c[id][event], i, 1);
+        c[id][event] = splice.call(c[id][event], i, 1);
+        c[id][event].length = i < 0 ? c[id][event].length + 1 : i;
       }
     }
-    if (!c[id][event].length) delete c[id][event];
+    if (c[id] && c[id][event] && !c[id][event].length) delete c[id][event];
   });
   for (var k in c[id]) return;
   delete c[id];
@@ -265,56 +344,121 @@ tire.fn.extend({
   /**
    * Trigger specific event for element collection
    *
-   * @param {String} eventName The event to trigger
+   * @param {Object|String} eventName The event to trigger or event object
    * @param {Object} data JSON Object to use as the event's `data` property
    * @return {Object}
    */
 
-  trigger: function (eventName, data) {
-    return this.each(function (index, elm) {
-      if (elm === document && !elm.dispatchEvent) elm = document.documentElement;
+  trigger: function (event, data, _el) {
+    return this.each(function (i, el) {
+      if (el === document && !el.dispatchEvent) el = document.documentElement;
 
-      var event
-        , createEvent = !!document.createEvent
-        , parts = (eventName + '').split('.');
+      var parts = getEventParts(event.type || event);
 
-      eventName = mouse[parts[0]] || parts[0];
-
-      if (createEvent) {
-        event = document.createEvent('HTMLEvents');
-        event.initEvent(eventName, true, true);
-      } else {
-        event = document.createEventObject();
-        event.cancelBubble = true;
-      }
-
+      event = tire.Event(event)
       event.data = data || {};
-      event.eventName = eventName;
 
       if (tire.isString(event.data) && !tire.isString(data) && JSON.stringify) {
         event.data = JSON.stringify(data);
       }
 
       if (createEvent) {
-        elm.dispatchEvent(event);
+        el.dispatchEvent(event);
       } else {
-        try { // fire event in < IE 9
-          elm.fireEvent('on' + eventName, event);
-        } catch (e) { // solution to trigger custom events in < IE 9
-          elm.attachEvent('onpropertychange', function (ev) {
-            if (ev.eventName === eventName && ev.srcElement._eventId) {
-              var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
-              if (handlers.length) {
-                for (var i = 0; i < handlers.length; i++) {
-                  handlers[i](ev);
+        if (el._eventId > 0) {
+          try { // fire event in < IE 9
+            el.fireEvent('on' + event.type, event);
+          } catch (e) { // solution to trigger custom events in < IE 9
+            if (!opcCache[el.nodeName]) {
+              opcHandler = opcHandler || function (ev) {
+                if (ev.eventName && ev.srcElement._eventId) {
+                  var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
+                  if (handlers.length) {
+                    for (var i = 0, l = handlers.length; i < l; i++) {
+                      if (tire.isFunction(handlers[i])) handlers[i](ev);
+                    }
+                  }
                 }
-              }
+              };
+              el.attachEvent('onpropertychange', opcHandler);
             }
-          });
-          elm.fireEvent('onpropertychange', event);
+            opcCache[el.nodeName] = opcCache[el.nodeName] || true;
+            el.fireEvent('onpropertychange', event);
+          }
+        }
+      }
+
+      if (!event.isPropagationStopped()) {
+        var parent = el.parentNode || el.ownerDocument;
+        if (parent && parent._eventId > 0) {
+          // Tire use `liveTarget` instead of creating a own Event object that modifies `target` property.
+          event.liveTarget = el;
+          tire(parent).trigger(event, data);
+        } else {
+          event.stopPropagation();
         }
       }
     });
   }
 
 });
+
+/**
+ * Create a event object
+ *
+ * @param {String|Object} type
+ * @param {Object} props
+ *
+ * @return {Object}
+ */
+
+tire.Event = function (type, props) {
+  if (!tire.isString(type)) {
+    if (type.type) return type;
+    props = type;
+    type = props.type;
+  }
+
+  var event;
+
+  if (createEvent) {
+    event = document.createEvent((sepcialExp.test(type) ? 'Mouse' : '') + 'Events');
+    event.initEvent(realEvent(type), true, true, null, null, null, null, null, null, null, null, null, null, null, null);
+  } else {
+    event = document.createEventObject();
+    event.cancelBubble = true;
+  }
+
+  if (props !== undefined) {
+    for (var name in props) {
+      (name === 'bubbles') ? (bubbles = !!props[name]) : (event[name] = props[name]);
+    }
+  }
+
+  event.isPropagationStopped = returnFalse;
+  event.stopPropagation = function () {
+    this.isPropagationStopped = returnTrue;
+    var e = this.originalEvent;
+    if(!e) return;
+    if (e.stopPropagation) e.stopPropagation();
+    e.returnValue = false;
+  };
+
+  event.isDefaultPrevented = returnTrue;
+  event.preventDefault = function () {
+    this.isDefaultPrevented = returnTrue;
+    var e = this.originalEvent;
+    if(!e) return;
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+  };
+
+  if (!event.type.length) {
+    event.type = realEvent(type);
+  }
+
+  // IE8
+  event.eventName = event.type;
+
+  return event;
+};

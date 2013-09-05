@@ -16,8 +16,15 @@
   <a href="#" class="remove-a">Remove click event</a>
   <a href="#" class="trigger-del">Trigger delegated event</a>
   <ul id="log"></ul>
+  <a href="#" class="del">click</a>
+  <div>
+    <p>
+      <strong><span>click</span></strong>
+    </p>
+  </div>
   <script src="../dist/tire.js"></script>
-  <script>
+  <!--
+    <script>
     $(function () {
       $('.clear').on('click', function () {
         $('#log').empty();
@@ -45,6 +52,27 @@
       $('.trigger-del').on('click', function () {
         $('a.del').trigger('click');
       });
+    });
+  </script>
+-->
+  <script>
+    /*var count = 0;
+
+    $('body').on('fake$event.namespaced', function () {
+      count++;
+    });
+
+    $('body').trigger('fake$event');
+    $('body').trigger('fake$event');
+    console.log('first', count, count === 2);
+
+    $('body').off('.namespaced');
+    $('body').trigger('fake$event');
+    console.log('second', count, count === 2);
+    */
+    $('body').on('click', 'a.del', function(event) {
+      $('#log').append('<li>clicked: ' + event.target.nodeName + '</li>');
+      $('#log').append('<li>clicked: ' + event.currentTarget.nodeName + '</li>');
     });
   </script>
 </body>

@@ -6,24 +6,19 @@ var document   = window.document
   , tagNameExp = /^[\w\-]+$/
   , tagExp     = /^<([\w:]+)/
   , slice      = [].slice
+  , splice     = [].splice
   , noop       = function () {};
-
-// Array Remove - By John Resig (MIT Licensed)
-Array.remove = function(array, from, to) {
-  var rest = array.slice((to || from) + 1 || array.length);
-  array.length = from < 0 ? array.length + from : from;
-  return array.push.apply(array, rest);
-};
 
 // If slice is not available we provide a backup
 try {
-  slice.call(document.documentElement.childNodes, 0)[0].nodeType;
+  slice.call(document.childNodes);
 } catch(e) {
-  slice = function (i) {
+  slice = function (i, e) {
     i = i || 0;
-    var elem, results = [];
-    for (; (elem = this[i]); i++) {
-      results.push(elem);
+    var el, results = [];
+    for (; (el = this[i]); i++) {
+      if (i === e) break;
+      results.push(el);
     }
     return results;
   };
@@ -63,7 +58,7 @@ tire.fn = tire.prototype = {
    */
 
   find: function (selector, context) {
-    var elms = [], attrs;
+    var els = [], attrs;
 
     if (!selector) {
       return this;
@@ -91,43 +86,45 @@ tire.fn = tire.prototype = {
       context = document;
     }
 
+    if (context instanceof tire) {
+      context = context.context;
+    }
+
     if (tire.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
-        elms = (elms = context.getElementById(selector.substr(1))) ? [elms] : [];
+        els = (els = context.getElementById(selector.substr(1))) ? [els] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
-        elms = [];
+        els = [];
       } else if (tagExp.test(selector)) {
-        var tmp = context.createElement('div');
-        tmp.innerHTML = selector;
-        this.each.call(slice.call(tmp.childNodes, 0), function () {
-          elms.push(this);
+        tire.each(normalize(selector), function () {
+          els.push(this);
         });
       } else {
-        elms = slice.call(
+        els = slice.call(
           classExp.test(selector) && context.getElementsByClassName !== undefined ? context.getElementsByClassName(selector.substr(1)) :
           tagNameExp.test(selector) ? context.getElementsByTagName(selector) :
           context.querySelectorAll(selector)
         );
       }
     } else if (selector.nodeName || selector === window) {
-      elms = [selector];
+      els = [selector];
     } else if (tire.isArray(selector)) {
-      elms = selector;
+      els = selector;
     }
 
     if (selector.selector !== undefined) {
       this.selector = selector.selector;
       this.context = selector.context;
     } else if (this.context === undefined) {
-      if (elms[0] !== undefined && !tire.isString(elms[0])) {
-        this.context = elms[0];
+      if (els[0] !== undefined && !tire.isString(els[0])) {
+        this.context = els[0];
       } else {
         this.context = document;
       }
     }
 
-    return this.set(elms).each(function () {
+    return this.set(els).each(function () {
       return attrs && tire(this).attr(attrs);
     });
   },
@@ -167,8 +164,12 @@ tire.fn = tire.prototype = {
         if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
-      for (key in target) {
-        if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+      if (target instanceof tire) {
+        return tire.each(slice.call(target), callback);
+      } else {
+        for (key in target) {
+          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+        }
       }
     }
 
@@ -184,14 +185,14 @@ tire.fn = tire.prototype = {
 
   set: function (elements) {
     // Introduce a fresh `tire` set to prevent context from being overridden
-    var i = 0, newSet = tire();
-    newSet.selector = this.selector;
-    newSet.context = this.context;
+    var i = 0, set = tire();
+    set.selector = this.selector;
+    set.context = this.context;
     for (; i < elements.length; i++) {
-      newSet[i] = elements[i];
+      set[i] = elements[i];
     }
-    newSet.length = i;
-    return newSet;
+    set.length = i;
+    return set;
   }
 };
 
@@ -208,7 +209,7 @@ tire.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  tire.fn.each(slice.call(arguments), function (index, value) {
+  tire.fn.each(slice.call(arguments), function (i, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }
@@ -254,26 +255,26 @@ tire.extend({
   /**
    * Check if the element matches the selector
    *
-   * @param {Object} element
+   * @param {Object} el
    * @param {String} selector
    * @return {Boolean}
    */
 
-  matches: function (element, selector) {
-    if (!element || element.nodeType !== 1) return false;
+  matches: function (el, selector) {
+    if (!el || el.nodeType !== 1) return false;
 
     // Trying to use matchesSelector if it is available
-    var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector || element.oMatchesSelector || element.matchesSelector;
+    var matchesSelector = el.webkitMatchesSelector || el.mozMatchesSelector || el.oMatchesSelector || el.matchesSelector;
     if (matchesSelector) {
-      return matchesSelector.call(element, selector);
+      return matchesSelector.call(el, selector);
     }
 
     // querySelectorAll fallback
     if (document.querySelectorAll !== undefined) {
-      var nodes = element.parentNode.querySelectorAll(selector);
+      var nodes = el.parentNode.querySelectorAll(selector);
 
       for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] === element) return true;
+        if (nodes[i] === el) return true;
       }
     }
 
@@ -386,9 +387,27 @@ tire.extend({
   },
 
   /**
+   * Check if given value exists in the array or not.
+   *
+   * @param {Object|String} val
+   * @param {Array} arr
+   * @param {Number} i
+   * @return {Bool}
+   */
+
+  inArray: function (val, arr, i) {
+    return Array.prototype.indexOf ? arr.indexOf(val, i) : function () {
+        var l = arr.length;
+        i = i ? i < 0 ? Math.max(0, l + i) : i : 0;
+        for (; i < l; i++) if (i in arr && arr[i] === val) return true;
+        return -1;
+      }();
+  },
+
+  /**
    * Calling .noConflict will restore the window.$` to its previous value.
    *
-   * @param {Boolean} name Restore `tire` to it's previous value.
+   * @param {Bool} name Restore `tire` to it's previous value.
    * @return {Object}
    */
 

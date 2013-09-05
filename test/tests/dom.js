@@ -39,57 +39,105 @@ test('val', function () {
 });
 
 test('html', function () {
-  expect(2);
-  var elm = $('.html');
-  equal(elm.html(), 'test text', 'Should return inner html for element');
-  elm.html('html test');
-  equal(elm.html(), 'html test', 'Should return inner html for element after it changed');
+  var el = $('.html');
+  el.html('html test');
+  equal(el.html(), 'html test', 'Should return inner html for element after it changed');
 });
 
 test('append', function () {
-  var elm = $('.html');
-  elm.append('<p>append</p>');
-  equal(elm.get(0).childNodes[1].innerHTML, 'append', 'Should return inner html for element');
-  var divs = $(['<div id="1" />', '<div id="2" />']);
-  elm = $('#divs');
-  elm.append(divs);
-  equal(elm.children().length, divs.length, 'Should contains the same count divs as we appended');
+  var el = $('.html');
+  el.empty();
+  el.append('<p>append</p>');
+  equal(el.children().html(), 'append', 'Should return inner html for element');
+  var divs = $(['<div />', '<div />']);
+  el = $('#divs');
+  el.append(divs);
+  equal(el.children().length, divs.length, 'Should contains the same count divs as we appended');
 });
 
 test('prepend', function () {
-  var elm = $('.html');
-  elm.prepend('<p>prepend</p>');
-  equal(elm.get(0).childNodes[0].innerHTML, 'prepend', 'Should return inner html for element');
-  elm = $('#divs');
-  elm.prepend($(['<p>prepend</p>', '<p>prepend2</p>']));
-  // IE 8
-  var text1 = elm.children().get(0).childNodes[0];
-  text1 = text1.textContent === undefined ? text1.toString() : text1.textContent;
-  var text2 = elm.children().get(1).childNodes[0];
-  text2 = text2.textContent === undefined ? text2.toString() : text2.textContent;
-  equal(text1, 'prepend2', 'Should return inner text for element');
-  equal(text2, 'prepend', 'Should return inner text for element');
+  var el = $('.html');
+  el.empty();
+  el.prepend('<p>prepend</p>');
+  equal(el.children().html(), 'prepend', 'Should return inner html for element');
+  el = $('#divs');
+  el.prepend($(['<p>prepend</p>', '<p>prepend2</p>']));
+  equal(el.children().eq(0).text(), 'prepend', 'Should return inner text for element');
+  equal(el.children().eq(1).text(), 'prepend2', 'Should return inner text for element');
 });
 
 test('before', function () {
-  $('.html').before('<p>before</p>');
-  equal($('.html').get(0).previousSibling.innerHTML, 'before', 'Should return inner html for element');
-  var divs = $(['<div id="divs-before1" />', '<div id="divs-before2" />']);
-  var elm = $('#divs-before');
-  elm.before(divs);
-  equal(elm.parent().children().length, divs.length+2, 'Should contains the same count divs as we added before, plus two extra for a existing div');
+  var el = $('#divs-before');
+  el.append('<div />');
+  el = el.find('div');
+  el.before('<p>before</p>');
+  equal(el.parent().find('p').eq(0).html(), 'before', 'Should return inner html for element');
+  var divs = $(['<div />', '<div />']);
+  el.before(divs);
+  equal(el.parent().children().length, divs.length + 2, 'Should contains the same count divs as we added before, plus two extra for existing div');
 });
 
 test('after', function () {
-  $('.html').after('<p>after</p>');
-  var elm = $('.html').get(0);
-  // <p>after</p> in IE8 is found using only one nextSibling, have to investigate this but this will fix the test for now.
-  var result = elm.nextSibling.nextSibling.innerHTML === 'test text' ? elm.nextSibling.innerHTML : elm.nextSibling.nextSibling.innerHTML;
-  equal(result, 'after', 'Should return inner html for element');
-  var divs = $(['<div id="divs-after1" />', '<div id="divs-after2" />']);
-  elm = $('#divs-after');
-  elm.before(divs);
-  equal(elm.parent().children().length, divs.length+4, 'Should contains the same count divs as we added before, plus four extra for a existing div');
+  var el = $('#divs-after');
+  el.append('<div />');
+  el = el.find('div');
+  el.after('<p>after</p>');
+  equal(el.parent().find('p').eq(0).html(), 'after', 'Should return inner html for element');
+  var divs = $(['<div />', '<div />']);
+  el.after(divs);
+  equal(el.parent().children().length, divs.length + 2, 'Should contains the same count divs as we added before, plus two extra for existing div');
+});
+
+test('appendTo', function () {
+  var el = $('#playground div').clone();
+  el.addClass('appendTo');
+  el.appendTo('body');
+  equal($('body div.appendTo').length, 1, 'Should have append the div to body');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('appendTo');
+  el.appendTo($('body'));
+  equal($('body div.appendTo').length, 1, 'Should have append the div to body');
+  el.remove();
+});
+
+test('prependTo', function () {
+  var el = $('#playground div').clone();
+  el.addClass('prependTo');
+  el.prependTo('#test-area');
+  equal($('#test-area div.prependTo').length, 1, 'Should have prepend the div to test area div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('prependTo');
+  el.prependTo($('#test-area'));
+  equal($('#test-area div.prependTo').length, 1, 'Should have prepend the div to test area div');
+  el.remove();
+});
+
+test('insertBefore', function () {
+  var el = $('#playground div').clone();
+  el.addClass('insertBefore');
+  el.insertBefore('#qunit');
+  equal($('body div').eq(0).length, 1, 'Should have inserted the div before qunit div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('insertBefore');
+  el.insertBefore($('#qunit'));
+  equal($('body div').eq(0).length, 1, 'Should have inserted the div before qunit div');
+  el.remove();
+});
+
+test('insertAfter', function () {
+  var el = $('#playground div').clone();
+  el.addClass('insertAfter');
+  el.insertAfter('#qunit');
+  equal($('body div').eq(2).length, 1, 'Should have inserted the div after qunit div');
+  el.remove();
+  el = $('#playground div').clone();
+  el.addClass('insertAfter');
+  el.insertAfter($('#qunit'));
+  equal($('body div').eq(2).length, 1, 'Should have inserted the div after qunit div');
+  el.remove();
 });
 
 test('remove', function () {
@@ -97,7 +145,104 @@ test('remove', function () {
   equal(document.getElementById('remove-me-a'), null, 'Element should not exists after calling remove');
 });
 
+test('table elements', function () {
+  equal($('<td></td>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<th></th>').get(0).parentNode.nodeName.toLowerCase(), 'tr');
+  equal($('<tr></tr>').get(0).parentNode.nodeName.toLowerCase(), 'tbody');
+  equal($('<thead></thead>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tbody></tbody>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+  equal($('<tfoot></tfoot>').get(0).parentNode.nodeName.toLowerCase(), 'table');
+});
+
+test('append elements to empty table element', function () {
+  var a = $('#table-a');
+
+  // thead, tr, th
+  a.append('<thead><tr><th>Name</th></tr></thead>');
+
+  equal(a.children().length, 1);
+  equal(a.children().get(0).nodeName.toLowerCase(), 'thead');
+  equal(a.children().eq(0).children().length, 1);
+  equal(a.children().eq(0).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(a.children().eq(0).children().children().length, 1);
+  equal(a.children().eq(0).children().children().get(0).nodeName.toLowerCase(), 'th');
+  equal(a.children().eq(0).children().children().text(), 'Name');
+
+  // tbody, tr, td
+  a.append('<tbody><tr><td>Fredrik</td></tr></tbody>');
+
+  equal(a.children().length, 2);
+  equal(a.children().get(1).nodeName.toLowerCase(), 'tbody');
+  equal(a.children().eq(1).children().length, 1);
+  equal(a.children().eq(1).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(a.children().eq(1).children().children().length, 1);
+  equal(a.children().eq(1).children().children().get(0).nodeName.toLowerCase(), 'td');
+  equal(a.children().eq(1).children().children().text(), 'Fredrik');
+});
+
+test('append elements to table with existing thead', function () {
+  var b = $('#table-b');
+
+  // tbody, tr, td
+  b.append('<tbody><tr><td>Fredrik</td></tr></tbody>');
+
+  equal(b.children().length, 2);
+  equal(b.children().get(1).nodeName.toLowerCase(), 'tbody');
+  equal(b.children().eq(1).children().length, 1);
+  equal(b.children().eq(1).children().get(0).nodeName.toLowerCase(), 'tr');
+  equal(b.children().eq(1).children().children().length, 1);
+  equal(b.children().eq(1).children().children().get(0).nodeName.toLowerCase(), 'td');
+  equal(b.children().eq(1).children().children().text(), 'Fredrik');
+});
+
+test('append and prepend td to tr with existing table', function () {
+  var c = $('#table-c tbody tr');
+
+  c.append('<td>Fredrik</td>');
+
+  equal(c.children().length, 1);
+  equal(c.children().get(0).nodeName.toLowerCase(), 'td');
+  equal(c.children().text(), 'Fredrik');
+
+  c.prepend('<td>Maria</td>');
+
+  equal(c.children().length, 2);
+  equal(c.children().get(0).nodeName.toLowerCase(), 'td');
+  equal(c.children().text(), 'Maria');
+});
+
+test('each', function () {
+  var t = $('#a-container')
+    , $ul1 = $('ul', t).eq(0)
+    , $ul2 = $('ul', t).eq(1)
+    , tags = $('div a', t);
+
+  $ul1.css('background', 'red');
+
+  tags.each(function (i, el) {
+    $ul1.append('<li>ul1 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+  });
+
+  $ul2.css('background', 'green');
+
+  $.each(tags, function (i, el) {
+    $ul2.append('<li>ul2 - a: ' + $(el).text() + ' i: ' + i + '</li>');
+  });
+
+  notEqual($ul1.css('background'), $ul2.css('background'));
+  equal($ul1.attr('id'), 'ul1');
+  equal($ul1.find('li').length, 3);
+  ok($ul1.find('li').text().indexOf('ul1') !== -1);
+
+  notEqual($ul2.css('background'), $ul1.css('background'));
+  equal($ul2.attr('id'), 'ul2');
+  equal($ul1.find('li').length, 3);
+  ok($ul2.find('li').text().indexOf('ul2') !== -1);
+});
+
 test('empty', function () {
-  $('.html').empty();
-  equal($('.html').html(), '', 'Should return empty inner html after empty');
+  var el = $('.html').empty();
+  equal(el.html(), '', 'Should return empty inner html after empty');
+  el = $('#table-a').empty();
+  equal(el.html(), '', 'Should return empty inner html after empty table');
 });

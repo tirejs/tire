@@ -26,7 +26,6 @@ Tire may work in older browsers but is not tested in older than the above.
 * Read the [docs](http://tirejs.com/).
 * Follow us on [Twitter](https://twitter.com/tire_js).
 * Follow our [blog](http://blog.tirejs.com/).
-* Join us at [#tirejs](http://webchat.freenode.net/?channels=#tirejs) on freenode!
 
 ## Download
 
@@ -58,8 +57,7 @@ grunt.cmd
 
 ## Test
 
-Install `connect` via `npm` and start the server. This will create a local server (on port 3000) so the ajax tests don't failes.
-Be sure to build tire first or all tests will fail! Then you can open `http://localhost:3000/` in your browser to run the tests.
+Install `connect` via `npm` and start the server. This will create a local server (on port 3000) so the ajax tests don't failes. Be sure to build tire first or all tests will fail! Then you can open `http://localhost:3000/` in your browser to run the tests.
 
 ```sh
 npm install

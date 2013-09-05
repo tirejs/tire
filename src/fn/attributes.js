@@ -8,13 +8,13 @@ tire.fn.extend({
 
   addClass: function (value) {
     if (value && tire.isString(value)) {
-      return this.each(function (index, elm) {
-        if (elm.nodeType === 1) {
+      return this.each(function (index, el) {
+        if (el.nodeType === 1) {
           var classNames = value.split(/\s+/);
-          if (!elm.className && classNames.length === 1) {
-            elm.className = value;
+          if (!el.className && classNames.length === 1) {
+            el.className = value;
           } else {
-            var className = elm.className;
+            var className = el.className;
 
             for (var i = 0; i < classNames.length; i++) {
               if (className.indexOf(classNames[i]) === -1) {
@@ -22,7 +22,7 @@ tire.fn.extend({
               }
             }
 
-            elm.className = tire.trim(className);
+            el.className = tire.trim(className);
           }
         }
       });
@@ -36,22 +36,22 @@ tire.fn.extend({
    */
 
   removeClass: function (value) {
-    return this.each(function (index, elm) {
+    return this.each(function (index, el) {
       if (value && tire.isString(value)) {
         var classNames = value.split(/\s+/);
-        if (elm.nodeType === 1 && elm.className) {
+        if (el.nodeType === 1 && el.className) {
           if (classNames.length === 1) {
-           elm.className = elm.className.replace(value, '');
+           el.className = el.className.replace(value, '');
           } else {
             for (var i = 0; i < classNames.length; i++) {
-              elm.className = elm.className.replace(classNames[i], '');
+              el.className = el.className.replace(classNames[i], '');
             }
           }
 
-          elm.className = tire.trim(elm.className.replace(/\s{2}/g, ' '));
+          el.className = tire.trim(el.className.replace(/\s{2}/g, ' '));
 
-          if (elm.className === '') {
-            elm.removeAttribute('class');
+          if (el.className === '') {
+            el.removeAttribute('class');
           }
         }
       }
@@ -120,7 +120,7 @@ tire.fn.extend({
           continue;
         }
       }
-      return attribute;
+      return attribute || undefined;
     }
   },
 

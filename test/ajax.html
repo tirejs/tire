@@ -13,10 +13,10 @@
   <script src="../dist/tire.js"></script>
   <script>
     $(function () {
-      $.ajax('/test.json', function (res) {
+      $.ajax('/test/test.json', function (res) {
         $('#result').html(res.hello);
       });
-      
+
       $.ajax('http://echo.jsontest.com/hello/world?callback=?', function (res) {
         $('#jsonp').html(res.hello);
       });

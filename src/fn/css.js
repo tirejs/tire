@@ -4,15 +4,6 @@ tire.fn.extend({
    * Get css property
    * Set css properties
    *
-   * Examples:
-   *
-   *  // Get property
-   *  $('div').css('color'); will return the css property
-   *
-   *  // Set properties
-   *  $('div').css('color', 'black');
-   *  $('div').css({ color: 'black', backgroundColor: 'white' });
-   *
    * @param {String|Object} prop
    * @param {String} value
    * @return {String|Object}
@@ -64,15 +55,20 @@ tire.fn.extend({
   }
 });
 
-function getPropertyValue(elm, prop) {
+function getPropertyValue(el, prop) {
   var value = '';
   if (document.defaultView && document.defaultView.getComputedStyle) {
     prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
-    value = document.defaultView.getComputedStyle(elm, '').getPropertyValue(prop);
-  } else if (elm.currentStyle) {
-    value = elm.currentStyle[prop];
-  } else {
-    value = elm.style[prop];
+    value = document.defaultView.getComputedStyle(el, '').getPropertyValue(prop);
   }
+
+  if (!!value && value.length) {
+    value = value;
+  } else if (el.currentStyle) {
+    value = el.currentStyle[prop] || el.style[prop];
+  } else {
+    value = el.style[prop];
+  }
+
   return !!value ? value : '';
 }
