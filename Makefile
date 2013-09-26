@@ -10,7 +10,7 @@ test:
 	@node server.js &
 	@echo "\n\033[32mRunning tests\033[39m"
 	@echo "-----------------------------------------"
-	@phantomjs test/lib/qunit/run-qunit.js "http://localhost:3000/test/index.html"
+	@phantomjs bower_components/qunit/addons/phantomjs/runner.js "http://localhost:3000/test/index.html"
 	@kill -9 `cat test/pid.txt`
 	@rm test/pid.txt
 
