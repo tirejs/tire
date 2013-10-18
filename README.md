@@ -36,7 +36,7 @@ Please do not hotlink directly to the files hosted on [code.tirejs.com](http://c
 
 ### CDN
 
-`1.3.0` ins't up on jsdelivr.
+Tire 1.3.0 ins't up on jsdelivr.
 
 * [tire.js](http://cdn.jsdelivr.net/tire/1.2.0/tire.js) `//cdn.jsdelivr.net/tire/1.2.0/tire.js`
 * [tire.min.js](http://cdn.jsdelivr.net/tire/1.2.0/tire.min.js) `//cdn.jsdelivr.net/tire/1.2.0/tire.min.js`
