@@ -21,7 +21,7 @@ That said, all features can probably be rewritten/extended to add support for ol
 
 Tire may work in older browsers but is not tested in older than the above.
 
-## Documentation and community
+## Documentation
 
 * Read the [docs](http://tirejs.com/).
 
