@@ -24,15 +24,13 @@ Tire may work in older browsers but is not tested in older than the above.
 ## Documentation and community
 
 * Read the [docs](http://tirejs.com/).
-* Follow us on [Twitter](https://twitter.com/tire_js).
-* Follow our [blog](http://blog.tirejs.com/).
-
+* 
 ## Download
 
-Current release: 1.2.0
+Current release: 1.3.0
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.2.0.js) - _42kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.2.0.min.js) - _5.5kB when gzipped, for production_
+* [tire.js](http://code.tirejs.com/dist/all/tire-1.3.0.js) - _42kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.3.0.min.js) - _5.5kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
