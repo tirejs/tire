@@ -60,7 +60,7 @@ function getEventId (el) {
  * @param {Object} parts
  * @param {Array} handlers
  *
- * @return {Bool}
+ * @return {Boolean}
  */
 
 function inHandlers (parts, handlers) {

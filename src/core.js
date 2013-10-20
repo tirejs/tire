@@ -392,7 +392,7 @@ tire.extend({
    * @param {Object|String} val
    * @param {Array} arr
    * @param {Number} i
-   * @return {Bool}
+   * @return {Boolean}
    */
 
   inArray: function (val, arr, i) {
@@ -407,7 +407,7 @@ tire.extend({
   /**
    * Calling .noConflict will restore the window.$` to its previous value.
    *
-   * @param {Bool} name Restore `tire` to it's previous value.
+   * @param {Boolean} name Restore `tire` to it's previous value.
    * @return {Object}
    */
 

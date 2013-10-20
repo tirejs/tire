@@ -12,7 +12,7 @@ wrapMap.th = wrapMap.td;
 /**
  * Check if given node is a node.
  *
- * @return {Bool}
+ * @return {Boolean}
  */
 
 function isNode (node) {
@@ -59,7 +59,7 @@ function wrap (node) {
 /**
  * Compare the given element node name with the given name.
  *
- * @return {Bool}
+ * @return {Boolean}
  */
 
 function nodeName (el, name) {

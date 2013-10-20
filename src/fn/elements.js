@@ -75,7 +75,7 @@ tire.fn.extend({
   /**
    * Toggle show/hide.
    *
-   * @param {Bool} state
+   * @param {Boolean} state
    * @return {Object}
    */
 
@@ -90,7 +90,7 @@ tire.fn.extend({
    * Toggle class.
    *
    * @param {Function|String} name
-   * @param {Bool} state
+   * @param {Boolean} state
    * @return {Object}
    */
 
