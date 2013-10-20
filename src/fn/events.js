@@ -261,8 +261,6 @@ function testEventHandler (parts, callback, selector, handler) {
  * Remove event to element, no support for undelegate yet.
  * Using removeEventListener or detachEvent (IE)
  *
- * @todo Remove delegated events
- *
  * @param {Object} el
  * @param {String} events
  * @param {Function} callback
