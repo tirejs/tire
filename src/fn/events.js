@@ -198,7 +198,6 @@ function addEvent (el, events, callback, selector) {
             var event = tire.extend(createProxy(e), {
               currentTarget: match.get(0)
             });
-            console.log('x', el);
 
             return callback.apply(match, [event].concat(slice.call(arguments, 1)));
           }
