@@ -193,7 +193,7 @@ function addEvent (el, events, callback, selector) {
       return (function (el, callback, selector) {
         return function (e) {
           var match = tire(el).find(e.target || e.srcElement);
-          
+          match = match.get(0) === el ? match.find(selector) : match;
           if (match.is(selector)) {
             var event = tire.extend(createProxy(e), {
               currentTarget: match.get(0)
