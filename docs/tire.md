@@ -1,5 +1,5 @@
 # Tire
-Tire is a lightweight JavaScript library for modern browsers. The goal is to create a framework that's around 15-16kb minified and 5-6kb minified and gzipped. The syntax is inspired from jQuery. It's modular so you can extend it however you like, also replace our features with your own. 
+Tire is a lightweight JavaScript library for modern browsers. The syntax is inspired from jQuery. It's modular so you can extend it however you like, also replace our features with your own. 
 
 Fixes for older browsers increase the file size and we don't want that. So if you like a library to support Internet Explorer 6 or 7, Tire isn't for you. 
 
@@ -29,10 +29,10 @@ If you think that Tire need a certain method please create an [issue](http://git
 
 ## Download
 
-Current release: 1.2.0
+Current release: 1.3.1
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.2.0.js) - _42kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.2.0.min.js) - _5.5kB when gzipped, for production_
+* [tire.js](http://code.tirejs.com/dist/all/tire-1.3.1.js) - _49kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.3.1.min.js) - _3.9kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
@@ -532,6 +532,15 @@ $('a').trigger('click', {foo: 'bar'});
 ```
 
 ## Changelog
+
+##### 1.3.1
+
+* Fix for delegated event, see [issue #26](https://github.com/tirejs/tire/issues/26)
+* Fix for posting json, see [issue #27](https://github.com/tirejs/tire/issues/27)
+
+##### 1.3.0
+
+* Changelog will be added later
 
 ##### 1.2.0
 
