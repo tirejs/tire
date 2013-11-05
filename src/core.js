@@ -166,7 +166,7 @@ tire.fn = tire.prototype = {
     } else {
       if (target instanceof tire) {
         return tire.each(slice.call(target), callback);
-      } else {
+      } else if (tire.isObject(target)) {
         for (key in target) {
           if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
         }

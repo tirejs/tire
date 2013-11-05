@@ -127,7 +127,7 @@ function createEventHandler (el, event, callback, _callback) {
   var id = getEventId(el)
     , handlers = getEventHandlers(id, event)
     , parts = getEventParts(event)
-    , cb = _callback || callback;
+    , cb = callback || _callback;
 
   var fn = function (event) {
     if (!event.liveTarget) event.liveTarget = event.target || event.srcElement;
@@ -175,7 +175,7 @@ function createProxy (event) {
 }
 
 /**
- * Add event to element, no support for delegate yet.
+ * Add event to element.
  * Using addEventListener or attachEvent (IE)
  *
  * @param {Object} el
@@ -192,13 +192,11 @@ function addEvent (el, events, callback, selector) {
     fn = function () {
       return (function (el, callback, selector) {
         return function (e) {
-          var match = tire(e.target || e.srcElement).closest(selector, el).get(0)
-            , event;
-
-          if ((e.target || e.srcElement) === match) {
-            event = tire.extend(createProxy(e), {
-              currentTarget: match,
-              liveFired: el
+          var match = tire(el).find(e.target || e.srcElement);
+          match = match.get(0) === el ? match.find(selector) : match;
+          if (match.is(selector)) {
+            var event = tire.extend(createProxy(e), {
+              currentTarget: match.get(0)
             });
 
             return callback.apply(match, [event].concat(slice.call(arguments, 1)));
@@ -258,7 +256,7 @@ function testEventHandler (parts, callback, selector, handler) {
 }
 
 /**
- * Remove event to element, no support for undelegate yet.
+ * Remove event to element.
  * Using removeEventListener or detachEvent (IE)
  *
  * @param {Object} el

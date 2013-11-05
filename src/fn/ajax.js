@@ -85,7 +85,7 @@ tire.extend({
           xml: 'application/xml, text/xml',
           json: 'application/json'
         }
-      , params = tire.param(options.data) !== '' ? tire.param(options.data) : null;
+      , params = tire.param(options.data) !== '' ? tire.param(options.data) : options.data;
 
     for (var k in mime) {
       if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
