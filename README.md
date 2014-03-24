@@ -23,14 +23,14 @@ Tire may work in older browsers but is not tested in older than the above.
 
 ## Documentation
 
-* Read the [docs](http://tirejs.com/).
+* Read the [docs](http://tirejs.github.io).
 
 ## Download
 
 Current release: 1.3.1
 
-* [tire.js](http://code.tirejs.com/dist/all/tire-1.3.1.js) - _49kB uncompressed (lots of comments), for development_
-* [tire.min.js](http://code.tirejs.com/dist/all/tire-1.3.1.min.js) - _3.9kB when gzipped, for production_
+* [tire.js](http://cdn.jsdelivr.net/tire/1.3.1/tire.js) - _49kB uncompressed (lots of comments), for development_
+* [tire.min.js](http://cdn.jsdelivr.net/tire/1.3.1/tire.min.js) - _3.9kB when gzipped, for production_
 
 Please do not hotlink directly to the files hosted on [code.tirejs.com](http://code.tirejs.com). Download a local copy instead.
 
